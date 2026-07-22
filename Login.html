@@ -294,156 +294,126 @@ font-size:18px;
     </div>
 </div>
 
-<!-- SDK do Supabase via CDN (coloque esta tag antes do seu script) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+<script> 
+    const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co'; 
+    const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0'; 
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
+    const TABLE_NAME = 'usuarios'; 
 
-<script>
+    document.addEventListener('DOMContentLoaded', () => { 
+        document.getElementById('loginForm').addEventListener('submit', handleLogin); 
+        document.getElementById('registerForm').addEventListener('submit', handleRegister); 
+    }); 
 
-const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+    function switchTab(tab) { 
+        const loginForm = document.getElementById('loginForm'); 
+        const registerForm = document.getElementById('registerForm'); 
+        const tabs = document.querySelectorAll('.tab-btn'); 
+        const headerTitle = document.querySelector('.header h1'); 
+        const headerSubtitle = document.querySelector('.header p'); 
 
-const supabaseClient = supabase.createClient('https://zwgrjmsycbplokliovsg.supabase.co', 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0');
+        if (tab === 'login') { 
+            loginForm.classList.add('active'); 
+            registerForm.classList.remove('active'); 
+            tabs[0].classList.add('active'); 
+            tabs[1].classList.remove('active'); 
+            headerTitle.textContent = 'Bem-vindo!'; 
+            headerSubtitle.textContent = 'Acesse sua conta para explorar o ISANARA.'; 
+        } else { 
+            registerForm.classList.add('active'); 
+            loginForm.classList.remove('active'); 
+            tabs[1].classList.add('active'); 
+            tabs[0].classList.remove('active'); 
+            headerTitle.textContent = 'Registre-se!'; 
+            headerSubtitle.textContent = 'Crie sua conta para explorar o ISANARA.'; 
+        } 
+    } 
 
-const TABLE_NAME = 'usuarios';
+    async function handleRegister(e) { 
+        e.preventDefault(); 
+        const form = e.target; 
+        const name = form.elements['cad_name'].value.trim(); 
+        const email = form.elements['cad_email'].value.trim(); 
+        const password = form.elements['cad_senha'].value; 
+        const confirmPassword = document.getElementById('confirmPassword').value; 
+        const errorDiv = document.getElementById('registerError'); 
 
-document.addEventListener('DOMContentLoaded', fetchUsers);
+        if (password !== confirmPassword) { 
+            errorDiv.textContent = 'As senhas não coincidem!'; 
+            return; 
+        } 
 
+        errorDiv.style.color = '#ffffff'; 
+        errorDiv.textContent = 'Cadastrando...'; 
 
-function switchTab(tab) {
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-    const tabLogin = document.getElementById('tabLogin');
-    const tabRegister = document.getElementById('tabRegister');
-    const headerTitle = document.getElementById('headerTitle');
-    const headerSubtitle = document.getElementById('headerSubtitle');
+        // CORREÇÃO AQUI: Mudado de 'usuarios' (variável inexistente) para TABLE_NAME (texto)
+        const { data, error } = await supabaseClient 
+            .from(TABLE_NAME) 
+            .insert([ 
+                { nome: name, email: email, senha: password } 
+            ]); 
 
-    if (tab === 'login') {
-        loginForm.classList.add('active');
-        registerForm.classList.remove('active');
-        tabLogin.classList.add('active');
-        tabRegister.classList.remove('active');
-        headerTitle.textContent = 'Bem-vindo!';
-        headerSubtitle.textContent = 'Acesse sua conta para explorar o ISANARA.';
-    } else {
-        registerForm.classList.add('active');
-        loginForm.classList.remove('active');
-        tabRegister.classList.add('active');
-        tabLogin.classList.remove('active');
-        headerTitle.textContent = 'Registre-se!';
-        headerSubtitle.textContent = 'Crie sua conta para explorar o ISANARA.';
-    }
-}
+        if (error) { 
+            console.error('Erro ao cadastrar:', error); 
+            errorDiv.style.color = '#fecaca'; 
+            if (error.code === '42P01') {
+                errorDiv.textContent = 'Tabela "usuarios" não existe no Supabase. Crie-la primeiro.';
+            } else if (error.code === '23505') { 
+                errorDiv.textContent = 'Este e-mail já está em uso!'; 
+            } else { 
+                errorDiv.textContent = 'Erro ao cadastrar: ' + error.message; 
+            } 
+            return; 
+        } 
 
-async function fetchUsers() {
-    const tableBody = document.getElementById('userTableBody');
-    if (!tableBody) return;
+        errorDiv.textContent = ''; 
+        form.reset(); 
+        document.getElementById('confirmPassword').value = ''; 
+        alert('Cadastro realizado com sucesso! Faça login para entrar.'); 
+        switchTab('login'); 
+    } 
 
-    const { data, error } = await supabaseClient
-        .from(TABLE_NAME)
-        .select('nome, email')
-        .order('id', { ascending: true });
+    async function handleLogin(e) { 
+        e.preventDefault(); 
+        const form = e.target; 
+        const email = form.elements['login_email'].value.trim(); 
+        const password = form.elements['login_senha'].value; 
+        const footerText = form.querySelector('.footer-text'); 
 
-    if (error) {
-        console.error('Erro ao carregar dados do Supabase:', error);
-        tableBody.innerHTML = `<tr><td colspan="3" class="empty-msg">Erro ao carregar dados.</td></tr>`;
-        return;
-    }
+        footerText.style.color = '#ffffff'; 
+        footerText.textContent = 'Verificando dados...'; 
 
-    if (!data || data.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="3" class="empty-msg">Nenhum usuário cadastrado ainda.</td></tr>`;
-        return;
-    }
+        // CORREÇÃO AQUI: Mudado de 'usuarios' para TABLE_NAME
+        const { data, error } = await supabaseClient 
+            .from(TABLE_NAME) 
+            .select('id, nome') 
+            .eq('email', email) 
+            .eq('senha', password) 
+            .maybeSingle(); 
 
-    tableBody.innerHTML = data.map((user, index) => `
-        <tr>
-            <td>${index + 1}</td>
-            <td>${escapeHTML(user.nome)}</td>
-            <td>${escapeHTML(user.email)}</td>
-        </tr>
-    `).join('');
-}
-
-async function handleRegister(e) {
-    e.preventDefault();
-
-    const name = document.getElementById('cadName').value.trim();
-    const email = document.getElementById('cadEmail').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const errorDiv = document.getElementById('registerError');
-
-    if (password !== confirmPassword) {
-        errorDiv.textContent = 'As senhas não coincidem!';
-        return;
-    }
-
-    errorDiv.textContent = 'Cadastrando...';
-
-    const { data, error } = await supabaseClient
-        .from(TABLE_NAME)
-        .insert([
-            { nome: name, email: email, senha: password }
-        ]);
-
-    if (error) {
-        console.error('Erro ao cadastrar:', error);
-        if (error.code === '23505') { 
-            errorDiv.textContent = 'Este e-mail já está em uso!';
-        } else {
-            errorDiv.textContent = 'Erro ao cadastrar. Tente novamente.';
+        if (error) { 
+            console.error(error); 
+            footerText.style.color = '#fecaca'; 
+            footerText.textContent = 'Erro na conexão com o banco: ' + error.message; 
+            return;
         }
-        return;
-    }
 
-    // Limpa o formulário e recarrega a tabela de exibição
-    errorDiv.textContent = '';
-    document.getElementById('registerForm').reset();
-    alert('Cadastro realizado com sucesso!');
-    fetchUsers();
-}
-
-async function handleLogin(e) {
-    e.preventDefault();
-
-    const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    const messageDiv = document.getElementById('loginMessage');
-
-    messageDiv.style.color = '#ffffff';
-    messageDiv.textContent = 'Verificando...';
-
-    // Consulta se existe um registro com o e-mail e senha informados
-    const { data, error } = await supabaseClient
-        .from(TABLE_NAME)
-        .select('nome')
-        .eq('email', email)
-        .eq('senha', password)
-        .maybeSingle();
-
-    if (error || !data) {
-        messageDiv.style.color = '#fecaca';
-        messageDiv.textContent = 'E-mail ou senha incorretos!';
-    } else {
-        messageDiv.style.color = '#86efac';
-        messageDiv.textContent = `Login efetuado com sucesso! Bem-vindo, ${data.nome}.`;
-    }
-}
-
-// =======================================================
-// 6. FUNÇÃO DE SEGURANÇA (EVITA XSS NA TABELA)
-// =======================================================
-function escapeHTML(str) {
-    return str.replace(/[&<>'"]/g, 
-        tag => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            "'": '&#39;',
-            '"': '&quot;'
-        }[tag] || tag)
-    );
-}
-</script>
+        if (!data) { 
+            footerText.style.color = '#fecaca'; 
+            footerText.textContent = 'E-mail ou senha incorretos!'; 
+        } else { 
+            footerText.style.color = '#86efac'; 
+            footerText.textContent = `Sucesso! Redirecionando...`; 
+            
+            localStorage.setItem('usuarioLogadoId', data.id); 
+            
+            setTimeout(() => { 
+                window.location.href = 'Perfil.html'; 
+            }, 1000); 
+        } 
+    } 
+</script> 
 
 </body>
 </html>
