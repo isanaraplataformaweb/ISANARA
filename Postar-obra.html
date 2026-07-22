@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Nova Obra</title>
+    <style>
+        /* Estilos baseados no seu padrão visual */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #d1d4d3;
+            margin: 0;
+            padding: 20px;
+        }
+        .container-publicar {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.153);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+            margin-bottom: 24px;
+            color: #333;
+            text-align: center;
+        }
+        .grupo-campo {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #555;
+            font-size: 14px;
+        }
+        input[type="text"], textarea, input[type="file"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        input[type="text"]:focus, textarea:focus {
+            border-color: #a600ff;
+        }
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+        .btn-publicar {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-publicar:hover {
+            background-color: #5148d7;
+        }
+        .btn-publicar:disabled {
+            background-color: #a5a1ff;
+            cursor: not-allowed;
+        }
+        .btn-cancelar {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #777;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .btn-cancelar:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-publicar">
+        <h2>Publicar Nova Obra</h2>
+        
+        <form id="form-publicar-obra">
+            <!-- Campo do arquivo de imagem -->
+            <div class="grupo-campo">
+                <label for="imagemObra">Imagem da Obra:</label>
+                <input type="file" id="imagemObra" name="imagemObra" accept="image/*" required>
+            </div>
+
+            <!-- Campo do Título -->
+            <div class="grupo-campo">
+                <label for="tituloObra">Título:</label>
+                <input type="text" id="tituloObra" name="tituloObra" placeholder="Dê um título para sua arte" required>
+            </div>
+
+            <!-- Campo da Descrição -->
+            <div class="grupo-campo">
+                <label for="descricaoObra">Descrição:</label>
+                <textarea id="descricaoObra" name="descricaoObra" placeholder="Conte a história por trás desta obra..."></textarea>
+            </div>
+
+            <!-- Botões de Ação -->
+            <button type="submit" class="btn-publicar">Publicar Arte</button>
+            <a href="Opções-criar.html" class="btn-cancelar">Cancelar</a>
+        </form>
+    </div>
+
+    <!-- Scripts de Conexão -->
+    <script src="https://jsdelivr.net"></script>
+    <script src="config.js"></script>
+    <script src="publicar-obra.js"></script>
+</body>
+</html>
