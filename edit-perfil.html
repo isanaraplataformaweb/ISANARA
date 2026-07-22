@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <style>
+        /* Estilos para deixar a tela organizada e centralizada */
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background-color: #f4f7f6; 
+            margin: 0; 
+        }
+        .container-editar { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.199); 
+            width: 340px; 
+        }
+        h2 { 
+            margin-top: 0;
+            margin-bottom: 24px; 
+            color: #333; 
+            text-align: center; 
+        }
+        .grupo-campo { 
+            margin-bottom: 20px; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        label { 
+            margin-bottom: 6px; 
+            font-weight: bold; 
+            color: #555; 
+            font-size: 14px; 
+        }
+        input[type="text"], textarea, input[type="file"] { 
+            padding: 12px; 
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            outline: none;
+        }
+        input[type="text"]:focus, textarea:focus {
+            border-color: #a600ff;
+        }
+        textarea { 
+            resize: none; 
+            height: 90px; 
+        }
+        .btn-salvar { 
+            background-color: #6c63ff; 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 16px; 
+            margin-top: 10px; 
+            transition: background 0.2s;
+        }
+        .btn-salvar:hover { 
+            background-color: #6c63ff; 
+        }
+        .btn-cancelar { 
+            display: block; 
+            text-align: center; 
+            margin-top: 16px; 
+            color: #777; 
+            text-decoration: none; 
+            font-size: 14px; 
+        }
+        .btn-cancelar:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-editar">
+        <h2>Editar Perfil</h2>
+        
+        <!-- O formulário com o ID exato que o seu JS escuta -->
+        <form id="form-editar-perfil">
+            
+            <div class="grupo-campo">
+                <label for="fotoCapa">Foto de Capa:</label>
+                <input type="file" id="fotoCapa" name="fotoCapa" accept="image/*">
+            </div>
+
+            <!-- Campo de Upload para o Bucket 'avatars' -->
+            <div class="grupo-campo">
+                <label for="fotoPerfil">Foto de Perfil:</label>
+                <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*">
+            </div>
+
+            <!-- Campo de entrada do Nome completo/exibição -->
+            <div class="grupo-campo">
+                <label for="nomeUsuario">Nome de Usuário:</label>
+                <input type="text" id="nomeUsuario" name="nomeUsuario" placeholder="Seu nome ou apelido" required>
+            </div>
+
+            <!-- Campo de texto para a Biografia -->
+            <div class="grupo-campo">
+                <label for="biografia">Biografia:</label>
+                <textarea id="biografia" name="biografia" placeholder="Escreva uma breve descrição sobre você..."></textarea>
+            </div>
+
+            <!-- Botão que dispara o evento 'submit' do seu JavaScript -->
+            <button type="submit" class="btn-salvar">Salvar Alterações</button>
+            
+            <!-- Link para voltar para a tela de visualização sem alterar nada -->
+            <a href="perfil.html" class="btn-cancelar">Cancelar</a>
+        </form>
+    </div>
+    
+    <!-- 1. Importa a biblioteca global do Supabase da internet -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- 2. Carrega suas chaves secretas e inicializa a variável 'supabase' -->
+    <script src="config.js"></script>
+    
+    <!-- 3. Carrega o SEU código de enviar formulário e fazer upload no Storage -->
+    <script src="perfil-editar.js"></script>
+
+</body>
+</html>
