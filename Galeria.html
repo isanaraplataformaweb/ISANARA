@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Obras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        header {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, #081c3d 0%, #1e5eff 45%, #b46cff 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,.08);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        header img {
+            height: 40px;
+            width: auto;
+            mix-blend-mode: screen;
+            margin-left: 20px;
+        }
+        nav {
+            display: flex;
+            gap: 35px;
+            margin: auto;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: .3s;
+            position: relative;
+        }
+        nav a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 3px;
+            left: 0;
+            bottom: -5px;
+            background: white;
+            transition: .3s;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+        nav a.ativo {
+            color: #ffffff;
+        }
+        nav a.ativo::after {
+            content: "";
+            width: 100%;
+            height: 2px;
+            background: #fbfbfb;
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            border-radius: 5px;
+        }
+
+        .container-galeria {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column; 
+            gap: 30px;
+        }
+
+        .galeria-topo {
+            display: flex;
+            flex-direction: column;    
+            align-items: flex-start;   
+            gap: 20px;
+        }
+    
+        .galeria-topo h1 {
+            font-size: 32px;
+            color: #222;
+        }
+
+        .card {
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            width: 260px; 
+            background: white;
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
+            margin-left: auto; 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: .3s;
+        }
+
+        .btn-publish {
+            background: #6c63ff;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: .3s;
+            display: block;
+        }
+        .btn-publish:hover {
+            background: #5148d7;
+            transform: translateY(-2px);
+        }
+
+        /* GRID DE OBRAS PUBLICADAS */
+        .grid-galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+        .obra-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,.08);
+            transition: .3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .obra-card:hover {
+            transform: translateY(-6px);
+        }
+        .obra-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+        .obra-card .conteudo {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .obra-card h3 {
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 20px;
+        }
+        .obra-card .descricao {
+            color: #777;
+            line-height: 1.6;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+        .autor-tag {
+            font-size: 13px;
+            color: #6c63ff;
+            font-weight: bold;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: auto;
+        }
+
+        .status-mensagem {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #777;
+            font-size: 18px;
+            padding: 5px 0;
+        }
+
+        @media(max-width: 600px){
+            header {
+                flex-direction: column;
+                gap: 20px;
+                height: auto;
+                padding: 15px 0;
+            }
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .card {
+                width: 100%; /* Ajusta para a largura da tela em celulares */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="Home.html">
+            <img src="1.png" alt="Logo">
+        </a>
+        <nav>
+            <a href="Home.html">Início</a>
+            <a href="Galeria.html" class="ativo">Galeria</a>
+            <a href="Perfil.html">Perfil</a>
+            <a href="Comunicações.html">Comunicações</a>
+        </nav>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container-galeria">
+        <div class="galeria-topo">
+            <h1>Galeria de Arte</h1>
+            
+            <div class="card">
+                <a href="Postar-Obra.html" class="btn-publish">Publicar Nova Obra</a>
+                <a href="Postar-evento.html" class="btn-publish">Publicar Novo Lembrete</a>
+                <a href="Postar-Matéria.html" class="btn-publish">Publicar Nova Matéria</a>
+                <a href="Eventos.html" class="btn-publish">Ver Eventos e Lembretes</a>
+                <a href="Materias.html" class="btn-publish">Ver Matérias Disponíveis</a>
+
+            </div>
+        </div>
+
+        <div id="gridGaleriaPublica" class="grid-galeria">
+            <p class="status-mensagem">Carregando galeria de arte...</p>
+        </div>
+    </main>
+
+    <!-- CONEXÃO COM O SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="galeria.js"></script>
+</body>
+</html>
