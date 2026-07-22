@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Criação</title>
+
+</head>
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: "Segoe UI", sans-serif;
+    background:#f5f7fa;
+    color:#333;
+}
+
+header{
+    width:100%;
+    height:80px;
+    background:linear-gradient(
+        135deg,
+        #081c3d 0%,
+        #1e5eff 45%,
+        #b46cff 100%
+    );
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 5px 0;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+header img{
+    height: 40px;
+    width: auto;
+    mix-blend-mode: screen;
+}
+
+nav{
+    display:flex;
+    gap:35px;
+    margin: auto;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    font-size:18px;
+    transition:.3s;
+    position:relative;
+}
+
+nav a::after{
+    content:"";
+    position:absolute;
+    width:0%;
+    height:3px;
+    left:0;
+    bottom:-5px;
+    background:rgb(222, 222, 222);
+    transition:.3s;
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+nav a.ativo{
+    color:#ffffff;
+}
+
+nav a.ativo::after{
+    content:"";
+    width:100%;
+    height:2px;
+    background:#fbfbfb;
+    position:absolute;
+    left:0;
+    bottom:-10px;
+    border-radius:5px;
+}
+
+.container-conteudo {
+    display: flex;
+    justify-content: center;  
+    align-items: center;       
+    min-height: calc(100vh - 80px); 
+    width: 100%;
+    padding: 20px;            
+}
+
+.card {
+    display: flex; 
+    flex-direction: column; 
+    gap: 30px; 
+    width: 450px; 
+    min-height: 400px;
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.137);
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.acoes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn-editar {
+    background: #6c63ff;
+    color: white;
+    text-decoration: none;
+    padding: 15px 40px;
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.btn-editar:hover {
+    background: #5148d7;
+    transform: scale(1.05);
+}
+
+</style>
+
+<body>
+    <header>
+     <a href="Home.html">
+        <img src="1.png" alt="Logo da sua empresa">
+     </a>
+
+        <nav>
+
+            <a href="Home.html">Início</a>
+            <a href="Galeria.html">Galeria</a>
+            <a href="Perfil.html"class="ativo">Perfil</a>
+            <a href="Comunicações.html">Comunicações</a>
+
+        </nav>
+
+    </header>
+
+    <main class="container-conteudo">
+        <div class="card">
+            <h2>Espaço de Criação</h2>
+            <p>Aqui você pode escolher entre publicar uma obra, 
+            divulgar um evento ou compartilhar oficinas e aprendizados.</p>
+
+            <a
+                href="Postar-Obra.html"
+                class="btn-editar"> Postar Obra </a>
+
+            <a
+                href="Postar-evento.html"
+                class="btn-editar"> Postar Evento </a>
+
+            <a
+                href="Postar-Matéria.html"
+                class="btn-editar"> Postar Matéria </a>
+
+        </div>
+    </main>
+    </section>
