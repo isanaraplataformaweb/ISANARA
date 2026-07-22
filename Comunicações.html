@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunicações</title>
+<style>
+    
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Merriweather', 'Georgia', 'Times New Roman', serif;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg,
+        #081c3d 0%,
+        #691eff 45%,
+        #71c6f1 100%);
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.35;
+    z-index: -1;
+}
+
+body::before {
+    width: 350px;
+    height: 350px;
+    background: #060238;
+    top: -100px;
+    left: -100px;
+}
+
+body::after {
+    width: 400px;
+    height: 400px;
+    background: #7f02fb;
+    bottom: -150px;
+    right: -150px;
+}
+
+header {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(
+        135deg,
+        #081c3d 0%,
+        #1e5eff 45%,
+        #b46cff 100%
+    );
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+header img {
+    height: 40px;
+    width: auto;
+    mix-blend-mode: screen;
+}
+
+nav {
+    display: flex;
+    gap: 35px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    font-family: 'Segoe UI', sans-serif;
+    transition: .3s;
+    position: relative;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 3px;
+    left: 0;
+    bottom: -5px;
+    background: white;
+    transition: .3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav a.ativo {
+    color: #ffffff;
+}
+
+nav a.ativo::after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    background: #fbfbfb;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    border-radius: 5px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 20px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    text-align: justify;
+}
+
+.hero-about {
+    text-align: center;
+    padding: 30px 10px;
+}
+
+.hero-about h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    background:#ffffff9f;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-about p.subtitle {
+    font-size: 1.25rem;
+    color: Gold;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.glass-panel h2 {
+    font-size: 2rem;
+    color: #f2e8fd;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 10px;
+}
+
+.glass-panel p {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 15px;
+}
+
+.history-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.timeline-card {
+    background: rgba(8, 28, 61, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.timeline-card h4 {
+    color: #fbfdfd;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.timeline-card p {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.contact-section {
+    text-align: center;
+}
+
+.contact-section p {
+    max-width: 650px;
+    margin: 0 auto 25px auto;
+}
+
+.cta-btn {
+    display: inline-block;
+    padding: 16px 45px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: white;
+    background: #1100a8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: 0.4s;
+}
+
+.cta-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(236, 209, 72, 0.35);
+}
+
+footer {
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: -50px;
+}
+
+footer p {
+    font-family: 'Merriweather', 'Georgia', 'Times New Roman', serif;
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 15px 20px;
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+    }
+
+    .hero-about h1 {
+        font-size: 2.8rem;
+    }
+
+    .glass-panel {
+        padding: 25px;
+    }
+}
+</style>
+</head>
+<body>
+
+    <header>
+        <a href="Home.html">
+            <img src="1.png" alt="Logo ISANARA">
+        </a>
+
+        <nav>
+            <a href="Home.html">Início</a>
+            <a href="Galeria.html">Galeria</a>
+            <a href="Perfil.html">Perfil</a>
+            <a href="Comunicações.html" class="ativo">Comunicações</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <section class="hero-about">
+            <h1>Nossa Voz</h1>
+            <p class="subtitle">
+                "A Arte que Pulsa em Nossos Corações Potiguares."
+            </p>
+        </section>
+
+        <!-- SOBRE NÓS (ABOUT US) -->
+        <section class="glass-panel">
+            <h2>Sobre Nós</h2>
+            <p>
+                O <strong>ISANARA</strong> surgiu em 2024 como um site de terapia artística e foi 
+                evoluído com o novo objetivo de promover um ambiente digital de 
+                interações para artistas locais mossoroenses no ano de 2026, pelas estudantes 
+                do ensino médio técnico em informática, Ana Laura, Andressa Sabrina e Isa 
+                Mariany, na Escola Abel Coelho. "Ademais, pela grande 
+                capacidade criativa de nossas mentes, dedicamos esse trabalho aos 
+                mais expressivos e apoiadores dos movimentos artísticos independentes 
+                e pouco visibilizados em Mossoró".
+
+            </p>
+            <p>
+                Nosso propósito é conectar talentos locais, facilitar o aprendizado entre 
+                diferentes modalidades e oferecer um ambiente acessível e prático para que 
+                esses artistas e apreciadores possam viver, compartilhar e expandir suas criações.
+            </p>
+        </section>
+
+        <!-- NOSSA HISTÓRIA -->
+        <section class="glass-panel">
+            <h2>Nossa História</h2>
+            <p>
+                A caminhada do ISANARA começou nos corredoresdo Abel, com pinturas inacabadas
+                e depois prosseguiu com observações mais profundas sobre a realidade da arte em
+                Mossoró e suas conjecturas socias.
+            </p>
+
+            <div class="history-timeline">
+                <div class="timeline-card">
+                    <h4>🌱 A Semente</h4>
+                    <p>Observação da arte dentro da nossa realidade estudantil e a percepção 
+                        dessa ótica no contexto dos desafios que artistas mossoroenses enfrentam.</p>
+                </div>
+                <div class="timeline-card">
+                    <h4>🎨 A Conexão</h4>
+                    <p>Compreenção do que fazer com a noção dessa ótica e agregar as artes 
+                        na evolução de espaços para uma comunidade integrada.</p>
+                </div>
+                <div class="timeline-card">
+                    <h4>🚀 O Presente</h4>
+                    <p>Uma plataforma interativa focada na Interação, aprendizado contínuo e 
+                        criação de pontes entre o público e o criador.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-panel contact-section">
+            <h2>Fale Conosco!</h2>
+            <p>
+                Tem alguma dúvida, proposta de projeto, quer divulgar sua arte conosco ou sugerir uma nova oficina? Queremos te ouvir!
+            </p>
+            <a href="https://forms.google.com" target="_blank" rel="noopener noreferrer" class="cta-btn">
+                Estamos Aqui ➔
+            </a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 ISANARA. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
