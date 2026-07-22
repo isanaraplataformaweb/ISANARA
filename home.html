@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Início</title>
+<style>
+    
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
+
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: 
+        linear-gradient(135deg, rgba(8, 28, 61, 1) 0%, rgba(30, 94, 255, 1) 45%, rgba(180, 108, 255, 1) 100%), 
+        url('casoqueira') no-repeat center center;
+    background-size: cover;
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+    margin: 0;
+}
+
+/* EFEITOS DE FUNDO */
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:0.4;
+    z-index:-1;
+}
+
+body::before{
+    width:350px;
+    height:350px;
+    background:#66d9ff;
+    top:-100px;
+    left:-100px;
+}
+
+body::after{
+    width:400px;
+    height:400px;
+    background:#c084fc;
+    bottom:-150px;
+    right:-150px;
+}
+
+header{
+    width:100%;
+    height:80px;
+    background:linear-gradient(
+        135deg,
+        #081c3d 0%,
+        #1e5eff 45%,
+        #b46cff 100%
+    );
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 5px 0;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+header img{
+    height: 40px;
+    width: auto;
+    mix-blend-mode: screen;
+}
+
+nav{
+    display:flex;
+    gap:35px;
+    margin: auto;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    font-size:18px;
+    font-family: 'Segoe UI', sans-serif;
+    transition:.3s;
+    position:relative;
+}
+
+nav a::after{
+    content:"";
+    position:absolute;
+    width:0%;
+    height:3px;
+    left:0;
+    bottom:-5px;
+    background:white;
+    transition:.3s;
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+nav a.ativo{
+    color:#ffffff;
+}
+
+nav a.ativo::after{
+    content:"";
+    width:100%;
+    height:2px;
+    background:#fbfbfb;
+    position:absolute;
+    left:0;
+    bottom:-10px;
+    border-radius:5px;
+}
+
+.hero{
+    text-align:center;
+    padding:100px 20px;
+    max-width:900px;
+    margin:auto;
+}
+
+.hero h1{
+    font-size:5rem;
+    font-weight:900;
+    letter-spacing:5px;
+    margin-bottom:20px;
+    background: linear-gradient(90deg,#ffffff,#9be7ff,#d7a6ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+
+.hero p{
+    font-size:1.3rem;
+    line-height:1.8;
+    color: Gold;
+    margin-bottom:40px;
+}
+
+
+/* BOTÃO */
+.cta-btn{
+    display:inline-block;
+    padding:15px 40px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:700;
+    color:white;
+    margin-top: 30px;
+    margin-bottom: -30px;
+
+    background:linear-gradient(
+        135deg,
+        #4cc9ff,
+        #7b68ee,
+        #c77dff
+    );
+
+
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    transition:.4s;
+}
+
+
+.cta-btn:hover{
+    transform:translateY(-4px) scale(1.05);
+    box-shadow:0 15px 35px rgba(0,0,0,.35);
+}
+
+
+/* CARDS */
+.features{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:30px;
+    padding:50px 10%;
+    margin-top: -20px;
+    margin-bottom:50px;
+}
+
+
+.card{
+    width:320px;
+    padding:30px;
+
+
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.2);
+
+
+    border-radius:25px;
+
+
+    transition:.4s;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+
+.card:hover{
+    transform:translateY(-10px);
+    background:rgba(255,255,255,0.18);
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+
+
+.card h3{
+    margin-bottom:15px;
+    font-size:1.5rem;
+    color:#f2e8fd;
+}
+
+
+.card p{
+    line-height:1.7;
+    color:rgba(255,255,255,.9);
+}
+
+footer {
+    text-align: center;
+    margin: auto;
+}
+
+footer p {
+    font-family: 'Merriweather', 'Georgia', 'Times New Roman', serif;
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+/* RESPONSIVO */
+@media (max-width:430px){
+
+
+    header{
+        flex-direction:column;
+        gap:20px;
+    }
+
+
+    .hero h1{
+        font-size:3.5rem;
+    }
+
+
+    .hero p{
+        font-size:1rem;    }
+
+
+    .features{
+        padding:30px;
+    }
+
+
+    .card{
+        width:100%;
+        max-width:400px;
+    }
+}
+
+
+</style>
+</head>
+<body>
+    <!-- CABEÇALHO -->
+    <header>
+     <a href="Home.html">
+        <img src="1.png" alt="Logo da sua empresa">
+     </a>
+
+        <nav>
+
+            <a href="Home.html" class="ativo">Início</a>
+            <a href="Galeria.html">Galeria</a>
+            <a href="Perfil.html">Perfil</a>
+            <a href="Comunicações.html">Comunicações</a>
+
+        </nav>
+
+    </header>
+    
+    <!-- HERO -->
+    <section class="hero">
+      <h1>ISANARA</h1>
+
+
+      <p><em>
+       Onde a arte te alcança! <br>
+       Experiências de conforto, praticidade
+       e criatividade para conectar os artistas mossoroenses.
+      </em></p>
+
+
+      <a class="cta-btn" href="Login.html">
+        Comece Hoje!
+      </a>
+    </section>
+
+
+    <!-- FUNCIONALIDADES -->
+    <section class="features">
+     <div class="card">
+      <h3>🎨 Galeria</h3>
+      <p> Visite nossa exposição! <br>
+       Explore imagens, projetos e inspirações
+       em um ambiente moderno e visualmente impactante.
+      </p>
+     </div>
+
+
+      <div class="card">
+        <h3>👤 Perfil</h3>
+        <p> Construa sua identidade! <br>
+          Customize seu espaço, acompanhe atividades
+          e destaque a sua personalidade da sua maneira.
+        </p>
+      </div>
+
+
+      <div class="card">
+        <h3>🎭 Disciplinas</h3>
+        <p>Conheça novos ofícios artísticos! <br>
+        Aprenda novas matérias e atividades em
+        áreas artísticas diversificadas.</p>
+      </div>
+
+    <footer>
+        <p>&copy; 2026 ISANARA. Todos os direitos reservados.</p>
+    </footer>
+
+    </section>
+
+
+</body>
+</html>
