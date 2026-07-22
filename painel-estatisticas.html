@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas estatisticas</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+        body {
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        header {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, #081c3d 0%, #1e5eff 45%, #b46cff 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,.08);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        header img {
+            height: 40px;
+            margin-left: 20px;
+            mix-blend-mode: screen;
+        }
+        nav {
+            display: flex;
+            gap: 35px;
+            margin: auto;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: .3s;
+        }
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .container-painel {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .topo-painel {
+            margin-bottom: 30px;
+        }
+        .topo-painel h1 {
+            font-size: 30px;
+            color: #1e293b;
+        }
+        .topo-painel p {
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        .grid-totais {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card-total {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .card-total h2 {
+            font-size: 36px;
+            color: #6c63ff;
+            margin-bottom: 5px;
+        }
+        .card-total p {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .secao-lista {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+        }
+        .secao-lista h3 {
+            margin-bottom: 20px;
+            color: #1e293b;
+            font-size: 20px;
+        }
+        
+        .wrapper-tabela {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 16px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        td {
+            font-size: 15px;
+            color: #334155;
+        }
+        .coluna-obra {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .coluna-obra img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Mensagens de Carregamento */
+        .status-mensagem {
+            text-align: center;
+            color: #64748b;
+            font-size: 16px;
+            padding: 40px 0;
+        }
+
+        @media(max-width: 900px) {
+            .grid-totais {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 0;
+            }
+            nav {
+                margin-top: 15px;
+            }
+        }
+        @media(max-width: 500px) {
+            .grid-totais {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="Home.html">
+            <img src="1.png" alt="Logo">
+        </a>
+        <nav>
+            <a href="Home.html">Início</a>
+            <a href="Galeria.html">Galeria</a>
+            <a href="Perfil.html">Perfil</a>
+            <a href="meupainel.html" style="border-bottom: 2px solid white; font-weight: bold;">Painel</a>
+        </nav>
+    </header>
+
+    <main class="container-painel" id="conteudoPainel">
+        <div class="topo-painel">
+            <h1>Métricas Gerais das Criações</h1>
+            <p>Acompanhe o engajamento acumulado de todo o seu portfólio de arte.</p>
+        </div>
+        <!-- CARDS DE TOTALIZADORES GERAIS -->
+        <div class="grid-totais">
+            <div class="card-total">
+                <h2 id="totalObras">0</h2>
+                <p>Obras Publicadas</p>
+            </div>
+            <div class="card-total">
+                <h2 id="totalCurtidas">0</h2>
+                <p>Total de Curtidas</p>
+            </div>
+            <div class="card-total">
+                <h2 id="totalComentarios">0</h2>
+                <p>Total de Comentários</p>
+            </div>
+            <div class="card-total">
+                <h2 id="totalCompartilhamentos">0</h2>
+                <p>Total de Compartilhar</p>
+            </div>
+        </div>
+        <!-- TABELA COM ANÁLISE INDIVIDUAL -->
+        <div class="secao-lista">
+            <h3>Desempenho por Criação</h3>
+            <div class="wrapper-tabela">
+                <table id="tabelaObras">
+                    <thead>
+                        <tr>
+                            <th>Sua Obra</th>
+                            <th>❤️ Curtidas</th>
+                            <th>💬 Comentários</th>
+                            <th>🔗 Compartilhamentos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaObras">
+                        <tr>
+                            <td colspan="4" class="status-mensagem">Analisando dados do Supabase...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- SUPABASE -->
+    <script src="https://jsdelivr.net"></script>
+    <script src="config.js"></script>
+    <script src="meupainel.js"></script>
+   <!-- // meupainel.js
+
+document.addEventListener("DOMContentLoaded", async () => {
+    // 1. Garante que há um usuário autenticado ativo no navegador
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        // Se ninguém estiver logado, redireciona imediatamente
+        window.location.href = "login.html";
+        return;
+    }
+
+    const USER_ID = user.id;
+    await inicializarDashboardGeral(USER_ID);
+});
+
+async function inicializarDashboardGeral(userId) {
+    const corpoTabela = document.getElementById('corpoTabelaObras');
+
+    try {
+        // 2. Busca todas as criações pertencentes exclusivamente a este artista
+        const { data: obras, error: erroObras } = await supabase
+            .from('obras')
+            .select('id, titulo, url_imagem')
+            .eq('usuario_id', userId);
+
+        if (erroObras) throw erroObras;
+
+        // Se o usuário não tiver postado nenhuma obra ainda
+        if (!obras || obras.length === 0) {
+            document.getElementById('totalObras').textContent = "0";
+            corpoTabela.innerHTML = `<tr><td colspan="4" class="status-mensagem">Você ainda não possui obras publicadas para gerar métricas.</td></tr>`;
+            return;
+        }
+
+        // Variáveis acumuladoras para preencher os cards gigantes
+        let acumuladorCurtidasTotais = 0;
+        let acumuladorComentariosTotais = 0;
+        let acumuladorCompartilhamentosTotais = 0;
+
+        // Limpa a mensagem padrão de carregamento da tabela
+        corpoTabela.innerHTML = "";
+
+        // 3. Varre cada obra para calcular os seus engajamentos individuais
+        for (const obra of obras) {
+            
+            // Conta as curtidas desta obra específica
+            const { count: qtdCurtidas } = await supabase
+                .from('curtidas')
+                .select('*', { count: 'exact', head: true })
+                .eq('obra_id', obra.id);
+
+            // Conta os comentários desta obra específica
+            const { count: qtdComentarios } = await supabase
+                .from('comentarios')
+                .select('*', { count: 'exact', head: true })
+                .eq('obra_id', obra.id);
+
+            // Conta os compartilhamentos desta obra específica
+            const { count: qtdCompartilhamentos } = await supabase
+                .from('compartilhamentos')
+                .select('*', { count: 'exact', head: true })
+                .eq('obra_id', obra.id);
+
+            // Soma os valores no contador acumulador geral
+            acumuladorCurtidasTotais += (qtdCurtidas || 0);
+            acumuladorComentariosTotais += (qtdComentarios || 0);
+            acumuladorCompartilhamentosTotais += (qtdCompartilhamentos || 0);
+
+            // 4. Cria a linha correspondente desta obra para injetar na tabela
+            const linhaTabela = document.createElement('tr');
+            linhaTabela.innerHTML = `
+                <td>
+                    <div class="coluna-obra">
+                        <img src="${obra.url_imagem}" alt="${obra.titulo}">
+                        <strong>${obra.titulo}</strong>
+                    </div>
+                </td>
+                <td>${qtdCurtidas || 0}</td>
+                <td>${qtdComentarios || 0}</td>
+                <td>${qtdCompartilhamentos || 0}</td>
+            `;
+            corpoTabela.appendChild(linhaTabela);
+        }
+
+        // 5. Atualiza os cards numéricos superiores com os totais finais calculados
+        document.getElementById('totalObras').textContent = obras.length;
+        document.getElementById('totalCurtidas').textContent = acumuladorCurtidasTotais;
+        document.getElementById('totalComentarios').textContent = acumuladorComentariosTotais;
+        document.getElementById('totalCompartilhamentos').textContent = acumuladorCompartilhamentosTotais;
+
+    } catch (erro) {
+        console.error("Falha ao processar o painel estatístico:", erro);
+        corpoTabela.innerHTML = `<tr><td colspan="4" class="status-mensagem" style="color: red;">Ocorreu um erro ao carregar as métricas do banco de dados.</td></tr>`;
+    }
+}
+-->
+</body>
+</html>
