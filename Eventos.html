@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos Publicados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        /* --- CABEÇALHO / NAVBAR FIXA --- */
+        .header-principal {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, #081c3d 0%, #1e5eff 45%, #b46cff 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 3px 10px rgba(0,0,0,.08);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .header-principal img {
+            height: 40px;
+            width: auto;
+            mix-blend-mode: screen;
+        }
+
+        nav {
+            display: flex;
+            gap: 35px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: .3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 3px;
+            left: 0;
+            bottom: -5px;
+            background: white;
+            transition: .3s;
+        }
+
+        nav a:hover::after,
+        nav a.ativo::after {
+            width: 100%;
+        }
+
+        /* --- CONTEÚDO DA PÁGINA --- */
+        .container-eventos {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Cabeçalho interno da seção */
+        .secao-cabecalho {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .btn-novo-evento {
+            background-color: #6c63ff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s, transform 0.2s;
+            display: inline-block;
+        }
+
+        .btn-novo-evento:hover {
+            background-color: #5148d7;
+            transform: translateY(-2px);
+        }
+
+        /* Grid onde o JavaScript vai inserir os cartões */
+        .grid-eventos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        /* Estrutura do Cartão de Evento */
+        .card-evento {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card-evento:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .poster-container {
+            width: 100%;
+            height: 220px;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .poster-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .conteudo-evento {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .titulo-evento {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .descricao-evento {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-line;
+            flex-grow: 1;
+        }
+
+        .sem-eventos {
+            grid-column: 1 / -1;
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            color: #666;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho Principal (Navegação do site) -->
+    <header class="header-principal">
+        <a href="Home.html">
+            <img src="1.png" alt="Logo">
+        </a>
+        <nav>
+            <a href="Home.html">Início</a>
+            <a href="Galeria.html">Galeria</a>
+            <a href="Perfil.html">Perfil</a>
+            <a href="Comunicações.html">Comunicações</a>
+        </nav>
+    </header>
+
+    <div class="container-eventos">
+        
+        <div class="secao-cabecalho">
+            <h1>Eventos em Destaque</h1>
+            <a href="publicar-evento.html" class="btn-novo-evento">+ Criar Novo Evento</a>
+        </div>
+
+        <!-- Container onde o JS vai renderizar a lista de eventos -->
+        <main id="lista-eventos" class="grid-eventos">
+            
+            <!-- EXEMPLO ESTÁTICO (Substitua via JS) -->
+            <article class="card-evento">
+                <div class="poster-container">
+                    <img src="https://via.placeholder.com/400x220" alt="Poster do Evento Exemplo">
+                </div>
+                <div class="conteudo-evento">
+                    <h2 class="titulo-evento">Festival de Música e Cultura</h2>
+                    <p class="descricao-evento">Data: 25/08 às 19h&#10;Local: Praça Central&#10;Entrada gratuita para todos os públicos!</p>
+                </div>
+            </article>
+
+        </main>
+
+    </div>
+
+    <!-- Scripts de Conexão -->
+    <script src="config.js"></script>
+    <script src="listar-eventos.js"></script>
+</body>
+</html>
