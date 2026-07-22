@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg,
+        #081c3d 0%,
+        #691eff 45%,
+        #71c6f1 100%);
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 430px;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    
+}
+
+.header {
+    text-align: center;
+    padding: 30px 25px 20px;
+    color: white;
+    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
+}
+
+.header h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
+}
+
+.header p {
+    opacity: 0.85;
+    font-size: 0.95rem;
+    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
+}
+
+.tabs {
+    display: flex;
+    margin: 0 20px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    background: rgba(255,255,255,0.2);
+    font-weight: bold;
+}
+
+.forms {
+    padding: 25px;
+}
+
+.form {
+    display: none;
+}
+
+.form.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+    color: white;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.12);
+    color: white;
+    outline: none;
+}
+
+input::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+input:focus {
+    border-color: #c084fc;
+    box-shadow: 0 0 12px rgba(192,132,252,0.4);
+}
+
+.btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background:#1100a8;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(236, 209, 72, 0.35);
+}
+
+.footer-text {
+    text-align: center;
+    margin-top: 15px;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.85rem;
+    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
+}
+
+.error {
+    color: #fecaca;
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+       @media(max-width:768px){
+
+header{
+
+flex-direction:column;
+
+}
+
+nav{
+
+margin-top:20px;
+
+}
+
+.hero h1{
+
+font-size:40px;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+}
+
+}
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <div class="header">
+            <h1>Registre-se!</h1>
+            <p>Acesse ou crie sua conta para explorar o ISANARA.</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('login')">
+                Login
+            </button>
+
+            <button class="tab-btn" onclick="switchTab('register')">
+                Cadastro
+            </button>
+        </div>
+
+        <div class="forms">
+
+            <!-- LOGIN -->
+            <form id="loginForm" class="form active" method="POST">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        name="login_email"
+                        placeholder="Digite seu email"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input
+                        type="password"
+                        name="login_senha"
+                        placeholder="Digite sua senha"
+                        required>
+                </div>
+
+                <button type="submit" class="btn">
+                    Entrar
+                </button>
+
+                <div class="footer-text">
+                    Bem-vindo de volta!
+                </div>
+            </form>
+
+            <!-- CADASTRO -->
+            <form id="registerForm" class="form" method="POST">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input
+                        type="text"
+                        name="cad_name"
+                        placeholder="Seu nome completo"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        name="cad_email"
+                        placeholder="Seu email"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="cad_senha"
+                        placeholder="Crie uma senha"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmar Senha</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirme sua senha"
+                        required>
+                </div>
+
+                <button type="submit" class="btn">
+                    Criar Conta
+                </button>
+
+                <div id="registerError" class="error"></div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
