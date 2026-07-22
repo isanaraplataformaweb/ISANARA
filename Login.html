@@ -294,5 +294,156 @@ font-size:18px;
     </div>
 </div>
 
+<!-- SDK do Supabase via CDN (coloque esta tag antes do seu script) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+
+const supabaseClient = supabase.createClient('https://zwgrjmsycbplokliovsg.supabase.co', 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0');
+
+const TABLE_NAME = 'usuarios';
+
+document.addEventListener('DOMContentLoaded', fetchUsers);
+
+
+function switchTab(tab) {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const tabLogin = document.getElementById('tabLogin');
+    const tabRegister = document.getElementById('tabRegister');
+    const headerTitle = document.getElementById('headerTitle');
+    const headerSubtitle = document.getElementById('headerSubtitle');
+
+    if (tab === 'login') {
+        loginForm.classList.add('active');
+        registerForm.classList.remove('active');
+        tabLogin.classList.add('active');
+        tabRegister.classList.remove('active');
+        headerTitle.textContent = 'Bem-vindo!';
+        headerSubtitle.textContent = 'Acesse sua conta para explorar o ISANARA.';
+    } else {
+        registerForm.classList.add('active');
+        loginForm.classList.remove('active');
+        tabRegister.classList.add('active');
+        tabLogin.classList.remove('active');
+        headerTitle.textContent = 'Registre-se!';
+        headerSubtitle.textContent = 'Crie sua conta para explorar o ISANARA.';
+    }
+}
+
+async function fetchUsers() {
+    const tableBody = document.getElementById('userTableBody');
+    if (!tableBody) return;
+
+    const { data, error } = await supabaseClient
+        .from(TABLE_NAME)
+        .select('nome, email')
+        .order('id', { ascending: true });
+
+    if (error) {
+        console.error('Erro ao carregar dados do Supabase:', error);
+        tableBody.innerHTML = `<tr><td colspan="3" class="empty-msg">Erro ao carregar dados.</td></tr>`;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="3" class="empty-msg">Nenhum usuário cadastrado ainda.</td></tr>`;
+        return;
+    }
+
+    tableBody.innerHTML = data.map((user, index) => `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${escapeHTML(user.nome)}</td>
+            <td>${escapeHTML(user.email)}</td>
+        </tr>
+    `).join('');
+}
+
+async function handleRegister(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('cadName').value.trim();
+    const email = document.getElementById('cadEmail').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const errorDiv = document.getElementById('registerError');
+
+    if (password !== confirmPassword) {
+        errorDiv.textContent = 'As senhas não coincidem!';
+        return;
+    }
+
+    errorDiv.textContent = 'Cadastrando...';
+
+    const { data, error } = await supabaseClient
+        .from(TABLE_NAME)
+        .insert([
+            { nome: name, email: email, senha: password }
+        ]);
+
+    if (error) {
+        console.error('Erro ao cadastrar:', error);
+        if (error.code === '23505') { 
+            errorDiv.textContent = 'Este e-mail já está em uso!';
+        } else {
+            errorDiv.textContent = 'Erro ao cadastrar. Tente novamente.';
+        }
+        return;
+    }
+
+    // Limpa o formulário e recarrega a tabela de exibição
+    errorDiv.textContent = '';
+    document.getElementById('registerForm').reset();
+    alert('Cadastro realizado com sucesso!');
+    fetchUsers();
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const messageDiv = document.getElementById('loginMessage');
+
+    messageDiv.style.color = '#ffffff';
+    messageDiv.textContent = 'Verificando...';
+
+    // Consulta se existe um registro com o e-mail e senha informados
+    const { data, error } = await supabaseClient
+        .from(TABLE_NAME)
+        .select('nome')
+        .eq('email', email)
+        .eq('senha', password)
+        .maybeSingle();
+
+    if (error || !data) {
+        messageDiv.style.color = '#fecaca';
+        messageDiv.textContent = 'E-mail ou senha incorretos!';
+    } else {
+        messageDiv.style.color = '#86efac';
+        messageDiv.textContent = `Login efetuado com sucesso! Bem-vindo, ${data.nome}.`;
+    }
+}
+
+// =======================================================
+// 6. FUNÇÃO DE SEGURANÇA (EVITA XSS NA TABELA)
+// =======================================================
+function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+        }[tag] || tag)
+    );
+}
+</script>
+
 </body>
 </html>
