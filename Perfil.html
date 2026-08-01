@@ -418,11 +418,34 @@
       console.error('Erro ao buscar perfil:', perfilError);
       document.getElementById('nomeUsuario').textContent = 'Usuário não encontrado';
       document.getElementById('biografia').textContent = '';
-    } else if (perfil) {
+   } else if (perfil) {
 
-        document.getElementById('nomeUsuario').textContent = perfil.nome || 'Usuário Sem Nome';
+      document.getElementById('nomeUsuario').textContent = perfil.nome || 'Usuário Sem Nome';
       document.getElementById('biografia').textContent = perfil.biografia || 'Sem biografia cadastrada.';
       
+      // Inserindo os dados de localidade
+      document.getElementById('cidade').textContent = perfil.cidade || 'Cidade não informada';
+      document.getElementById('pais').textContent = perfil.pais || 'País não informado';
+      
+      // Configurando o botão do Instagram
+      const linkInsta = document.getElementById('instagram');
+      if (perfil.instagram) {
+          linkInsta.href = `https://instagram.com/${perfil.instagram.replace('@', '')}`;
+          linkInsta.style.display = 'inline-block';
+      } else {
+          linkInsta.style.display = 'none';
+      }
+
+      // Configurando o botão do Site
+      const linkSite = document.getElementById('site');
+      if (perfil.site) {
+          linkSite.href = perfil.site;
+          linkSite.style.display = 'inline-block';
+      } else {
+          linkSite.style.display = 'none';
+      }
+
+      // Inserindo as fotos
       if (perfil.foto_perfil) {
           document.getElementById('fotoPerfil').src = perfil.foto_perfil;
       }
@@ -430,15 +453,6 @@
           document.getElementById('fotoCapa').src = perfil.foto_capa;
       }
     }
-
-    if (user && user.id !== targetUserId) {
-      const secaoAcoes = document.getElementById('secaoAcoes');
-      const btnCriarObra = document.getElementById('btnCriarObra');
-      
-      if (secaoAcoes) secaoAcoes.style.display = 'none';
-      if (btnCriarObra) btnCriarObra.style.display = 'none';
-    }
-  });
 </script>
 
 </body>
