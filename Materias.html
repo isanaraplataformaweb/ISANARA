@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matérias Publicadas</title>
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -68,7 +67,6 @@
             width: 100%;
         }
 
-        /* Layout do Conteúdo Principal */
         .container-pagina {
             max-width: 1200px;
             margin: 40px auto;
@@ -224,6 +222,7 @@
             padding: 40px;
             border-radius: 12px;
             color: #777;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -249,38 +248,11 @@
         </div>
 
         <main class="grid-materias" id="container-materias">
-            
-            <!-- Exemplo 1 -->
-            <article class="card-materia">
-                <div class="capa-container">
-                    <img src="https://via.placeholder.com/400x180" alt="Capa da Matéria">
-                </div>
-                <div class="conteudo-card">
-                    <h2 class="titulo-materia">Título com Descrição Longa</h2>
-                    <p class="descricao-materia">Esta é uma descrição longa para exemplificar o funcionamento do botão. O texto continua com mais detalhes sobre a matéria, contextualizando todo o projeto artístico, as ferramentas utilizadas no processo de criação e os objetivos do material disponibilizado no arquivo PDF anexado abaixo.</p>
-                    <button type="button" class="btn-leitura">Ler mais</button>
-                    <a href="#" target="_blank" class="btn-pdf">📄 Abrir PDF</a>
-                </div>
-            </article>
-
-            <!-- Exemplo 2 -->
-            <article class="card-materia">
-                <div class="capa-container">
-                    <img src="https://via.placeholder.com/400x180" alt="Capa da Matéria">
-                </div>
-                <div class="conteudo-card">
-                    <h2 class="titulo-materia">Título da Matéria 2</h2>
-                    <p class="descricao-materia">Breve resumo demonstrativo do conteúdo da matéria cadastrada.</p>
-                    <button type="button" class="btn-leitura">Ler mais</button>
-                    <a href="#" target="_blank" class="btn-pdf">📄 Abrir PDF</a>
-                </div>
-            </article>
-
+            <p class="sem-materias">Carregando matérias...</p>
         </main>
 
     </div>
 
-    <!-- Script para alternar o texto (Ler mais / Ler menos) -->
     <script>
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('btn-leitura')) {
@@ -294,8 +266,51 @@
         });
     </script>
 
-    <!-- Scripts de Conexão com Backend/JS Principal -->
-    <script src="config.js"></script>
-    <script src="listar-materias.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const materiasContainer = document.getElementById('container-materias');
+
+    const { data: materias, error } = await supabaseClient
+      .from('materias')
+      .select('*, perfis(nome, foto_perfil)')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      materiasContainer.innerHTML = `<p class="sem-materias">Erro ao carregar matérias: ${error.message}</p>`;
+      return;
+    }
+
+    if (!materias || materias.length === 0) {
+      materiasContainer.innerHTML = '<p class="sem-materias">Nenhuma matéria publicada ainda.</p>';
+      return;
+    }
+
+    materiasContainer.innerHTML = '';
+    
+    materias.forEach(mat => {
+      materiasContainer.innerHTML += `
+        <article class="card-materia">
+          ${mat.capa_url ? `
+            <div class="capa-container">
+              <img src="${mat.capa_url}" alt="${mat.titulo}">
+            </div>
+          ` : ''}
+          <div class="conteudo-card">
+            <h2 class="titulo-materia">${mat.titulo}</h2>
+            <p class="descricao-materia">${mat.conteudo || ''}</p>
+            <button type="button" class="btn-leitura">Ler mais</button>
+            ${mat.pdf_url ? `<a href="${mat.pdf_url}" target="_blank" class="btn-pdf">📄 Abrir PDF</a>` : ''}
+          </div>
+        </article>
+      `;
+    });
+  });
+</script>
+
 </body>
 </html>
