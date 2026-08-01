@@ -125,7 +125,6 @@
             transform: translateY(-2px);
         }
 
-        /* GRID DE OBRAS PUBLICADAS */
         .grid-galeria {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -174,6 +173,16 @@
             border-top: 1px solid #eee;
             padding-top: 10px;
             margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .autor-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .status-mensagem {
@@ -196,7 +205,7 @@
                 justify-content: center;
             }
             .card {
-                width: 100%; /* Ajusta para a largura da tela em celulares */
+                width: 100%;
             }
         }
     </style>
@@ -226,7 +235,6 @@
                 <a href="Postar-Matéria.html" class="btn-publish">Publicar Nova Matéria</a>
                 <a href="Eventos.html" class="btn-publish">Ver Eventos e Lembretes</a>
                 <a href="Materias.html" class="btn-publish">Ver Matérias Disponíveis</a>
-
             </div>
         </div>
 
@@ -235,9 +243,60 @@
         </div>
     </main>
 
-    <!-- CONEXÃO COM O SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="config.js"></script>
-    <script src="galeria.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const galeriaContainer = document.getElementById('gridGaleriaPublica');
+
+    const { data: obras, error } = await supabaseClient
+      .from('obras')
+      .select(`
+        id,
+        titulo,
+        imagem_url,
+        created_at,
+        perfis (
+          nome,
+          foto_perfil
+        )
+      `)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      galeriaContainer.innerHTML = `<p class="status-mensagem">Erro ao carregar galeria: ${error.message}</p>`;
+      return;
+    }
+
+    if (!obras || obras.length === 0) {
+      galeriaContainer.innerHTML = '<p class="status-mensagem">Nenhuma obra cadastrada ainda.</p>';
+      return;
+    }
+
+    galeriaContainer.innerHTML = '';
+    
+    obras.forEach(obra => {
+      const autor = obra.perfis || { nome: 'Artista Anônimo', foto_perfil: 'https://via.placeholder.com/40' };
+      
+      const cardHTML = `
+        <div class="obra-card" onclick="window.location.href='Obras.html?id=${obra.id}'" style="cursor:pointer;">
+          <img src="${obra.imagem_url}" alt="${obra.titulo}">
+          <div class="conteudo">
+            <h3>${obra.titulo}</h3>
+            <div class="autor-tag">
+              <img src="${autor.foto_perfil || 'https://via.placeholder.com/40'}" class="autor-avatar" alt="Avatar">
+              <span>${autor.nome}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      galeriaContainer.innerHTML += cardHTML;
+    });
+  });
+</script>
+
 </body>
 </html>
