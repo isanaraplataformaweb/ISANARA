@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes das Obras</title>
+    <title>Detalhes das criações</title>
     <style>
 
         * {
@@ -76,7 +76,6 @@
             border-radius: 5px;
         }
 
-        /* =========================== DETALHES DA OBRA =========================== */
         .container-obra {
             max-width: 1100px;
             margin: 40px auto;
@@ -86,7 +85,6 @@
             gap: 40px;
         }
 
-        /* Lado Esquerdo: Imagem da Obra */
         .visualizacao-arte {
             background: white;
             border-radius: 18px;
@@ -95,15 +93,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #000; /* Fundo preto realça imagens de arte */
+            background-color: #000;
+            height: fit-content;
         }
         .visualizacao-arte img {
             width: 100%;
-            max-height: 600px;
+            max-height: 700px;
             object-fit: contain;
         }
 
-        /* Lado Direito: Informações Textuais */
         .info-detalhes {
             background: white;
             border-radius: 18px;
@@ -111,7 +109,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,.05);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
         .bloco-texto h1 {
             font-size: 28px;
@@ -131,11 +128,10 @@
             margin-bottom: 30px;
         }
 
-        /* Bloco do Artista Criador */
         .cartao-artista {
             border-top: 1px solid #eee;
-            padding-top: 25px;
-            margin-bottom: 35px;
+            padding-top: 20px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -156,11 +152,89 @@
             color: #333;
         }
 
-        /* Botão Voltar */
-        .btn-voltar {
-            display: inline-block;
-            text-align: center;
+        .interacoes {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .btn-interacao {
+            background: #f1f3f5;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #444;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-interacao:hover {
+            background: #e2e6ea;
+        }
+
+        .secao-comentarios {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+        .secao-comentarios h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .lista-comentarios {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .comentario-item {
+            display: flex;
+            gap: 10px;
+            font-size: 14px;
+        }
+        .comentario-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .comentario-item strong {
+            color: #222;
+        }
+        .form-comentario {
+            display: flex;
+            gap: 10px;
+        }
+        .form-comentario input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        .form-comentario button {
             background: #6c63ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .form-comentario button:hover {
+            background: #5148d7;
+        }
+
+        .btn-voltar {
+            display: block;
+            text-align: center;
+            background: #333;
             color: white;
             text-decoration: none;
             padding: 14px;
@@ -168,12 +242,12 @@
             font-weight: bold;
             transition: .3s;
             width: 100%;
+            margin-top: auto;
         }
         .btn-voltar:hover {
-            background: #5148d7;
+            background: #111;
         }
 
-        /* Mensagem de Erro ou Carregando */
         .status-mensagem {
             text-align: center;
             font-size: 18px;
@@ -182,7 +256,10 @@
             grid-column: 1 / -1;
         }
 
-        /* =========================== RESPONSIVO =========================== */
+        .escondido {
+            display: none !important;
+        }
+
         @media(max-width: 800px) {
             .container-obra {
                 grid-template-columns: 1fr;
@@ -203,8 +280,6 @@
     </style>
 </head>
 <body>
-
-    <!-- CABEÇALHO -->
     <header>
         <a href="Home.html">
             <img src="1.png" alt="Logo">
@@ -217,38 +292,193 @@
         </nav>
     </header>
 
-    <!-- ÁREA DOS DETALHES DA OBRA -->
-    <main class="container-obra" id="conteudoObra">
-        <p class="status-mensagem" id="mensagemStatus">Carregando detalhes da obra de arte...</p>
+    <p class="status-mensagem" id="mensagemStatus">Carregando detalhes da obra de arte...</p>
+    
+    <main class="container-obra escondido" id="conteudoObra">
         
-        <!-- O conteúdo abaixo será injetado dinamicamente pelo JavaScript -->
-        <!--
         <div class="visualizacao-arte">
             <img id="imgObra" src="" alt="Arte">
         </div>
+
         <div class="info-detalhes">
             <div class="bloco-texto">
                 <h1 id="tituloObra">Título da Obra</h1>
                 <span class="data-publicacao" id="dataObra">Publicado em: --/--/----</span>
                 <p class="descricao-texto" id="descricaoObra">Descrição detalhada...</p>
             </div>
-            <div>
-                <div class="cartao-artista">
-                    <img id="avatarArtista" src="img/perfil-padrao.png" alt="Avatar">
-                    <div class="meta-artista">
-                        <p>Artista Criador</p>
-                        <h4 id="nomeArtista">Nome do Artista</h4>
-                    </div>
+            
+            <div class="cartao-artista">
+                <img id="avatarArtista" src="https://via.placeholder.com/50" alt="Avatar">
+                <div class="meta-artista">
+                    <p>Artista Criador</p>
+                    <h4 id="nomeArtista">Nome do Artista</h4>
                 </div>
-                <a href="Galeria.html" class="btn-voltar">Voltar para a Galeria</a>
             </div>
+
+            <div class="interacoes">
+                <button id="btnCurtir" class="btn-interacao">❤️ <span id="curtidasCount">0</span></button>
+                <button id="btnCompartilhar" class="btn-interacao">🔗 Compartilhar</button>
+            </div>
+
+            <div class="secao-comentarios">
+                <h3>Comentários</h3>
+                <div id="comentariosContainer" class="lista-comentarios">
+                </div>
+                <form id="formComentario" class="form-comentario">
+                    <input type="text" id="inputComentario" placeholder="Adicione um comentário..." autocomplete="off" required>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+
+            <a href="Galeria.html" class="btn-voltar">Voltar para a Galeria</a>
         </div>
-    -->
+    
     </main>
 
-    <!-- CONEXÃO SUPABASE -->
-    <script src="https://jsdelivr.net"></script>
-    <script src="config.js"></script>
-    <script src="obra.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const obraId = urlParams.get('id');
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!obraId) {
+      alert('Obra não encontrada!');
+      window.location.href = 'Galeria.html';
+      return;
+    }
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    const { data: obra, error } = await supabaseClient
+      .from('obras')
+      .select('*, perfis(nome, foto_perfil)')
+      .eq('id', obraId)
+      .single();
+
+    if (error || !obra) {
+      document.getElementById('mensagemStatus').textContent = 'Erro ao carregar detalhes da obra.';
+      return;
+    }
+
+    document.getElementById('tituloObra').textContent = obra.titulo;
+    document.getElementById('descricaoObra').textContent = obra.descricao || 'Sem descrição.';
+    document.getElementById('imgObra').src = obra.imagem_url;
+    document.getElementById('nomeArtista').textContent = obra.perfis?.nome || 'Artista Anônimo';
+    document.getElementById('avatarArtista').src = obra.perfis?.foto_perfil || 'https://via.placeholder.com/50';
+    
+    if(obra.created_at) {
+        const dataFormatada = new Date(obra.created_at).toLocaleDateString('pt-BR');
+        document.getElementById('dataObra').textContent = `Publicado em: ${dataFormatada}`;
+    }
+
+    document.getElementById('mensagemStatus').classList.add('escondido');
+    document.getElementById('conteudoObra').classList.remove('escondido');
+
+    atualizarCurtidas();
+
+    const btnCurtir = document.getElementById('btnCurtir');
+    if (btnCurtir) {
+      btnCurtir.addEventListener('click', async () => {
+        if (!user) return alert('Faça login para curtir!');
+        
+        const { data: existente } = await supabaseClient
+          .from('curtidas')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('obra_id', obraId)
+          .maybeSingle();
+
+        if (existente) {
+          await supabaseClient.from('curtidas').delete().eq('id', existente.id);
+        } else {
+          await supabaseClient.from('curtidas').insert([{ user_id: user.id, obra_id: obraId }]);
+        }
+        atualizarCurtidas();
+      });
+    }
+
+    carregarComentarios();
+
+    const formComentario = document.getElementById('formComentario');
+    if (formComentario) {
+      formComentario.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!user) return alert('Faça login para comentar!');
+        
+        const inputComentario = document.getElementById('inputComentario');
+        const conteudo = inputComentario.value.trim();
+        if (!conteudo) return;
+
+        await supabaseClient.from('comentarios').insert([{
+          user_id: user.id,
+          obra_id: obraId,
+          conteudo: conteudo
+        }]);
+
+        inputComentario.value = '';
+        carregarComentarios();
+      });
+    }
+
+    const btnCompartilhar = document.getElementById('btnCompartilhar');
+    if (btnCompartilhar) {
+      btnCompartilhar.addEventListener('click', async () => {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link da obra copiado!');
+
+        if (user) {
+          await supabaseClient.from('compartilhamentos').insert([{
+            user_id: user.id,
+            obra_id: obraId
+          }]);
+        }
+      });
+    }
+  });
+
+  async function atualizarCurtidas() {
+    const { count } = await supabaseClient
+      .from('curtidas')
+      .select('id', { count: 'exact' })
+      .eq('obra_id', obraId);
+    
+    const countSpan = document.getElementById('curtidasCount');
+    if (countSpan) countSpan.textContent = count || 0;
+  }
+
+  async function carregarComentarios() {
+    const comentariosContainer = document.getElementById('comentariosContainer');
+    if (!comentariosContainer) return;
+
+    const { data: comentarios } = await supabaseClient
+      .from('comentarios')
+      .select('*, perfis(nome, foto_perfil)')
+      .eq('obra_id', obraId)
+      .order('created_at', { ascending: true });
+
+    comentariosContainer.innerHTML = '';
+    
+    if (comentarios && comentarios.length > 0) {
+        comentarios.forEach(c => {
+          comentariosContainer.innerHTML += `
+            <div class="comentario-item">
+              <img src="${c.perfis?.foto_perfil || 'https://via.placeholder.com/30'}" class="comentario-avatar">
+              <div>
+                <strong>${c.perfis?.nome || 'Usuário'}:</strong>
+                <span>${c.conteudo}</span>
+              </div>
+            </div>
+          `;
+        });
+    } else {
+        comentariosContainer.innerHTML = '<p style="color: #999; font-size: 14px;">Seja o primeiro a comentar.</p>';
+    }
+  }
+</script>
+
 </body>
 </html>
