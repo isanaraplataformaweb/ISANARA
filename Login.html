@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+<title>Login - ISANARA</title>
 
 <style>
 * {
@@ -18,10 +18,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg,
-        #081c3d 0%,
-        #691eff 45%,
-        #71c6f1 100%);
+    background: linear-gradient(135deg, #081c3d 0%, #691eff 45%, #71c6f1 100%);
     background-size: cover;
     background-position: center;
     padding: 20px;
@@ -33,38 +30,35 @@ body {
 }
 
 .card {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .header {
     text-align: center;
     padding: 30px 25px 20px;
     color: white;
-    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
+    font-family: 'Merriweather', 'Georgia', serif;
 }
 
 .header h1 {
     font-size: 2rem;
     margin-bottom: 8px;
-    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
 }
 
 .header p {
     opacity: 0.85;
     font-size: 0.95rem;
-    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
 }
 
 .tabs {
     display: flex;
     margin: 0 20px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     overflow: hidden;
 }
@@ -81,7 +75,7 @@ body {
 }
 
 .tab-btn.active {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     font-weight: bold;
 }
 
@@ -112,19 +106,19 @@ input {
     width: 100%;
     padding: 13px;
     border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.12);
     color: white;
     outline: none;
 }
 
 input::placeholder {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 input:focus {
     border-color: #c084fc;
-    box-shadow: 0 0 12px rgba(192,132,252,0.4);
+    box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
 }
 
 .btn {
@@ -132,7 +126,7 @@ input:focus {
     padding: 14px;
     border: none;
     border-radius: 12px;
-    background:#1100a8;
+    background: #1100a8;
     color: white;
     font-size: 1.2rem;
     font-weight: 600;
@@ -148,46 +142,23 @@ input:focus {
 .footer-text {
     text-align: center;
     margin-top: 15px;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.85rem;
-    font-family:'Merriweather', 'Georgia', 'Times New Roman', serif;
 }
 
 .error {
     color: #fecaca;
     font-size: 0.85rem;
     margin-top: 10px;
+    text-align: center;
 }
 
 @media (max-width: 480px) {
     .header h1 {
-       @media(max-width:768px){
-
-header{
-
-flex-direction:column;
-
-}
-
-nav{
-
-margin-top:20px;
-
-}
-
-.hero h1{
-
-font-size:40px;
-
-}
-
-.hero p{
-
-font-size:18px;
-
-}
-
-}
+        font-size: 1.6rem;
+    }
+    .forms {
+        padding: 18px;
     }
 }
 </style>
@@ -196,224 +167,165 @@ font-size:18px;
 
 <div class="container">
     <div class="card">
-
         <div class="header">
-            <h1>Registre-se!</h1>
+            <h1>Bem-vindo!</h1>
             <p>Acesse ou crie sua conta para explorar o ISANARA.</p>
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('login')">
-                Login
-            </button>
-
-            <button class="tab-btn" onclick="switchTab('register')">
-                Cadastro
-            </button>
+            <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+            <button class="tab-btn" onclick="switchTab('register')">Cadastro</button>
         </div>
 
         <div class="forms">
-
             <!-- LOGIN -->
-            <form id="loginForm" class="form active" method="POST">
+            <form id="loginForm" class="form active">
                 <div class="form-group">
                     <label>Email</label>
-                    <input
-                        type="email"
-                        name="login_email"
-                        placeholder="Digite seu email"
-                        required>
+                    <input type="email" name="login_email" placeholder="Digite seu email" required>
                 </div>
-
                 <div class="form-group">
                     <label>Senha</label>
-                    <input
-                        type="password"
-                        name="login_senha"
-                        placeholder="Digite sua senha"
-                        required>
+                    <input type="password" name="login_senha" placeholder="Digite sua senha" required>
                 </div>
-
-                <button type="submit" class="btn">
-                    Entrar
-                </button>
-
-                <div class="footer-text">
-                    Bem-vindo de volta!
-                </div>
+                <button type="submit" class="btn">Entrar</button>
+                <div class="footer-text" id="loginStatus">Bem-vindo de volta!</div>
             </form>
 
             <!-- CADASTRO -->
-            <form id="registerForm" class="form" method="POST">
+            <form id="registerForm" class="form">
                 <div class="form-group">
                     <label>Nome Completo</label>
-                    <input
-                        type="text"
-                        name="cad_name"
-                        placeholder="Seu nome completo"
-                        required>
+                    <input type="text" name="cad_name" placeholder="Seu nome completo" required>
                 </div>
-
                 <div class="form-group">
                     <label>Email</label>
-                    <input
-                        type="email"
-                        name="cad_email"
-                        placeholder="Seu email"
-                        required>
+                    <input type="email" name="cad_email" placeholder="Seu email" required>
                 </div>
-
                 <div class="form-group">
                     <label>Senha</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="cad_senha"
-                        placeholder="Crie uma senha"
-                        required>
+                    <input type="password" id="password" name="cad_senha" placeholder="Crie uma senha" required>
                 </div>
-
                 <div class="form-group">
                     <label>Confirmar Senha</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Confirme sua senha"
-                        required>
+                    <input type="password" id="confirmPassword" placeholder="Confirme sua senha" required>
                 </div>
-
-                <button type="submit" class="btn">
-                    Criar Conta
-                </button>
-
+                <button type="submit" class="btn">Criar Conta</button>
                 <div id="registerError" class="error"></div>
             </form>
-
         </div>
-
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
-<script> 
-    const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co'; 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0'; 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
-    const TABLE_NAME = 'usuarios'; 
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    document.addEventListener('DOMContentLoaded', () => { 
-        document.getElementById('loginForm').addEventListener('submit', handleLogin); 
-        document.getElementById('registerForm').addEventListener('submit', handleRegister); 
-    }); 
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        document.getElementById('registerForm').addEventListener('submit', handleRegister);
+    });
 
-    function switchTab(tab) { 
-        const loginForm = document.getElementById('loginForm'); 
-        const registerForm = document.getElementById('registerForm'); 
-        const tabs = document.querySelectorAll('.tab-btn'); 
-        const headerTitle = document.querySelector('.header h1'); 
-        const headerSubtitle = document.querySelector('.header p'); 
+    function switchTab(tab) {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const tabs = document.querySelectorAll('.tab-btn');
+        const headerTitle = document.querySelector('.header h1');
+        const headerSubtitle = document.querySelector('.header p');
 
-        if (tab === 'login') { 
-            loginForm.classList.add('active'); 
-            registerForm.classList.remove('active'); 
-            tabs[0].classList.add('active'); 
-            tabs[1].classList.remove('active'); 
-            headerTitle.textContent = 'Bem-vindo!'; 
-            headerSubtitle.textContent = 'Acesse sua conta para explorar o ISANARA.'; 
-        } else { 
-            registerForm.classList.add('active'); 
-            loginForm.classList.remove('active'); 
-            tabs[1].classList.add('active'); 
-            tabs[0].classList.remove('active'); 
-            headerTitle.textContent = 'Registre-se!'; 
-            headerSubtitle.textContent = 'Crie sua conta para explorar o ISANARA.'; 
-        } 
-    } 
+        if (tab === 'login') {
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+            tabs[0].classList.add('active');
+            tabs[1].classList.remove('active');
+            headerTitle.textContent = 'Bem-vindo!';
+            headerSubtitle.textContent = 'Acesse sua conta para explorar o ISANARA.';
+        } else {
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+            tabs[1].classList.add('active');
+            tabs[0].classList.remove('active');
+            headerTitle.textContent = 'Registre-se!';
+            headerSubtitle.textContent = 'Crie sua conta para explorar o ISANARA.';
+        }
+    }
 
-    async function handleRegister(e) { 
-        e.preventDefault(); 
-        const form = e.target; 
-        const name = form.elements['cad_name'].value.trim(); 
-        const email = form.elements['cad_email'].value.trim(); 
-        const password = form.elements['cad_senha'].value; 
-        const confirmPassword = document.getElementById('confirmPassword').value; 
-        const errorDiv = document.getElementById('registerError'); 
+    async function handleRegister(e) {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.elements['cad_name'].value.trim();
+        const email = form.elements['cad_email'].value.trim();
+        const password = form.elements['cad_senha'].value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const errorDiv = document.getElementById('registerError');
 
-        if (password !== confirmPassword) { 
-            errorDiv.textContent = 'As senhas não coincidem!'; 
-            return; 
-        } 
-
-        errorDiv.style.color = '#ffffff'; 
-        errorDiv.textContent = 'Cadastrando...'; 
-
-        // CORREÇÃO AQUI: Mudado de 'usuarios' (variável inexistente) para TABLE_NAME (texto)
-        const { data, error } = await supabaseClient 
-            .from(TABLE_NAME) 
-            .insert([ 
-                { nome: name, email: email, senha: password } 
-            ]); 
-
-        if (error) { 
-            console.error('Erro ao cadastrar:', error); 
-            errorDiv.style.color = '#fecaca'; 
-            if (error.code === '42P01') {
-                errorDiv.textContent = 'Tabela "usuarios" não existe no Supabase. Crie-la primeiro.';
-            } else if (error.code === '23505') { 
-                errorDiv.textContent = 'Este e-mail já está em uso!'; 
-            } else { 
-                errorDiv.textContent = 'Erro ao cadastrar: ' + error.message; 
-            } 
-            return; 
-        } 
-
-        errorDiv.textContent = ''; 
-        form.reset(); 
-        document.getElementById('confirmPassword').value = ''; 
-        alert('Cadastro realizado com sucesso! Faça login para entrar.'); 
-        switchTab('login'); 
-    } 
-
-    async function handleLogin(e) { 
-        e.preventDefault(); 
-        const form = e.target; 
-        const email = form.elements['login_email'].value.trim(); 
-        const password = form.elements['login_senha'].value; 
-        const footerText = form.querySelector('.footer-text'); 
-
-        footerText.style.color = '#ffffff'; 
-        footerText.textContent = 'Verificando dados...'; 
-
-        // CORREÇÃO AQUI: Mudado de 'usuarios' para TABLE_NAME
-        const { data, error } = await supabaseClient 
-            .from(TABLE_NAME) 
-            .select('id, nome') 
-            .eq('email', email) 
-            .eq('senha', password) 
-            .maybeSingle(); 
-
-        if (error) { 
-            console.error(error); 
-            footerText.style.color = '#fecaca'; 
-            footerText.textContent = 'Erro na conexão com o banco: ' + error.message; 
+        if (password !== confirmPassword) {
+            errorDiv.style.color = '#fecaca';
+            errorDiv.textContent = 'As senhas não coincidem!';
             return;
         }
 
-        if (!data) { 
-            footerText.style.color = '#fecaca'; 
-            footerText.textContent = 'E-mail ou senha incorretos!'; 
-        } else { 
-            footerText.style.color = '#86efac'; 
-            footerText.textContent = `Sucesso! Redirecionando...`; 
-            
-            localStorage.setItem('usuarioLogadoId', data.id); 
-            
-            setTimeout(() => { 
-                window.location.href = 'Perfil.html'; 
-            }, 1000); 
-        } 
-    } 
-</script> 
+        errorDiv.style.color = '#ffffff';
+        errorDiv.textContent = 'Criando conta...';
+
+        const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    nome: name
+                }
+            }
+        });
+
+        if (authError) {
+            console.error('Erro no Auth:', authError);
+            errorDiv.style.color = '#fecaca';
+            errorDiv.textContent = authError.message;
+            return;
+        }
+
+        errorDiv.textContent = '';
+        form.reset();
+        document.getElementById('confirmPassword').value = '';
+        alert('Cadastro realizado com sucesso! Faça login para continuar.');
+        switchTab('login');
+    }
+
+    async function handleLogin(e) {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.elements['login_email'].value.trim();
+        const password = form.elements['login_senha'].value;
+        const footerText = document.getElementById('loginStatus');
+
+        footerText.style.color = '#ffffff';
+        footerText.textContent = 'Verificando dados...';
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            console.error('Erro ao fazer login:', error);
+            footerText.style.color = '#fecaca';
+            footerText.textContent = 'E-mail ou senha incorretos!';
+            return;
+        }
+
+        footerText.style.color = '#86efac';
+        footerText.textContent = 'Sucesso! Redirecionando...';
+
+        localStorage.setItem('usuarioLogadoId', data.user.id);
+
+        setTimeout(() => {
+            window.location.href = 'Perfil.html';
+        }, 1000);
+    }
+</script>
 
 </body>
 </html>
