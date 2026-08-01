@@ -85,6 +85,14 @@
         .btn-cancelar:hover {
             text-decoration: underline;
         }
+        #statusText {
+            text-align: center;
+            color: #6c63ff;
+            font-size: 14px;
+            margin-bottom: 15px;
+            min-height: 20px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -93,22 +101,19 @@
         <h2>Publicar Novo Aprendizado</h2>
         
         <form id="form-publicar-materia">
-            <!-- Campo do arquivo de imagem -->
             <div class="grupo-campo">
                 <label for="imagemMateria">Foto de Capa:</label>
                 <input type="file" id="imagemMateria" name="imagemMateria" accept="image/*" required>
             </div>
 
-            <!-- Campo do Título -->
             <div class="grupo-campo">
                 <label for="tituloMateria">Título:</label>
                 <input type="text" id="tituloMateria" name="tituloMateria" placeholder="Nomeie essa coletânea artística da sua maneira..." required>
             </div>
 
-            <!-- Campo da Descrição -->
             <div class="grupo-campo">
-                <label for="descriçaoMateria">Descrição:</label>
-                <textarea id="descriçaoMateria" name="descriçaoMateria" placeholder="Dê uma breve contextualização do seu material, conteúdo ou ofício..."></textarea>
+                <label for="descricaoMateria">Descrição:</label>
+                <textarea id="descricaoMateria" name="descricaoMateria" placeholder="Dê uma breve contextualização do seu material, conteúdo ou ofício..."></textarea>
             </div>
 
             <div class="grupo-campo">
@@ -116,16 +121,88 @@
                 <input type="file" id="pdfMateria" name="pdfMateria" accept=".pdf" required>
             </div>
 
+            <p id="statusText"></p>
 
-            <!-- Botões de Ação -->
             <button type="submit" class="btn-publicar">Publicar Matéria</button>
             <a href="Opções-criar.html" class="btn-cancelar">Cancelar</a>
         </form>
     </div>
 
-    <!-- Scripts de Conexão -->
-    <script src="https://jsdelivr.net"></script>
-    <script src="config.js"></script>
-    <script src="publicar-obra.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('form-publicar-materia').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const statusText = document.getElementById('statusText');
+      statusText.textContent = 'Publicando matéria...';
+      statusText.style.color = '#6c63ff';
+
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) {
+        alert('Você precisa estar logado para publicar!');
+        window.location.href = 'Login.html';
+        return;
+      }
+
+      const titulo = document.getElementById('tituloMateria').value;
+      const descricao = document.getElementById('descricaoMateria').value;
+      
+      const fileCapa = document.getElementById('imagemMateria').files[0];
+      const filePdf = document.getElementById('pdfMateria').files[0];
+
+      let capaUrl = null;
+      let pdfUrl = null;
+
+      if (fileCapa) {
+        const fileNameCapa = `${user.id}_capa_${Date.now()}`;
+        const { error: uploadCapaError } = await supabaseClient.storage.from('materias').upload(fileNameCapa, fileCapa);
+        
+        if (uploadCapaError) {
+          statusText.style.color = '#d84545';
+          statusText.textContent = 'Erro no upload da capa: ' + uploadCapaError.message;
+          return;
+        }
+        capaUrl = supabaseClient.storage.from('materias').getPublicUrl(fileNameCapa).data.publicUrl;
+      }
+
+      if (filePdf) {
+        const fileNamePdf = `${user.id}_pdf_${Date.now()}.pdf`;
+        const { error: uploadPdfError } = await supabaseClient.storage.from('materias').upload(fileNamePdf, filePdf);
+        
+        if (uploadPdfError) {
+          statusText.style.color = '#d84545';
+          statusText.textContent = 'Erro no upload do PDF: ' + uploadPdfError.message;
+          return;
+        }
+        pdfUrl = supabaseClient.storage.from('materias').getPublicUrl(fileNamePdf).data.publicUrl;
+      }
+
+      const { error: insertError } = await supabaseClient
+        .from('materias')
+        .insert([{
+          user_id: user.id,
+          titulo: titulo,
+          descricao: descricao, 
+          capa_url: capaUrl,
+          pdf_url: pdfUrl       
+        }]);
+
+      if (insertError) {
+        statusText.style.color = '#d84545';
+        statusText.textContent = 'Erro ao salvar matéria: ' + insertError.message;
+      } else {
+        statusText.style.color = '#28a745';
+        statusText.textContent = 'Matéria publicada com sucesso!';
+        alert('Matéria publicada com sucesso!');
+        window.location.href = 'Materias.html';
+      }
+    });
+  });
+</script>
 </body>
 </html>
