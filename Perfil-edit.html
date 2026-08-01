@@ -5,54 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil</title>
     <style>
-        /* Estilos para deixar a tela organizada e centralizada */
         body { 
             font-family: 'Segoe UI', sans-serif; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
+            min-height: 100vh; 
             background-color: #f4f7f6; 
             margin: 0; 
+            padding: 20px 0;
         }
+
         .container-editar { 
             background: white; 
-            padding: 40px; 
+            padding: 30px; 
             border-radius: 15px; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.199); 
-            width: 340px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+            width: 100%;
+            max-width: 420px; 
         }
+
         h2 { 
             margin-top: 0;
-            margin-bottom: 24px; 
+            margin-bottom: 20px; 
             color: #333; 
             text-align: center; 
         }
+
         .grupo-campo { 
-            margin-bottom: 20px; 
+            margin-bottom: 15px; 
             display: flex; 
             flex-direction: column; 
         }
+
         label { 
             margin-bottom: 6px; 
             font-weight: bold; 
             color: #555; 
             font-size: 14px; 
         }
+
         input[type="text"], textarea, input[type="file"] { 
-            padding: 12px; 
+            padding: 10px; 
             border: 1px solid #ccc; 
             border-radius: 8px; 
             font-size: 14px; 
             outline: none;
         }
+
         input[type="text"]:focus, textarea:focus {
-            border-color: #a600ff;
+            border-color: #6c63ff;
         }
+
         textarea { 
-            resize: none; 
-            height: 90px; 
+            resize: vertical; 
+            height: 80px; 
         }
+
         .btn-salvar { 
             background-color: #6c63ff; 
             color: white; 
@@ -66,9 +75,11 @@
             margin-top: 10px; 
             transition: background 0.2s;
         }
+
         .btn-salvar:hover { 
-            background-color: #6c63ff; 
+            background-color: #5148d7; 
         }
+
         .btn-cancelar { 
             display: block; 
             text-align: center; 
@@ -77,8 +88,18 @@
             text-decoration: none; 
             font-size: 14px; 
         }
+
         .btn-cancelar:hover {
             text-decoration: underline;
+        }
+
+        #statusText {
+            text-align: center;
+            color: #6c63ff;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 15px;
+            min-height: 20px;
         }
     </style>
 </head>
@@ -87,48 +108,145 @@
     <div class="container-editar">
         <h2>Editar Perfil</h2>
         
-        <!-- O formulário com o ID exato que o seu JS escuta -->
         <form id="form-editar-perfil">
-            
             <div class="grupo-campo">
                 <label for="fotoCapa">Foto de Capa:</label>
-                <input type="file" id="fotoCapa" name="fotoCapa" accept="image/*">
+                <input type="file" id="fotoCapa" accept="image/*">
             </div>
 
-            <!-- Campo de Upload para o Bucket 'avatars' -->
             <div class="grupo-campo">
                 <label for="fotoPerfil">Foto de Perfil:</label>
-                <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*">
+                <input type="file" id="fotoPerfil" accept="image/*">
             </div>
 
-            <!-- Campo de entrada do Nome completo/exibição -->
             <div class="grupo-campo">
                 <label for="nomeUsuario">Nome de Usuário:</label>
-                <input type="text" id="nomeUsuario" name="nomeUsuario" placeholder="Seu nome ou apelido" required>
+                <input type="text" id="nomeUsuario" placeholder="Seu nome" required>
             </div>
 
-            <!-- Campo de texto para a Biografia -->
             <div class="grupo-campo">
                 <label for="biografia">Biografia:</label>
-                <textarea id="biografia" name="biografia" placeholder="Escreva uma breve descrição sobre você..."></textarea>
+                <textarea id="biografia" placeholder="Escreva uma breve descrição sobre você..."></textarea>
             </div>
 
-            <!-- Botão que dispara o evento 'submit' do seu JavaScript -->
-            <button type="submit" class="btn-salvar">Salvar Alterações</button>
-            
-            <!-- Link para voltar para a tela de visualização sem alterar nada -->
-            <a href="perfil.html" class="btn-cancelar">Cancelar</a>
+            <div class="grupo-campo">
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" placeholder="Ex: São Paulo">
+            </div>
+
+            <div class="grupo-campo">
+                <label for="pais">País:</label>
+                <input type="text" id="pais" placeholder="Ex: Brasil">
+            </div>
+
+            <div class="grupo-campo">
+                <label for="instagram">Instagram:</label> 
+                <input type="text" id="instagram" placeholder="@seuusuario">
+            </div>
+
+            <div class="grupo-campo">
+                <label for="site">Website:</label>
+                <input type="text" id="site" placeholder="https://seuwebsite.com">
+            </div>
+
+            <button type="submit" id="btnSalvar" class="btn-salvar">Salvar Alterações</button>
+            <p id="statusText"></p>
+            <a href="Perfil.html" class="btn-cancelar">Cancelar</a>
         </form>
     </div>
-    
-    <!-- 1. Importa a biblioteca global do Supabase da internet -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- 2. Carrega suas chaves secretas e inicializa a variável 'supabase' -->
-    <script src="config.js"></script>
-    
-    <!-- 3. Carrega o SEU código de enviar formulário e fazer upload no Storage -->
-    <script src="perfil-editar.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ 
+<script>
+
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', async () => {
+
+    const { data: { user }, error } = await supabaseClient.auth.getUser();
+    if (!user) {
+      window.location.href = 'Login.html';
+      return;
+    }
+
+    const { data: perfil } = await supabaseClient
+      .from('perfis')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    if (perfil) {
+      document.getElementById('nomeUsuario').value = perfil.nome || '';
+      document.getElementById('biografia').value = perfil.biografia || '';
+      document.getElementById('cidade').value = perfil.cidade || '';
+      document.getElementById('pais').value = perfil.pais || '';
+      document.getElementById('instagram').value = perfil.instagram || '';
+      document.getElementById('site').value = perfil.site || '';
+    }
+
+    document.getElementById('form-editar-perfil').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const statusText = document.getElementById('statusText');
+      statusText.textContent = 'Salvando alterações...';
+      statusText.style.color = '#6c63ff';
+
+      let fotoPerfilUrl = perfil?.foto_perfil;
+      let fotoCapaUrl = perfil?.foto_capa;
+
+      const inputPerfil = document.getElementById('fotoPerfil');
+      if (inputPerfil?.files[0]) {
+        const file = inputPerfil.files[0];
+        const fileName = `${user.id}_perfil_${Date.now()}`;
+        const { error: uploadError } = await supabaseClient.storage.from('avatares').upload(fileName, file);
+        if (!uploadError) {
+          fotoPerfilUrl = supabaseClient.storage.from('avatares').getPublicUrl(fileName).data.publicUrl;
+        } else {
+          console.error("Erro upload Perfil:", uploadError);
+        }
+      }
+
+      const inputCapa = document.getElementById('fotoCapa');
+      if (inputCapa?.files[0]) {
+        const file = inputCapa.files[0];
+        const fileName = `${user.id}_capa_${Date.now()}`;
+        const { error: uploadError } = await supabaseClient.storage.from('avatares').upload(fileName, file);
+        if (!uploadError) {
+          fotoCapaUrl = supabaseClient.storage.from('avatares').getPublicUrl(fileName).data.publicUrl;
+        } else {
+          console.error("Erro upload Capa:", uploadError);
+        }
+      }
+
+      const { error: updateError } = await supabaseClient
+        .from('perfis')
+        .update({
+          nome: document.getElementById('nomeUsuario').value,
+          biografia: document.getElementById('biografia').value,
+          cidade: document.getElementById('cidade').value,
+          pais: document.getElementById('pais').value,
+          instagram: document.getElementById('instagram').value,
+          site: document.getElementById('site').value,
+          foto_perfil: fotoPerfilUrl,
+          foto_capa: fotoCapaUrl
+        })
+        .eq('id', user.id);
+
+      if (updateError) {
+        statusText.style.color = 'red';
+        statusText.textContent = 'Erro ao atualizar perfil: ' + updateError.message;
+      } else {
+        statusText.style.color = 'green';
+        statusText.textContent = 'Perfil atualizado com sucesso!';
+        setTimeout(() => {
+            window.location.href = 'Perfil.html';
+        }, 1500); // Aguarda 1.5s antes de redirecionar para o usuário ler a mensagem
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
