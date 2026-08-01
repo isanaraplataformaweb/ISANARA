@@ -257,6 +257,7 @@
       .select(`
         id,
         titulo,
+        descricao,
         imagem_url,
         created_at,
         perfis (
@@ -286,6 +287,7 @@
           <img src="${obra.imagem_url}" alt="${obra.titulo}">
           <div class="conteudo">
             <h3>${obra.titulo}</h3>
+            <p class="descricao">${obra.descricao || ''}</p>
             <div class="autor-tag">
               <img src="${autor.foto_perfil || 'https://via.placeholder.com/40'}" class="autor-avatar" alt="Avatar">
               <span>${autor.nome}</span>
@@ -295,7 +297,7 @@
       `;
       galeriaContainer.innerHTML += cardHTML;
     });
-  });
+  }); // 
 </script>
 
 </body>
