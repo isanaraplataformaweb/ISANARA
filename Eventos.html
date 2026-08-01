@@ -17,7 +17,6 @@
             color: #333;
         }
 
-        /* --- CABEÇALHO / NAVBAR FIXA --- */
         .header-principal {
             width: 100%;
             height: 80px;
@@ -68,14 +67,12 @@
             width: 100%;
         }
 
-        /* --- CONTEÚDO DA PÁGINA --- */
         .container-eventos {
             max-width: 1100px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        /* Cabeçalho interno da seção */
         .secao-cabecalho {
             display: flex;
             justify-content: space-between;
@@ -108,14 +105,12 @@
             transform: translateY(-2px);
         }
 
-        /* Grid onde o JavaScript vai inserir os cartões */
         .grid-eventos {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 24px;
         }
 
-        /* Estrutura do Cartão de Evento */
         .card-evento {
             background: white;
             border-radius: 12px;
@@ -158,13 +153,27 @@
             line-height: 1.4;
         }
 
+        .evento-data, .evento-local {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
         .descricao-evento {
-            margin: 0;
+            margin: 10px 0;
             color: #666;
             font-size: 14px;
             line-height: 1.5;
             white-space: pre-line;
             flex-grow: 1;
+        }
+
+        .organizador-info {
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: auto;
         }
 
         .sem-eventos {
@@ -175,12 +184,12 @@
             border-radius: 12px;
             color: #666;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Cabeçalho Principal (Navegação do site) -->
     <header class="header-principal">
         <a href="Home.html">
             <img src="1.png" alt="Logo">
@@ -200,26 +209,61 @@
             <a href="publicar-evento.html" class="btn-novo-evento">+ Criar Novo Evento</a>
         </div>
 
-        <!-- Container onde o JS vai renderizar a lista de eventos -->
         <main id="lista-eventos" class="grid-eventos">
-            
-            <!-- EXEMPLO ESTÁTICO (Substitua via JS) -->
-            <article class="card-evento">
-                <div class="poster-container">
-                    <img src="https://via.placeholder.com/400x220" alt="Poster do Evento Exemplo">
-                </div>
-                <div class="conteudo-evento">
-                    <h2 class="titulo-evento">Festival de Música e Cultura</h2>
-                    <p class="descricao-evento">Data: 25/08 às 19h&#10;Local: Praça Central&#10;Entrada gratuita para todos os públicos!</p>
-                </div>
-            </article>
-
+            <p class="sem-eventos">Carregando eventos...</p>
         </main>
 
     </div>
 
-    <!-- Scripts de Conexão -->
-    <script src="config.js"></script>
-    <script src="listar-eventos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const eventosContainer = document.getElementById('lista-eventos');
+
+    const { data: eventos, error } = await supabaseClient
+      .from('eventos')
+      .select('*, perfis(nome, foto_perfil)')
+      .order('data_evento', { ascending: true });
+
+    if (error) {
+      eventosContainer.innerHTML = `<p class="sem-eventos">Erro ao carregar eventos: ${error.message}</p>`;
+      return;
+    }
+
+    if (!eventos || eventos.length === 0) {
+      eventosContainer.innerHTML = '<p class="sem-eventos">Nenhum evento agendado no momento.</p>';
+      return;
+    }
+
+    eventosContainer.innerHTML = '';
+    eventos.forEach(evt => {
+      const dataFormatada = evt.data_evento ? new Date(evt.data_evento).toLocaleDateString('pt-BR', {
+        day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      }) : 'Data a definir';
+
+      eventosContainer.innerHTML += `
+        <article class="card-evento">
+          ${evt.imagem_url ? `
+            <div class="poster-container">
+              <img src="${evt.imagem_url}" alt="${evt.titulo}">
+            </div>
+          ` : ''}
+          <div class="conteudo-evento">
+            <h2 class="titulo-evento">${evt.titulo}</h2>
+            <p class="evento-data">📅 ${dataFormatada}</p>
+            <p class="evento-local">📍 ${evt.local || 'Local não informado'}</p>
+            <p class="descricao-evento">${evt.descricao || ''}</p>
+            <div class="organizador-info">Organizado por: ${evt.perfis?.nome || 'Anônimo'}</div>
+          </div>
+        </article>
+      `;
+    });
+  });
+</script>
+
 </body>
 </html>
