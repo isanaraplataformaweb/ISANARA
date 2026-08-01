@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minhas estatisticas</title>
+    <title>Minhas Estatísticas</title>
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -143,7 +142,6 @@
             border-radius: 8px;
         }
 
-        /* Mensagens de Carregamento */
         .status-mensagem {
             text-align: center;
             color: #64748b;
@@ -190,6 +188,7 @@
             <h1>Métricas Gerais das Criações</h1>
             <p>Acompanhe o engajamento acumulado de todo o seu portfólio de arte.</p>
         </div>
+
         <!-- CARDS DE TOTALIZADORES GERAIS -->
         <div class="grid-totais">
             <div class="card-total">
@@ -209,6 +208,7 @@
                 <p>Total de Compartilhar</p>
             </div>
         </div>
+
         <!-- TABELA COM ANÁLISE INDIVIDUAL -->
         <div class="secao-lista">
             <h3>Desempenho por Criação</h3>
@@ -232,106 +232,74 @@
         </div>
     </main>
 
-    <!-- SUPABASE -->
-    <script src="https://jsdelivr.net"></script>
-    <script src="config.js"></script>
-    <script src="meupainel.js"></script>
-   <!-- // meupainel.js
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
 
-document.addEventListener("DOMContentLoaded", async () => {
-    // 1. Garante que há um usuário autenticado ativo no navegador
-    const { data: { user } } = await supabase.auth.getUser();
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0'; 
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    if (!user) {
-        // Se ninguém estiver logado, redireciona imediatamente
-        window.location.href = "login.html";
+  document.addEventListener('DOMContentLoaded', async () => {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return window.location.href = 'Login.html';
+
+    const { data: minhasObras, error: obrasError } = await supabaseClient
+      .from('obras')
+      .select('*')
+      .eq('user_id', user.id);
+
+    const corpoTabela = document.getElementById('corpoTabelaObras');
+    
+    if (obrasError || !minhasObras || minhasObras.length === 0) {
+        document.getElementById('totalObras').textContent = '0';
+        corpoTabela.innerHTML = '<tr><td colspan="4" class="status-mensagem">Você ainda não possui obras publicadas.</td></tr>';
         return;
     }
 
-    const USER_ID = user.id;
-    await inicializarDashboardGeral(USER_ID);
-});
+    const obrasIds = minhasObras.map(obra => obra.id);
 
-async function inicializarDashboardGeral(userId) {
-    const corpoTabela = document.getElementById('corpoTabelaObras');
+    const [reqCurtidas, reqComentarios, reqCompartilhamentos] = await Promise.all([
+        supabaseClient.from('curtidas').select('obra_id').in('obra_id', obrasIds),
+        supabaseClient.from('comentarios').select('obra_id').in('obra_id', obrasIds),
+        supabaseClient.from('compartilhamentos').select('obra_id').in('obra_id', obrasIds)
+    ]);
 
-    try {
-        // 2. Busca todas as criações pertencentes exclusivamente a este artista
-        const { data: obras, error: erroObras } = await supabase
-            .from('obras')
-            .select('id, titulo, url_imagem')
-            .eq('usuario_id', userId);
+    const listaCurtidas = reqCurtidas.data || [];
+    const listaComentarios = reqComentarios.data || [];
+    const listaCompartilhamentos = reqCompartilhamentos.data || [];
 
-        if (erroObras) throw erroObras;
+    document.getElementById('totalObras').textContent = minhasObras.length;
+    document.getElementById('totalCurtidas').textContent = listaCurtidas.length;
+    document.getElementById('totalComentarios').textContent = listaComentarios.length;
+    document.getElementById('totalCompartilhamentos').textContent = listaCompartilhamentos.length;
 
-        // Se o usuário não tiver postado nenhuma obra ainda
-        if (!obras || obras.length === 0) {
-            document.getElementById('totalObras').textContent = "0";
-            corpoTabela.innerHTML = `<tr><td colspan="4" class="status-mensagem">Você ainda não possui obras publicadas para gerar métricas.</td></tr>`;
-            return;
-        }
+    corpoTabela.innerHTML = ''; 
 
-        // Variáveis acumuladoras para preencher os cards gigantes
-        let acumuladorCurtidasTotais = 0;
-        let acumuladorComentariosTotais = 0;
-        let acumuladorCompartilhamentosTotais = 0;
+    minhasObras.forEach(obra => {
 
-        // Limpa a mensagem padrão de carregamento da tabela
-        corpoTabela.innerHTML = "";
+        const qtdCurtidas = listaCurtidas.filter(c => c.obra_id === obra.id).length;
+        const qtdComentarios = listaComentarios.filter(c => c.obra_id === obra.id).length;
+        const qtdCompartilhamentos = listaCompartilhamentos.filter(c => c.obra_id === obra.id).length;
 
-        // 3. Varre cada obra para calcular os seus engajamentos individuais
-        for (const obra of obras) {
-            
-            // Conta as curtidas desta obra específica
-            const { count: qtdCurtidas } = await supabase
-                .from('curtidas')
-                .select('*', { count: 'exact', head: true })
-                .eq('obra_id', obra.id);
+        // Verifica os nomes das colunas de título e imagem no seu banco de dados
+        // Pode ser necessário trocar 'obra.titulo' ou 'obra.imagem_url' pelo nome correto que está no seu Supabase
+        const tituloObra = obra.titulo || obra.nome || 'Obra sem título';
+        const urlImagem = obra.imagem_url || obra.foto || 'https://via.placeholder.com/50';
 
-            // Conta os comentários desta obra específica
-            const { count: qtdComentarios } = await supabase
-                .from('comentarios')
-                .select('*', { count: 'exact', head: true })
-                .eq('obra_id', obra.id);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td class="coluna-obra">
+                <img src="${urlImagem}" alt="${tituloObra}">
+                <span>${tituloObra}</span>
+            </td>
+            <td>${qtdCurtidas}</td>
+            <td>${qtdComentarios}</td>
+            <td>${qtdCompartilhamentos}</td>
+        `;
+        corpoTabela.appendChild(tr);
+    });
+  });
+</script>
 
-            // Conta os compartilhamentos desta obra específica
-            const { count: qtdCompartilhamentos } = await supabase
-                .from('compartilhamentos')
-                .select('*', { count: 'exact', head: true })
-                .eq('obra_id', obra.id);
-
-            // Soma os valores no contador acumulador geral
-            acumuladorCurtidasTotais += (qtdCurtidas || 0);
-            acumuladorComentariosTotais += (qtdComentarios || 0);
-            acumuladorCompartilhamentosTotais += (qtdCompartilhamentos || 0);
-
-            // 4. Cria a linha correspondente desta obra para injetar na tabela
-            const linhaTabela = document.createElement('tr');
-            linhaTabela.innerHTML = `
-                <td>
-                    <div class="coluna-obra">
-                        <img src="${obra.url_imagem}" alt="${obra.titulo}">
-                        <strong>${obra.titulo}</strong>
-                    </div>
-                </td>
-                <td>${qtdCurtidas || 0}</td>
-                <td>${qtdComentarios || 0}</td>
-                <td>${qtdCompartilhamentos || 0}</td>
-            `;
-            corpoTabela.appendChild(linhaTabela);
-        }
-
-        // 5. Atualiza os cards numéricos superiores com os totais finais calculados
-        document.getElementById('totalObras').textContent = obras.length;
-        document.getElementById('totalCurtidas').textContent = acumuladorCurtidasTotais;
-        document.getElementById('totalComentarios').textContent = acumuladorComentariosTotais;
-        document.getElementById('totalCompartilhamentos').textContent = acumuladorCompartilhamentosTotais;
-
-    } catch (erro) {
-        console.error("Falha ao processar o painel estatístico:", erro);
-        corpoTabela.innerHTML = `<tr><td colspan="4" class="status-mensagem" style="color: red;">Ocorreu um erro ao carregar as métricas do banco de dados.</td></tr>`;
-    }
-}
--->
 </body>
 </html>
