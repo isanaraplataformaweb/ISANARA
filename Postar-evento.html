@@ -85,6 +85,14 @@
         .btn-cancelar:hover {
             text-decoration: underline;
         }
+        #statusText {
+            text-align: center;
+            color: #6c63ff;
+            font-size: 14px;
+            margin-bottom: 15px;
+            min-height: 20px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -93,33 +101,90 @@
         <h2>Publicar Novo Evento</h2>
         
         <form id="form-publicar-evento">
-            <!-- Campo do arquivo de imagem -->
             <div class="grupo-campo">
                 <label for="imagemEvento">Poster:</label>
                 <input type="file" id="imagemEvento" name="imagemEvento" accept="image/*" required>
             </div>
 
-            <!-- Campo do Título -->
             <div class="grupo-campo">
                 <label for="tituloEvento">Título chamativo:</label>
-                <input type="text" id="tituloEvento" name="tituloEvento" placeholder="Dê um título e chame a atençaõ para o seu lembrete..." required>
+                <input type="text" id="tituloEvento" name="tituloEvento" placeholder="Dê um título e chame a atenção..." required>
             </div>
 
-            <!-- Campo da Descrição -->
             <div class="grupo-campo">
                 <label for="descricaoEvento">Descrição:</label>
-                <textarea id="descricaoEvento" name="descricaoEvento" placeholder="Adicone informações como  data, horário e local..."></textarea>
+                <textarea id="descricaoEvento" name="descricaoEvento" placeholder="Adicione informações como data, horário e local..."></textarea>
             </div>
 
-            <!-- Botões de Ação -->
+            <p id="statusText"></p>
+
             <button type="submit" class="btn-publicar">Publicar Evento</button>
             <a href="Opções-criar.html" class="btn-cancelar">Cancelar</a>
         </form>
     </div>
 
-    <!-- Scripts de Conexão -->
-    <script src="https://jsdelivr.net"></script>
-    <script src="config.js"></script>
-    <script src="publicar-obra.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('form-publicar-evento').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const statusText = document.getElementById('statusText');
+      statusText.textContent = 'Publicando evento...';
+      statusText.style.color = '#6c63ff';
+
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) {
+        alert('Você precisa estar logado para publicar!');
+        window.location.href = 'Login.html';
+        return;
+      }
+
+      const titulo = document.getElementById('tituloEvento').value;
+      const descricao = document.getElementById('descricaoEvento').value;
+      const fileInput = document.getElementById('imagemEvento');
+      const file = fileInput.files[0];
+
+      let imagemUrl = null;
+
+      if (file) {
+        const fileName = `${user.id}_evento_${Date.now()}`;
+        const { error: uploadError } = await supabaseClient.storage.from('eventos').upload(fileName, file);
+        
+        if (uploadError) {
+          statusText.style.color = '#d84545';
+          statusText.textContent = 'Erro no upload: ' + uploadError.message;
+          return;
+        }
+        
+        imagemUrl = supabaseClient.storage.from('eventos').getPublicUrl(fileName).data.publicUrl;
+      }
+
+      const { error: insertError } = await supabaseClient
+        .from('eventos')
+        .insert([{
+          user_id: user.id,
+          titulo: titulo,
+          descricao: descricao,
+          imagem_url: imagemUrl
+        }]);
+
+      if (insertError) {
+        statusText.style.color = '#d84545';
+        statusText.textContent = 'Erro ao salvar evento: ' + insertError.message;
+      } else {
+        statusText.style.color = '#28a745';
+        statusText.textContent = 'Evento publicado com sucesso!';
+        alert('Evento publicado com sucesso!');
+        window.location.href = 'Galeria.html'; 
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
