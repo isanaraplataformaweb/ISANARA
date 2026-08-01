@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publicar Nova Obra</title>
     <style>
-        /* Estilos baseados no seu padrão visual */
         body {
             font-family: 'Segoe UI', sans-serif;
             display: flex;
@@ -86,6 +85,15 @@
         .btn-cancelar:hover {
             text-decoration: underline;
         }
+       
+        #statusText {
+            text-align: center;
+            color: #d84545; 
+            font-size: 14px;
+            margin-bottom: 15px;
+            min-height: 20px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -94,33 +102,102 @@
         <h2>Publicar Nova Obra</h2>
         
         <form id="form-publicar-obra">
-            <!-- Campo do arquivo de imagem -->
             <div class="grupo-campo">
                 <label for="imagemObra">Imagem da Obra:</label>
                 <input type="file" id="imagemObra" name="imagemObra" accept="image/*" required>
             </div>
 
-            <!-- Campo do Título -->
             <div class="grupo-campo">
                 <label for="tituloObra">Título:</label>
                 <input type="text" id="tituloObra" name="tituloObra" placeholder="Dê um título para sua arte" required>
             </div>
 
-            <!-- Campo da Descrição -->
             <div class="grupo-campo">
                 <label for="descricaoObra">Descrição:</label>
                 <textarea id="descricaoObra" name="descricaoObra" placeholder="Conte a história por trás desta obra..."></textarea>
             </div>
 
-            <!-- Botões de Ação -->
+            <p id="statusText"></p>
+
             <button type="submit" class="btn-publicar">Publicar Arte</button>
             <a href="Opções-criar.html" class="btn-cancelar">Cancelar</a>
         </form>
     </div>
 
-    <!-- Scripts de Conexão -->
-    <script src="https://jsdelivr.net"></script>
-    <script src="config.js"></script>
-    <script src="publicar-obra.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_lCyhrBgyfeUJE6evC1WvNQ_trw4TLl0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('form-publicar-obra').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const statusText = document.getElementById('statusText');
+      statusText.textContent = 'Publicando obra, aguarde...';
+      statusText.style.color = '#6c63ff'; 
+
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) {
+        alert('Você precisa estar logado para publicar!');
+        window.location.href = 'Login.html';
+        return;
+      }
+
+      const titulo = document.getElementById('tituloObra').value;
+      const descricao = document.getElementById('descricaoObra').value;
+      const fileInput = document.getElementById('imagemObra');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        statusText.style.color = '#d84545';
+        statusText.textContent = 'Por favor, selecione uma imagem.';
+        return;
+      }
+
+      const fileName = `${user.id}_obra_${Date.now()}`;
+      const { data: storageData, error: uploadError } = await supabaseClient
+        .storage
+        .from('obras')
+        .upload(fileName, file);
+
+      if (uploadError) {
+        statusText.style.color = '#d84545';
+        statusText.textContent = 'Erro no upload da imagem: ' + uploadError.message;
+        return;
+      }
+
+      const { data: publicUrlData } = supabaseClient
+        .storage
+        .from('obras')
+        .getPublicUrl(fileName);
+
+      const imagemUrl = publicUrlData.publicUrl;
+
+      const { error: insertError } = await supabaseClient
+        .from('obras')
+        .insert([
+          {
+            user_id: user.id,
+            titulo: titulo,
+            descricao: descricao,
+            imagem_url: imagemUrl
+          }
+        ]);
+
+      if (insertError) {
+        statusText.style.color = '#d84545';
+        statusText.textContent = 'Erro ao salvar obra: ' + insertError.message;
+      } else {
+        statusText.style.color = '#28a745';
+        statusText.textContent = 'Obra publicada com sucesso!';
+        alert('Obra publicada com sucesso!');
+        window.location.href = 'Galeria.html';
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
