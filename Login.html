@@ -294,6 +294,7 @@ input:focus {
         switchTab('login');
     }
 
+    // --- FUNÇÃO DE LOGIN ATUALIZADA AQUI ---
     async function handleLogin(e) {
         e.preventDefault();
         const form = e.target;
@@ -312,7 +313,15 @@ input:focus {
         if (error) {
             console.error('Erro ao fazer login:', error);
             footerText.style.color = '#fecaca';
-            footerText.textContent = 'E-mail ou senha incorretos!';
+            
+            // Verifica de forma inteligente qual foi o erro
+            if (error.message.includes('Email not confirmed')) {
+                footerText.textContent = 'Por favor, confirme seu e-mail antes de fazer login.';
+            } else if (error.message.includes('Invalid login credentials')) {
+                footerText.textContent = 'E-mail ou senha incorretos!';
+            } else {
+                footerText.textContent = 'Ocorreu um erro. Tente novamente.'; 
+            }
             return;
         }
 
