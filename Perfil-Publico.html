@@ -234,16 +234,15 @@
           return;
         }
 
-        // 2. Contar seguidores e seguindo da tabela 'seguidores' (usando 'seguindo' e 'seguidor')
         const { count: totalSeguidores } = await supabaseClient
           .from('seguidores')
           .select('*', { count: 'exact', head: true })
-          .eq('seguindo', perfilId);
+          .eq('seguindo_id', perfilId);
 
         const { count: totalSeguindo } = await supabaseClient
           .from('seguidores')
           .select('*', { count: 'exact', head: true })
-          .eq('seguidor', perfilId);
+          .eq('seguidor_id', perfilId);
 
         containerPerfil.innerHTML = `
           <div class="perfil-esquerda">
@@ -268,8 +267,8 @@
           const { data: jaSegue } = await supabaseClient
             .from('seguidores')
             .select('id')
-            .eq('seguidor', user.id)
-            .eq('seguindo', perfilId)
+            .eq('seguidor_id', user.id)
+            .eq('seguindo_id', perfilId)
             .maybeSingle();
 
           if (jaSegue) {
@@ -281,7 +280,7 @@
             if (btnSeguirPerfil.textContent === 'Seguir') {
               const { error: errSeguir } = await supabaseClient
                 .from('seguidores')
-                .insert([{ seguidor: user.id, seguindo: perfilId }]);
+                .insert([{ seguidor_id: user.id, seguindo_id: perfilId }]);
 
               if (!errSeguir) {
                 btnSeguirPerfil.textContent = 'Seguindo';
@@ -293,8 +292,8 @@
               const { error: errDeixar } = await supabaseClient
                 .from('seguidores')
                 .delete()
-                .eq('seguidor', user.id)
-                .eq('seguindo', perfilId);
+                .eq('seguidor_id', user.id)
+                .eq('seguindo_id', perfilId);
 
               if (!errDeixar) {
                 btnSeguirPerfil.textContent = 'Seguir';
