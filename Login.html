@@ -102,9 +102,14 @@ label {
     font-size: 0.9rem;
 }
 
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
 input {
     width: 100%;
-    padding: 13px;
+    padding: 13px 45px 13px 13px; /* Espaço à direita para o botão do olho */
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(255, 255, 255, 0.12);
@@ -119,6 +124,27 @@ input::placeholder {
 input:focus {
     border-color: #c084fc;
     box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: white;
 }
 
 .btn {
@@ -186,7 +212,10 @@ input:focus {
                 </div>
                 <div class="form-group">
                     <label>Senha</label>
-                    <input type="password" name="login_senha" placeholder="Digite sua senha" required>
+                    <div class="input-wrapper">
+                        <input type="password" id="login_senha" name="login_senha" placeholder="Digite sua senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('login_senha', this)">👁️</button>
+                    </div>
                 </div>
                 <button type="submit" class="btn">Entrar</button>
                 <div class="footer-text" id="loginStatus">Bem-vindo de volta!</div>
@@ -204,11 +233,17 @@ input:focus {
                 </div>
                 <div class="form-group">
                     <label>Senha</label>
-                    <input type="password" id="password" name="cad_senha" placeholder="Crie uma senha" required>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="cad_senha" placeholder="Crie uma senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('password', this)">👁️</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Confirmar Senha</label>
-                    <input type="password" id="confirmPassword" placeholder="Confirme sua senha" required>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" placeholder="Confirme sua senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', this)">👁️</button>
+                    </div>
                 </div>
                 <button type="submit" class="btn">Criar Conta</button>
                 <div id="registerError" class="error"></div>
@@ -249,6 +284,18 @@ input:focus {
             tabs[0].classList.remove('active');
             headerTitle.textContent = 'Registre-se!';
             headerSubtitle.textContent = 'Crie sua conta para explorar o ISANARA.';
+        }
+    }
+
+    // Função para alternar a visibilidade da senha
+    function togglePassword(fieldId, btn) {
+        const inputField = document.getElementById(fieldId);
+        if (inputField.type === 'password') {
+            inputField.type = 'text';
+            btn.textContent = '👁️‍🗨️'; // Ícone de olho riscado/aberto diferenciado
+        } else {
+            inputField.type = 'password';
+            btn.textContent = '👁️'; // Ícone de olho normal
         }
     }
 
@@ -294,7 +341,6 @@ input:focus {
         switchTab('login');
     }
 
-    // --- FUNÇÃO DE LOGIN ATUALIZADA AQUI ---
     async function handleLogin(e) {
         e.preventDefault();
         const form = e.target;
@@ -314,7 +360,6 @@ input:focus {
             console.error('Erro ao fazer login:', error);
             footerText.style.color = '#fecaca';
             
-            // Verifica de forma inteligente qual foi o erro
             if (error.message.includes('Email not confirmed')) {
                 footerText.textContent = 'Por favor, confirme seu e-mail antes de fazer login.';
             } else if (error.message.includes('Invalid login credentials')) {
