@@ -112,8 +112,13 @@
             </div>
 
             <div class="grupo-campo">
+                 <label for="dataEvento">Data e Hora do Evento:</label>
+                 <input type="datetime-local" id="dataEvento" name="dataEvento" required>
+            </div>
+
+            <div class="grupo-campo">
                 <label for="descricaoEvento">Descrição:</label>
-                <textarea id="descricaoEvento" name="descricaoEvento" placeholder="Adicione informações como data, horário e local..."></textarea>
+                <textarea id="descricaoEvento" name="descricaoEvento" placeholder="Adicione informações como o local do evento ou especificações..."></textarea>
             </div>
 
             <p id="statusText"></p>
@@ -146,6 +151,7 @@
 
       const titulo = document.getElementById('tituloEvento').value;
       const descricao = document.getElementById('descricaoEvento').value;
+      const dataEvento = document.getElementById('dataEvento').value;  
       const fileInput = document.getElementById('imagemEvento');
       const file = fileInput.files[0];
 
@@ -170,7 +176,8 @@
           user_id: user.id,
           titulo: titulo,
           descricao: descricao,
-          imagem_url: imagemUrl
+          imagem_url: imagemUrl,
+          data_evento: dataEvento  
         }]);
 
       if (insertError) {
