@@ -186,6 +186,70 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             font-size: 16px;
         }
+
+        /* Estilos dos botões de ação e modal */
+        .acoes-evento {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        .btn-acao {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .btn-editar { background-color: #ffc107; color: #333; }
+        .btn-editar:hover { background-color: #e0a800; }
+        .btn-excluir { background-color: #dc3545; color: white; }
+        .btn-excluir:hover { background-color: #c82333; }
+
+        #modalEditar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-conteudo {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .grupo-modal {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .grupo-modal label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+        }
+        .grupo-modal input, .grupo-modal textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+        .grupo-modal textarea {
+            resize: none;
+            height: 80px;
+        }
     </style>
 </head>
 <body>
@@ -196,7 +260,7 @@
         </a>
         <nav>
             <a href="Index.html">Início</a>
-            <a href="Galeria.html">Galeria</a>
+            <a href="Galeria.html" class="ativo">Galeria</a>
             <a href="Perfil.html">Perfil</a>
             <a href="Comunicações.html">Comunicações</a>
         </nav>
@@ -215,13 +279,83 @@
 
     </div>
 
+    <!-- Modal de Edição -->
+    <div id="modalEditar">
+        <div class="modal-conteudo">
+            <h2 style="margin-bottom: 20px; font-size: 20px;">Editar Evento</h2>
+            <form id="form-editar-evento">
+                <input type="hidden" id="editEventoId">
+                
+                <div class="grupo-modal">
+                    <label for="editTitulo">Título:</label>
+                    <input type="text" id="editTitulo" required>
+                </div>
+                
+                <div class="grupo-modal">
+                    <label for="editData">Data e Hora:</label>
+                    <input type="datetime-local" id="editData" required>
+                </div>
+                
+                <div class="grupo-modal">
+                    <label for="editLocal">Local:</label>
+                    <input type="text" id="editLocal">
+                </div>
+                
+                <div class="grupo-modal">
+                    <label for="editDescricao">Descrição:</label>
+                    <textarea id="editDescricao"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" style="background:#6c63ff; color:white; border:none; padding:10px; border-radius:6px; flex:1; cursor:pointer; font-weight:bold;">Salvar</button>
+                    <button type="button" id="fecharModal" style="background:#ccc; color:#333; border:none; padding:10px; border-radius:6px; flex:1; cursor:pointer; font-weight:bold;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Z3JqbXN5Y2JwbG9rbGlvdnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODM1OTEsImV4cCI6MjA5OTk1OTU5MX0.KIKQ9QjspCik0QY6TGoT_mHcsK3Y_IeXcmqUo0cVhw4'; 
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  let currentUser = null;
+
   document.addEventListener('DOMContentLoaded', async () => {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    currentUser = user;
+
+    carregarEventos();
+
+    document.getElementById('fecharModal').addEventListener('click', () => {
+      document.getElementById('modalEditar').style.display = 'none';
+    });
+
+    document.getElementById('form-editar-evento').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editEventoId').value;
+      const titulo = document.getElementById('editTitulo').value;
+      const data_evento = document.getElementById('editData').value;
+      const local = document.getElementById('editLocal').value;
+      const descricao = document.getElementById('editDescricao').value;
+
+      const { error } = await supabaseClient
+        .from('eventos')
+        .update({ titulo, data_evento, local, descricao })
+        .eq('id', id);
+
+      if (error) {
+        alert('Erro ao atualizar evento: ' + error.message);
+      } else {
+        alert('Evento atualizado com sucesso!');
+        document.getElementById('modalEditar').style.display = 'none';
+        carregarEventos();
+      }
+    });
+  });
+
+  async function carregarEventos() {
     const eventosContainer = document.getElementById('lista-eventos');
 
     const { data: eventos, error } = await supabaseClient
@@ -245,6 +379,17 @@
         day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
       }) : 'Data a definir';
 
+      // Mostra botões de Editar/Excluir apenas se o usuário logado for o criador do evento
+      let botoesDono = '';
+      if (currentUser && currentUser.id === evt.user_id) {
+        botoesDono = `
+          <div class="acoes-evento">
+            <button class="btn-acao btn-editar" onclick='abrirEdicao(${JSON.stringify(evt)})'>Editar</button>
+            <button class="btn-acao btn-excluir" onclick="excluirEvento('${evt.id}', '${evt.imagem_url || ''}')">Excluir</button>
+          </div>
+        `;
+      }
+
       eventosContainer.innerHTML += `
         <article class="card-evento">
           ${evt.imagem_url ? `
@@ -258,11 +403,53 @@
             <p class="evento-local">📍 ${evt.local || 'Local não informado'}</p>
             <p class="descricao-evento">${evt.descricao || ''}</p>
             <div class="organizador-info">Organizado por: ${evt.perfis?.nome || 'Anônimo'}</div>
+            ${botoesDono}
           </div>
         </article>
       `;
     });
-  });
+  }
+
+  window.abrirEdicao = function(evt) {
+    document.getElementById('editEventoId').value = evt.id;
+    document.getElementById('editTitulo').value = evt.titulo;
+    document.getElementById('editLocal').value = evt.local || '';
+    document.getElementById('editDescricao').value = evt.descricao || '';
+    
+    if (evt.data_evento) {
+      const dataIso = new Date(evt.data_evento).toISOString().slice(0, 16);
+      document.getElementById('editData').value = dataIso;
+    }
+
+    document.getElementById('modalEditar').style.display = 'flex';
+  };
+
+  // Exclui o evento do banco de dados
+  window.excluirEvento = async function(id, imagemUrl) {
+    if (!confirm('Tem certeza que deseja excluir este evento?')) return;
+
+    if (imagemUrl && imagemUrl.trim() !== '') {
+      try {
+        const partesUrl = imagemUrl.split('/');
+        const nomeArquivo = partesUrl[partesUrl.length - 1];
+        await supabaseClient.storage.from('eventos').remove([nomeArquivo]);
+      } catch (err) {
+        console.error('Erro ao remover imagem do storage:', err);
+      }
+    }
+
+    const { error } = await supabaseClient
+      .from('eventos')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      alert('Erro ao excluir evento: ' + error.message);
+    } else {
+      alert('Evento excluído com sucesso!');
+      carregarEventos();
+    }
+  };
 </script>
 
 </body>
