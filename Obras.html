@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes das criações</title>
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -134,7 +133,14 @@
             margin-bottom: 25px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+        }
+        .artista-info-esquerda {
+            display: flex;
+            align-items: center;
             gap: 15px;
+            cursor: pointer;
+            text-decoration: none;
         }
         .cartao-artista img {
             width: 55px;
@@ -151,6 +157,38 @@
             font-size: 16px;
             color: #333;
         }
+
+        .btn-seguir {
+            background: #6c63ff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            transition: .2s;
+        }
+        .btn-seguir:hover { background: #5148d7; }
+        .btn-seguir.seguindo { background: #e0e0e0; color: #333; }
+
+        .acoes-dono {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-acao {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .btn-editar { background-color: #ffc107; color: #333; }
+        .btn-editar:hover { background-color: #e0a800; }
+        .btn-excluir { background-color: #dc3545; color: white; }
+        .btn-excluir:hover { background-color: #c82333; }
 
         .interacoes {
             display: flex;
@@ -170,9 +208,7 @@
             align-items: center;
             gap: 8px;
         }
-        .btn-interacao:hover {
-            background: #e2e6ea;
-        }
+        .btn-interacao:hover { background: #e2e6ea; }
 
         .secao-comentarios {
             border-top: 1px solid #eee;
@@ -204,9 +240,6 @@
             border-radius: 50%;
             object-fit: cover;
         }
-        .comentario-item strong {
-            color: #222;
-        }
         .form-comentario {
             display: flex;
             gap: 10px;
@@ -227,9 +260,6 @@
             cursor: pointer;
             font-weight: bold;
         }
-        .form-comentario button:hover {
-            background: #5148d7;
-        }
 
         .btn-voltar {
             display: block;
@@ -244,9 +274,7 @@
             width: 100%;
             margin-top: auto;
         }
-        .btn-voltar:hover {
-            background: #111;
-        }
+        .btn-voltar:hover { background: #111; }
 
         .status-mensagem {
             text-align: center;
@@ -255,27 +283,39 @@
             padding: 100px 20px;
             grid-column: 1 / -1;
         }
+        .escondido { display: none !important; }
 
-        .escondido {
-            display: none !important;
+        /* Modal de Edição */
+        #modalEditarObra {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
+        .modal-conteudo {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .grupo-modal {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .grupo-modal label { margin-bottom: 5px; font-weight: bold; font-size: 14px; color: #555; }
+        .grupo-modal input, .grupo-modal textarea { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; outline: none; }
+        .grupo-modal textarea { resize: none; height: 80px; }
 
         @media(max-width: 800px) {
-            .container-obra {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                margin: 20px auto;
-            }
-            header {
-                flex-direction: column;
-                gap: 20px;
-                height: auto;
-                padding: 15px 0;
-            }
-            nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
+            .container-obra { grid-template-columns: 1fr; gap: 25px; margin: 20px auto; }
+            header { flex-direction: column; gap: 20px; height: auto; padding: 15px 0; }
+            nav { flex-wrap: wrap; justify-content: center; }
         }
     </style>
 </head>
@@ -301,6 +341,12 @@
         </div>
 
         <div class="info-detalhes">
+            <!-- Botões de Edição/Exclusão para o Dono -->
+            <div id="acoesDonoContainer" class="acoes-dono escondido">
+                <button class="btn-acao btn-editar" id="btnEditarObraModal">Editar Obra</button>
+                <button class="btn-acao btn-excluir" id="btnExcluirObra">Excluir Obra</button>
+            </div>
+
             <div class="bloco-texto">
                 <h1 id="tituloObra">Título da Obra</h1>
                 <span class="data-publicacao" id="dataObra">Publicado em: --/--/----</span>
@@ -308,11 +354,14 @@
             </div>
             
             <div class="cartao-artista">
-                <img id="avatarArtista" src="https://via.placeholder.com/50" alt="Avatar">
-                <div class="meta-artista">
-                    <p>Artista Criador</p>
-                    <h4 id="nomeArtista">Nome do Artista</h4>
-                </div>
+                <a id="linkPerfilArtista" href="#" class="artista-info-esquerda">
+                    <img id="avatarArtista" src="https://via.placeholder.com/50" alt="Avatar">
+                    <div class="meta-artista">
+                        <p>Artista Criador</p>
+                        <h4 id="nomeArtista">Nome do Artista</h4>
+                    </div>
+                </a>
+                <button id="btnSeguirArtista" class="btn-seguir escondido">Seguir</button>
             </div>
 
             <div class="interacoes">
@@ -322,8 +371,7 @@
 
             <div class="secao-comentarios">
                 <h3>Comentários</h3>
-                <div id="comentariosContainer" class="lista-comentarios">
-                </div>
+                <div id="comentariosContainer" class="lista-comentarios"></div>
                 <form id="formComentario" class="form-comentario">
                     <input type="text" id="inputComentario" placeholder="Adicione um comentário..." autocomplete="off" required>
                     <button type="submit">Enviar</button>
@@ -332,8 +380,28 @@
 
             <a href="Galeria.html" class="btn-voltar">Voltar para a Galeria</a>
         </div>
-    
     </main>
+
+    <!-- Modal de Edição da Obra -->
+    <div id="modalEditarObra">
+        <div class="modal-conteudo">
+            <h2 style="margin-bottom: 20px; font-size: 20px;">Editar Obra</h2>
+            <form id="formEditarObra">
+                <div class="grupo-modal">
+                    <label>Título:</label>
+                    <input type="text" id="editTituloObra" required>
+                </div>
+                <div class="grupo-modal">
+                    <label>Descrição:</label>
+                    <textarea id="editDescricaoObra"></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" style="background:#6c63ff; color:white; border:none; padding:10px; border-radius:6px; flex:1; cursor:pointer; font-weight:bold;">Salvar</button>
+                    <button type="button" id="fecharModalObra" style="background:#ccc; color:#333; border:none; padding:10px; border-radius:6px; flex:1; cursor:pointer; font-weight:bold;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -355,7 +423,7 @@
 
     const { data: obra, error } = await supabaseClient
       .from('obras')
-      .select('*, perfis(nome, foto_perfil)')
+      .select('*, perfis(id, nome, foto_perfil)')
       .eq('id', obraId)
       .single();
 
@@ -364,22 +432,114 @@
       return;
     }
 
+    // Preenchendo dados na tela
     document.getElementById('tituloObra').textContent = obra.titulo;
     document.getElementById('descricaoObra').textContent = obra.descricao || 'Sem descrição.';
     document.getElementById('imgObra').src = obra.imagem_url;
     document.getElementById('nomeArtista').textContent = obra.perfis?.nome || 'Artista Anônimo';
     document.getElementById('avatarArtista').src = obra.perfis?.foto_perfil || 'https://via.placeholder.com/50';
     
-    if(obra.created_at) {
+    if (obra.perfis?.id) {
+      document.getElementById('linkPerfilArtista').href = `Perfil-Publico.html?id=${obra.perfis.id}`;
+    }
+
+    if (obra.created_at) {
         const dataFormatada = new Date(obra.created_at).toLocaleDateString('pt-BR');
         document.getElementById('dataObra').textContent = `Publicado em: ${dataFormatada}`;
+    }
+
+    // Verificar se o usuário logado é o dono da obra para mostrar Editar/Excluir
+    if (user && user.id === obra.user_id) {
+      document.getElementById('acoesDonoContainer').classList.remove('escondido');
+    }
+
+    // Verificar sistema de Seguir perfil do autor
+    if (user && obra.perfis?.id && user.id !== obra.perfis.id) {
+      const btnSeguir = document.getElementById('btnSeguirArtista');
+      btnSeguir.classList.remove('escondido');
+
+      // Checar se já segue
+      const { data: seguidorExistente } = await supabaseClient
+        .from('seguidores')
+        .select('id')
+        .eq('seguidor_id', user.id)
+        .eq('seguido_id', obra.perfis.id)
+        .maybeSingle();
+
+      if (seguidorExistente) {
+        btnSeguir.textContent = 'Seguindo';
+        btnSeguir.classList.add('seguindo');
+      }
+
+      btnSeguir.addEventListener('click', async () => {
+        if (btnSeguir.textContent === 'Seguir') {
+          await supabaseClient.from('seguidores').insert([{ seguidor_id: user.id, seguido_id: obra.perfis.id }]);
+          btnSeguir.textContent = 'Seguindo';
+          btnSeguir.classList.add('seguindo');
+        } else {
+          await supabaseClient.from('seguidores').delete().eq('seguidor_id', user.id).eq('seguido_id', obra.perfis.id);
+          btnSeguir.textContent = 'Seguir';
+          btnSeguir.classList.remove('seguindo');
+        }
+      });
     }
 
     document.getElementById('mensagemStatus').classList.add('escondido');
     document.getElementById('conteudoObra').classList.remove('escondido');
 
-    atualizarCurtidas();
+    // Funcionalidade de Edição
+    document.getElementById('btnEditarObraModal').addEventListener('click', () => {
+      document.getElementById('editTituloObra').value = obra.titulo;
+      document.getElementById('editDescricaoObra').value = obra.descricao || '';
+      document.getElementById('modalEditarObra').style.display = 'flex';
+    });
 
+    document.getElementById('fecharModalObra').addEventListener('click', () => {
+      document.getElementById('modalEditarObra').style.display = 'none';
+    });
+
+    document.getElementById('formEditarObra').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const novoTitulo = document.getElementById('editTituloObra').value;
+      const novaDescricao = document.getElementById('editDescricaoObra').value;
+
+      const { error: errUpdate } = await supabaseClient
+        .from('obras')
+        .update({ titulo: novoTitulo, descricao: novaDescricao })
+        .eq('id', obraId);
+
+      if (errUpdate) {
+        alert('Erro ao atualizar obra: ' + errUpdate.message);
+      } else {
+        alert('Obra atualizada com sucesso!');
+        window.location.reload();
+      }
+    });
+
+    // Funcionalidade de Exclusão
+    document.getElementById('btnExcluirObra').addEventListener('click', async () => {
+      if (!confirm('Tem certeza que deseja excluir esta obra permanentemente?')) return;
+
+      if (obra.imagem_url) {
+        try {
+          const partesUrl = obra.imagem_url.split('/');
+          const nomeArquivo = partesUrl[partesUrl.length - 1];
+          await supabaseClient.storage.from('obras').remove([nomeArquivo]);
+        } catch (err) {
+          console.error('Erro ao excluir imagem do storage:', err);
+        }
+      }
+
+      const { error: errDel } = await supabaseClient.from('obras').delete().eq('id', obraId);
+      if (errDel) {
+        alert('Erro ao excluir obra: ' + errDel.message);
+      } else {
+        alert('Obra excluída com sucesso!');
+        window.location.href = 'Galeria.html';
+      }
+    });
+
+    atualizarCurtidas();
     const btnCurtir = document.getElementById('btnCurtir');
     if (btnCurtir) {
       btnCurtir.addEventListener('click', async () => {
@@ -402,7 +562,6 @@
     }
 
     carregarComentarios();
-
     const formComentario = document.getElementById('formComentario');
     if (formComentario) {
       formComentario.addEventListener('submit', async (e) => {
@@ -429,13 +588,6 @@
       btnCompartilhar.addEventListener('click', async () => {
         navigator.clipboard.writeText(window.location.href);
         alert('Link da obra copiado!');
-
-        if (user) {
-          await supabaseClient.from('compartilhamentos').insert([{
-            user_id: user.id,
-            obra_id: obraId
-          }]);
-        }
       });
     }
   });
