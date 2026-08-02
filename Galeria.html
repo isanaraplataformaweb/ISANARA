@@ -87,13 +87,62 @@
         .galeria-topo {
             display: flex;
             flex-direction: column;    
-            align-items: flex-start;   
             gap: 20px;
         }
     
         .galeria-topo h1 {
             font-size: 32px;
             color: #222;
+        }
+
+        /* Estilo da Barra de Pesquisa de Usuários */
+        .barra-pesquisa-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        .barra-pesquisa-container input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            background: white;
+        }
+        .resultados-pesquisa {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-top: 5px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+        .resultado-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background .2s;
+        }
+        .resultado-item:hover {
+            background: #f8f9fa;
+        }
+        .resultado-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .card {
@@ -229,6 +278,12 @@
         <div class="galeria-topo">
             <h1>Galeria de Arte</h1>
             
+            <!-- Barra de Pesquisa de Usuários -->
+            <div class="barra-pesquisa-container">
+                <input type="text" id="inputPesquisaPerfil" placeholder="🔍 Pesquisar perfis de artistas..." autocomplete="off">
+                <div id="resultadosPesquisa" class="resultados-pesquisa"></div>
+            </div>
+            
             <div class="card">
                 <a href="Postar-Obra.html" class="btn-publish">Publicar Nova Obra</a>
                 <a href="Postar-evento.html" class="btn-publish">Publicar Novo Lembrete</a>
@@ -261,6 +316,7 @@
         imagem_url,
         created_at,
         perfis (
+          id,
           nome,
           foto_perfil
         )
@@ -280,7 +336,7 @@
     galeriaContainer.innerHTML = '';
     
     obras.forEach(obra => {
-      const autor = obra.perfis || { nome: 'Artista Anônimo', foto_perfil: 'https://via.placeholder.com/40' };
+      const autor = obra.perfis || { id: '', nome: 'Artista Anônimo', foto_perfil: 'https://via.placeholder.com/40' };
       
       const cardHTML = `
         <div class="obra-card" onclick="window.location.href='Obras.html?id=${obra.id}'" style="cursor:pointer;">
@@ -288,7 +344,7 @@
           <div class="conteudo">
             <h3>${obra.titulo}</h3>
             <p class="descricao">${obra.descricao || ''}</p>
-            <div class="autor-tag">
+            <div class="autor-tag" onclick="event.stopPropagation(); window.location.href='Perfil-Publico.html?id=${autor.id}'" style="cursor:pointer;">
               <img src="${autor.foto_perfil || 'https://via.placeholder.com/40'}" class="autor-avatar" alt="Avatar">
               <span>${autor.nome}</span>
             </div>
@@ -297,7 +353,50 @@
       `;
       galeriaContainer.innerHTML += cardHTML;
     });
-  }); // 
+
+    // Lógica da Barra de Pesquisa de Usuários
+    const inputPesquisa = document.getElementById('inputPesquisaPerfil');
+    const containerResultados = document.getElementById('resultadosPesquisa');
+
+    inputPesquisa.addEventListener('input', async (e) => {
+      const termo = e.target.value.trim();
+      if (termo.length < 2) {
+        containerResultados.style.display = 'none';
+        containerResultados.innerHTML = '';
+        return;
+      }
+
+      const { data: perfis, error: errPerfil } = await supabaseClient
+        .from('perfis')
+        .select('id, nome, foto_perfil')
+        .ilike('nome', `%${termo}%`)
+        .limit(5);
+
+      if (errPerfil || !perfis || perfis.length === 0) {
+        containerResultados.style.display = 'block';
+        containerResultados.innerHTML = '<div style="padding: 10px; font-size: 14px; color: #777; text-align: center;">Nenhum perfil encontrado</div>';
+        return;
+      }
+
+      containerResultados.style.display = 'block';
+      containerResultados.innerHTML = '';
+      perfis.forEach(perfil => {
+        containerResultados.innerHTML += `
+          <a href="Perfil-Publico.html?id=${perfil.id}" class="resultado-item">
+            <img src="${perfil.foto_perfil || 'https://via.placeholder.com/35'}" class="resultado-avatar">
+            <span style="font-weight: 600; font-size: 14px;">${perfil.nome}</span>
+          </a>
+        `;
+      });
+    });
+
+    // Fechar resultados ao clicar fora
+    document.addEventListener('click', (e) => {
+      if (!inputPesquisa.contains(e.target) && !containerResultados.contains(e.target)) {
+        containerResultados.style.display = 'none';
+      }
+    });
+  });
 </script>
 
 </body>
