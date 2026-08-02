@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes das criações</title>
+    <title>Detalhes da Obra</title>
     <style>
         * {
             margin: 0;
@@ -85,14 +85,13 @@
         }
 
         .visualizacao-arte {
-            background: white;
+            background: #000;
             border-radius: 18px;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,.05);
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #000;
             height: fit-content;
         }
         .visualizacao-arte img {
@@ -403,234 +402,248 @@
         </div>
     </div>
 
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Z3JqbXN5Y2JwbG9rbGlvdnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODM1OTEsImV4cCI6MjA5OTk1OTU5MX0.KIKQ9QjspCik0QY6TGoT_mHcsK3Y_IeXcmqUo0cVhw4'; 
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Z3JqbXN5Y2JwbG9rbGlvdnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODM1OTEsImV4cCI6MjA5OTk1OTU5MX0.KIKQ9QjspCik0QY6TGoT_mHcsK3Y_IeXcmqUo0cVhw4'; 
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const obraId = urlParams.get('id');
+      const urlParams = new URLSearchParams(window.location.search);
+      const obraId = urlParams.get('id');
 
-  document.addEventListener('DOMContentLoaded', async () => {
-    if (!obraId) {
-      alert('Obra não encontrada!');
-      window.location.href = 'Galeria.html';
-      return;
-    }
-
-    const { data: { user } } = await supabaseClient.auth.getUser();
-
-    const { data: obra, error } = await supabaseClient
-      .from('obras')
-      .select('*, perfis(id, nome, foto_perfil)')
-      .eq('id', obraId)
-      .single();
-
-    if (error || !obra) {
-      document.getElementById('mensagemStatus').textContent = 'Erro ao carregar detalhes da obra.';
-      return;
-    }
-
-    // Preenchendo dados na tela
-    document.getElementById('tituloObra').textContent = obra.titulo;
-    document.getElementById('descricaoObra').textContent = obra.descricao || 'Sem descrição.';
-    document.getElementById('imgObra').src = obra.imagem_url;
-    document.getElementById('nomeArtista').textContent = obra.perfis?.nome || 'Artista Anônimo';
-    document.getElementById('avatarArtista').src = obra.perfis?.foto_perfil || 'https://via.placeholder.com/50';
-    
-    if (obra.perfis?.id) {
-      document.getElementById('linkPerfilArtista').href = `Perfil-Publico.html?id=${obra.perfis.id}`;
-    }
-
-    if (obra.created_at) {
-        const dataFormatada = new Date(obra.created_at).toLocaleDateString('pt-BR');
-        document.getElementById('dataObra').textContent = `Publicado em: ${dataFormatada}`;
-    }
-
-    // Verificar se o usuário logado é o dono da obra para mostrar Editar/Excluir
-    if (user && user.id === obra.user_id) {
-      document.getElementById('acoesDonoContainer').classList.remove('escondido');
-    }
-
-    // Verificar sistema de Seguir perfil do autor
-    if (user && obra.perfis?.id && user.id !== obra.perfis.id) {
-      const btnSeguir = document.getElementById('btnSeguirArtista');
-      btnSeguir.classList.remove('escondido');
-
-      // Checar se já segue
-      const { data: seguidorExistente } = await supabaseClient
-        .from('seguidores')
-        .select('id')
-        .eq('seguidor_id', user.id)
-        .eq('seguido_id', obra.perfis.id)
-        .maybeSingle();
-
-      if (seguidorExistente) {
-        btnSeguir.textContent = 'Seguindo';
-        btnSeguir.classList.add('seguindo');
-      }
-
-      btnSeguir.addEventListener('click', async () => {
-        if (btnSeguir.textContent === 'Seguir') {
-          await supabaseClient.from('seguidores').insert([{ seguidor_id: user.id, seguido_id: obra.perfis.id }]);
-          btnSeguir.textContent = 'Seguindo';
-          btnSeguir.classList.add('seguindo');
-        } else {
-          await supabaseClient.from('seguidores').delete().eq('seguidor_id', user.id).eq('seguido_id', obra.perfis.id);
-          btnSeguir.textContent = 'Seguir';
-          btnSeguir.classList.remove('seguindo');
+      document.addEventListener('DOMContentLoaded', async () => {
+        if (!obraId) {
+          alert('Obra não encontrada!');
+          window.location.href = 'Galeria.html';
+          return;
         }
-      });
-    }
 
-    document.getElementById('mensagemStatus').classList.add('escondido');
-    document.getElementById('conteudoObra').classList.remove('escondido');
+        const { data: { user } } = await supabaseClient.auth.getUser();
 
-    // Funcionalidade de Edição
-    document.getElementById('btnEditarObraModal').addEventListener('click', () => {
-      document.getElementById('editTituloObra').value = obra.titulo;
-      document.getElementById('editDescricaoObra').value = obra.descricao || '';
-      document.getElementById('modalEditarObra').style.display = 'flex';
-    });
+        const { data: obra, error } = await supabaseClient
+          .from('obras')
+          .select('*, perfis(id, nome, foto_perfil)')
+          .eq('id', obraId)
+          .single();
 
-    document.getElementById('fecharModalObra').addEventListener('click', () => {
-      document.getElementById('modalEditarObra').style.display = 'none';
-    });
-
-    document.getElementById('formEditarObra').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const novoTitulo = document.getElementById('editTituloObra').value;
-      const novaDescricao = document.getElementById('editDescricaoObra').value;
-
-      const { error: errUpdate } = await supabaseClient
-        .from('obras')
-        .update({ titulo: novoTitulo, descricao: novaDescricao })
-        .eq('id', obraId);
-
-      if (errUpdate) {
-        alert('Erro ao atualizar obra: ' + errUpdate.message);
-      } else {
-        alert('Obra atualizada com sucesso!');
-        window.location.reload();
-      }
-    });
-
-    // Funcionalidade de Exclusão
-    document.getElementById('btnExcluirObra').addEventListener('click', async () => {
-      if (!confirm('Tem certeza que deseja excluir esta obra permanentemente?')) return;
-
-      if (obra.imagem_url) {
-        try {
-          const partesUrl = obra.imagem_url.split('/');
-          const nomeArquivo = partesUrl[partesUrl.length - 1];
-          await supabaseClient.storage.from('obras').remove([nomeArquivo]);
-        } catch (err) {
-          console.error('Erro ao excluir imagem do storage:', err);
+        if (error || !obra) {
+          document.getElementById('mensagemStatus').textContent = 'Erro ao carregar detalhes da obra.';
+          return;
         }
-      }
 
-      const { error: errDel } = await supabaseClient.from('obras').delete().eq('id', obraId);
-      if (errDel) {
-        alert('Erro ao excluir obra: ' + errDel.message);
-      } else {
-        alert('Obra excluída com sucesso!');
-        window.location.href = 'Galeria.html';
-      }
-    });
-
-    atualizarCurtidas();
-    const btnCurtir = document.getElementById('btnCurtir');
-    if (btnCurtir) {
-      btnCurtir.addEventListener('click', async () => {
-        if (!user) return alert('Faça login para curtir!');
+        // Preenchendo dados na tela
+        document.getElementById('tituloObra').textContent = obra.titulo;
+        document.getElementById('descricaoObra').textContent = obra.descricao || 'Sem descrição.';
+        document.getElementById('imgObra').src = obra.imagem_url;
+        document.getElementById('nomeArtista').textContent = obra.perfis?.nome || 'Artista Anônimo';
+        document.getElementById('avatarArtista').src = obra.perfis?.foto_perfil || 'https://via.placeholder.com/50';
         
-        const { data: existente } = await supabaseClient
-          .from('curtidas')
-          .select('id')
-          .eq('user_id', user.id)
-          .eq('obra_id', obraId)
-          .maybeSingle();
-
-        if (existente) {
-          await supabaseClient.from('curtidas').delete().eq('id', existente.id);
-        } else {
-          await supabaseClient.from('curtidas').insert([{ user_id: user.id, obra_id: obraId }]);
+        if (obra.perfis?.id) {
+          document.getElementById('linkPerfilArtista').href = `Perfil-Publico.html?id=${obra.perfis.id}`;
         }
-        atualizarCurtidas();
-      });
-    }
 
-    carregarComentarios();
-    const formComentario = document.getElementById('formComentario');
-    if (formComentario) {
-      formComentario.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!user) return alert('Faça login para comentar!');
-        
-        const inputComentario = document.getElementById('inputComentario');
-        const conteudo = inputComentario.value.trim();
-        if (!conteudo) return;
+        if (obra.created_at) {
+            const dataFormatada = new Date(obra.created_at).toLocaleDateString('pt-BR');
+            document.getElementById('dataObra').textContent = `Publicado em: ${dataFormatada}`;
+        }
 
-        await supabaseClient.from('comentarios').insert([{
-          user_id: user.id,
-          obra_id: obraId,
-          conteudo: conteudo
-        }]);
+        // Verificar se o usuário logado é o dono da obra para mostrar Editar/Excluir
+        if (user && user.id === obra.user_id) {
+          document.getElementById('acoesDonoContainer').classList.remove('escondido');
+        }
 
-        inputComentario.value = '';
-        carregarComentarios();
-      });
-    }
+        // Verificar sistema de Seguir perfil do autor (usando as colunas exatas: seguidor e seguindo)
+        if (user && obra.perfis?.id && user.id !== obra.perfis.id) {
+          const btnSeguir = document.getElementById('btnSeguirArtista');
+          btnSeguir.classList.remove('escondido');
 
-    const btnCompartilhar = document.getElementById('btnCompartilhar');
-    if (btnCompartilhar) {
-      btnCompartilhar.addEventListener('click', async () => {
-        navigator.clipboard.writeText(window.location.href);
-        alert('Link da obra copiado!');
-      });
-    }
-  });
+          const { data: seguidorExistente } = await supabaseClient
+            .from('seguidores')
+            .select('id')
+            .eq('seguidor', user.id)
+            .eq('seguindo', obra.perfis.id)
+            .maybeSingle();
 
-  async function atualizarCurtidas() {
-    const { count } = await supabaseClient
-      .from('curtidas')
-      .select('id', { count: 'exact' })
-      .eq('obra_id', obraId);
-    
-    const countSpan = document.getElementById('curtidasCount');
-    if (countSpan) countSpan.textContent = count || 0;
-  }
+          if (seguidorExistente) {
+            btnSeguir.textContent = 'Seguindo';
+            btnSeguir.classList.add('seguindo');
+          }
 
-  async function carregarComentarios() {
-    const comentariosContainer = document.getElementById('comentariosContainer');
-    if (!comentariosContainer) return;
+          btnSeguir.addEventListener('click', async () => {
+            if (btnSeguir.textContent === 'Seguir') {
+              const { error: errSeguir } = await supabaseClient
+                .from('seguidores')
+                .insert([{ seguidor: user.id, seguindo: obra.perfis.id }]);
 
-    const { data: comentarios } = await supabaseClient
-      .from('comentarios')
-      .select('*, perfis(nome, foto_perfil)')
-      .eq('obra_id', obraId)
-      .order('created_at', { ascending: true });
+              if (!errSeguir) {
+                btnSeguir.textContent = 'Seguindo';
+                btnSeguir.classList.add('seguindo');
+              } else {
+                alert('Erro ao seguir usuário: ' + errSeguir.message);
+              }
+            } else {
+              const { error: errDeixar } = await supabaseClient
+                .from('seguidores')
+                .delete()
+                .eq('seguidor', user.id)
+                .eq('seguindo', obra.perfis.id);
 
-    comentariosContainer.innerHTML = '';
-    
-    if (comentarios && comentarios.length > 0) {
-        comentarios.forEach(c => {
-          comentariosContainer.innerHTML += `
-            <div class="comentario-item">
-              <img src="${c.perfis?.foto_perfil || 'https://via.placeholder.com/30'}" class="comentario-avatar">
-              <div>
-                <strong>${c.perfis?.nome || 'Usuário'}:</strong>
-                <span>${c.conteudo}</span>
-              </div>
-            </div>
-          `;
+              if (!errDeixar) {
+                btnSeguir.textContent = 'Seguir';
+                btnSeguir.classList.remove('seguindo');
+              } else {
+                alert('Erro ao deixar de seguir: ' + errDeixar.message);
+              }
+            }
+          });
+        }
+
+        document.getElementById('mensagemStatus').classList.add('escondido');
+        document.getElementById('conteudoObra').classList.remove('escondido');
+
+        // Funcionalidade de Edição
+        document.getElementById('btnEditarObraModal').addEventListener('click', () => {
+          document.getElementById('editTituloObra').value = obra.titulo;
+          document.getElementById('editDescricaoObra').value = obra.descricao || '';
+          document.getElementById('modalEditarObra').style.display = 'flex';
         });
-    } else {
-        comentariosContainer.innerHTML = '<p style="color: #999; font-size: 14px;">Seja o primeiro a comentar.</p>';
-    }
-  }
-</script>
 
+        document.getElementById('fecharModalObra').addEventListener('click', () => {
+          document.getElementById('modalEditarObra').style.display = 'none';
+        });
+
+        document.getElementById('formEditarObra').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const novoTitulo = document.getElementById('editTituloObra').value;
+          const novaDescricao = document.getElementById('editDescricaoObra').value;
+
+          const { error: errUpdate } = await supabaseClient
+            .from('obras')
+            .update({ titulo: novoTitulo, descricao: novaDescricao })
+            .eq('id', obraId);
+
+          if (errUpdate) {
+            alert('Erro ao atualizar obra: ' + errUpdate.message);
+          } else {
+            alert('Obra atualizada com sucesso!');
+            window.location.reload();
+          }
+        });
+
+        // Funcionalidade de Exclusão
+        document.getElementById('btnExcluirObra').addEventListener('click', async () => {
+          if (!confirm('Tem certeza que deseja excluir esta obra permanentemente?')) return;
+
+          if (obra.imagem_url) {
+            try {
+              const partesUrl = obra.imagem_url.split('/');
+              const nomeArquivo = partesUrl[partesUrl.length - 1];
+              await supabaseClient.storage.from('obras').remove([nomeArquivo]);
+            } catch (err) {
+              console.error('Erro ao excluir imagem do storage:', err);
+            }
+          }
+
+          const { error: errDel } = await supabaseClient.from('obras').delete().eq('id', obraId);
+          if (errDel) {
+            alert('Erro ao excluir obra: ' + errDel.message);
+          } else {
+            alert('Obra excluída com sucesso!');
+            window.location.href = 'Galeria.html';
+          }
+        });
+
+        atualizarCurtidas();
+        const btnCurtir = document.getElementById('btnCurtir');
+        if (btnCurtir) {
+          btnCurtir.addEventListener('click', async () => {
+            if (!user) return alert('Faça login para curtir!');
+            
+            const { data: existente } = await supabaseClient
+              .from('curtidas')
+              .select('id')
+              .eq('user_id', user.id)
+              .eq('obra_id', obraId)
+              .maybeSingle();
+
+            if (existente) {
+              await supabaseClient.from('curtidas').delete().eq('id', existente.id);
+            } else {
+              await supabaseClient.from('curtidas').insert([{ user_id: user.id, obra_id: obraId }]);
+            }
+            atualizarCurtidas();
+          });
+        }
+
+        carregarComentarios();
+        const formComentario = document.getElementById('formComentario');
+        if (formComentario) {
+          formComentario.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!user) return alert('Faça login para comentar!');
+            
+            const inputComentario = document.getElementById('inputComentario');
+            const conteudo = inputComentario.value.trim();
+            if (!conteudo) return;
+
+            await supabaseClient.from('comentarios').insert([{
+              user_id: user.id,
+              obra_id: obraId,
+              conteudo: conteudo
+            }]);
+
+            inputComentario.value = '';
+            carregarComentarios();
+          });
+        }
+
+        const btnCompartilhar = document.getElementById('btnCompartilhar');
+        if (btnCompartilhar) {
+          btnCompartilhar.addEventListener('click', async () => {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Link da obra copiado!');
+          });
+        }
+      });
+
+      async function atualizarCurtidas() {
+        const { count } = await supabaseClient
+          .from('curtidas')
+          .select('id', { count: 'exact' })
+          .eq('obra_id', obraId);
+        
+        const countSpan = document.getElementById('curtidasCount');
+        if (countSpan) countSpan.textContent = count || 0;
+      }
+
+      async function carregarComentarios() {
+        const comentariosContainer = document.getElementById('comentariosContainer');
+        if (!comentariosContainer) return;
+
+        const { data: comentarios } = await supabaseClient
+          .from('comentarios')
+          .select('*, perfis(nome, foto_perfil)')
+          .eq('obra_id', obraId)
+          .order('created_at', { ascending: true });
+
+        comentariosContainer.innerHTML = '';
+        
+        if (comentarios && comentarios.length > 0) {
+            comentarios.forEach(c => {
+              comentariosContainer.innerHTML += `
+                <div class="comentario-item">
+                  <img src="${c.perfis?.foto_perfil || 'https://via.placeholder.com/30'}" class="comentario-avatar">
+                  <div>
+                    <strong>${c.perfis?.nome || 'Usuário'}:</strong>
+                    <span>${c.conteudo}</span>
+                  </div>
+                </div>
+              `;
+            });
+        } else {
+            comentariosContainer.innerHTML = '<p style="color: #999; font-size: 14px;">Seja o primeiro a comentar.</p>';
+        }
+      }
+    </script>
 </body>
 </html>
