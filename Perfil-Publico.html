@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Artista</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        header {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, #081c3d 0%, #1e5eff 45%, #b46cff 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,.08);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        header img {
+            height: 40px;
+            width: auto;
+            mix-blend-mode: screen;
+            margin-left: 20px;
+        }
+        nav {
+            display: flex;
+            gap: 35px;
+            margin: auto;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: .3s;
+            position: relative;
+        }
+        nav a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 3px;
+            left: 0;
+            bottom: -5px;
+            background: white;
+            transition: .3s;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .container-perfil {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .cabecalho-perfil {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(0,0,0,.05);
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .perfil-esquerda {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .cabecalho-perfil img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #6c63ff;
+        }
+        .info-perfil h1 {
+            font-size: 26px;
+            color: #222;
+            margin-bottom: 8px;
+        }
+        .info-perfil p {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 12px;
+            max-width: 500px;
+        }
+        .estatisticas-seguidores {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .estatisticas-seguidores strong {
+            color: #222;
+        }
+
+        .btn-seguir-perfil {
+            background: #6c63ff;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: .2s;
+        }
+        .btn-seguir-perfil:hover { background: #5148d7; }
+        .btn-seguir-perfil.seguindo { background: #e0e0e0; color: #333; }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .grid-obras-usuario {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+        }
+        .card-obra-usuario {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .card-obra-usuario:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.1);
+        }
+        .card-obra-usuario img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-obra-usuario div {
+            padding: 18px;
+        }
+        .card-obra-usuario h3 {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .status-msg {
+            text-align: center;
+            color: #777;
+            font-size: 16px;
+            padding: 40px;
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+        .escondido { display: none !important; }
+
+        @media(max-width: 768px) {
+            .cabecalho-perfil { flex-direction: column; align-items: flex-start; }
+            header { flex-direction: column; gap: 15px; height: auto; padding: 15px 0; }
+            nav { flex-wrap: wrap; justify-content: center; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="Index.html"><img src="1.png" alt="Logo"></a>
+        <nav>
+            <a href="Index.html">Início</a>
+            <a href="Galeria.html">Galeria</a>
+            <a href="Perfil.html">Perfil</a>
+            <a href="Comunicações.html">Comunicações</a>
+        </nav>
+    </header>
+
+    <div class="container-perfil">
+        <div id="dadosPerfil" class="cabecalho-perfil">
+            <p class="status-msg">Carregando perfil...</p>
+        </div>
+
+        <h2>Obras Publicadas pelo Artista</h2>
+        <div id="gridObrasUsuario" class="grid-obras-usuario">
+            <p class="status-msg">Carregando obras...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Z3JqbXN5Y2JwbG9rbGlvdnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODM1OTEsImV4cCI6MjA5OTk1OTU5MX0.KIKQ9QjspCik0QY6TGoT_mHcsK3Y_IeXcmqUo0cVhw4'; 
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const perfilId = urlParams.get('id');
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        if (!perfilId) {
+          alert('Perfil não encontrado!');
+          window.location.href = 'Galeria.html';
+          return;
+        }
+
+        const { data: { user } } = await supabaseClient.auth.getUser();
+
+        // 1. Buscar dados do perfil do artista na tabela 'perfis'
+        const { data: perfil, error } = await supabaseClient
+          .from('perfis')
+          .select('*')
+          .eq('id', perfilId)
+          .single();
+
+        const containerPerfil = document.getElementById('dadosPerfil');
+        if (error || !perfil) {
+          containerPerfil.innerHTML = '<p class="status-msg">Artista não encontrado.</p>';
+          return;
+        }
+
+        // 2. Contar seguidores e seguindo da tabela 'seguidores' (usando 'seguindo' e 'seguidor')
+        const { count: totalSeguidores } = await supabaseClient
+          .from('seguidores')
+          .select('*', { count: 'exact', head: true })
+          .eq('seguindo', perfilId);
+
+        const { count: totalSeguindo } = await supabaseClient
+          .from('seguidores')
+          .select('*', { count: 'exact', head: true })
+          .eq('seguidor', perfilId);
+
+        containerPerfil.innerHTML = `
+          <div class="perfil-esquerda">
+            <img src="${perfil.foto_perfil || 'https://via.placeholder.com/100'}" alt="Foto de Perfil">
+            <div class="info-perfil">
+              <h1>${perfil.nome || 'Nome não informado'}</h1>
+              <p>${perfil.bio || 'Este usuário ainda não adicionou uma biografia.'}</p>
+              <div class="estatisticas-seguidores">
+                <span><strong>${totalSeguidores || 0}</strong> Seguidores</span>
+                <span><strong>${totalSeguindo || 0}</strong> Seguindo</span>
+              </div>
+            </div>
+          </div>
+          <button id="btnSeguirPerfilPagina" class="btn-seguir-perfil escondido">Seguir</button>
+        `;
+
+        // 3. Lógica do botão de Seguir (se o usuário estiver logado e não for o próprio dono do perfil)
+        if (user && user.id !== perfilId) {
+          const btnSeguirPerfil = document.getElementById('btnSeguirPerfilPagina');
+          btnSeguirPerfil.classList.remove('escondido');
+
+          const { data: jaSegue } = await supabaseClient
+            .from('seguidores')
+            .select('id')
+            .eq('seguidor', user.id)
+            .eq('seguindo', perfilId)
+            .maybeSingle();
+
+          if (jaSegue) {
+            btnSeguirPerfil.textContent = 'Seguindo';
+            btnSeguirPerfil.classList.add('seguindo');
+          }
+
+          btnSeguirPerfil.addEventListener('click', async () => {
+            if (btnSeguirPerfil.textContent === 'Seguir') {
+              const { error: errSeguir } = await supabaseClient
+                .from('seguidores')
+                .insert([{ seguidor: user.id, seguindo: perfilId }]);
+
+              if (!errSeguir) {
+                btnSeguirPerfil.textContent = 'Seguindo';
+                btnSeguirPerfil.classList.add('seguindo');
+              } else {
+                alert('Erro ao seguir usuário: ' + errSeguir.message);
+              }
+            } else {
+              const { error: errDeixar } = await supabaseClient
+                .from('seguidores')
+                .delete()
+                .eq('seguidor', user.id)
+                .eq('seguindo', perfilId);
+
+              if (!errDeixar) {
+                btnSeguirPerfil.textContent = 'Seguir';
+                btnSeguirPerfil.classList.remove('seguindo');
+              } else {
+                alert('Erro ao deixar de seguir: ' + errDeixar.message);
+              }
+            }
+          });
+        }
+
+        // 4. Buscar obras publicadas pelo artista
+        const gridObras = document.getElementById('gridObrasUsuario');
+        const { data: obras } = await supabaseClient
+          .from('obras')
+          .select('*')
+          .eq('user_id', perfilId)
+          .order('created_at', { ascending: false });
+
+        if (!obras || obras.length === 0) {
+          gridObras.innerHTML = '<p class="status-msg">Este artista ainda não publicou nenhuma obra.</p>';
+          return;
+        }
+
+        gridObras.innerHTML = '';
+        obras.forEach(obra => {
+          gridObras.innerHTML += `
+            <div class="card-obra-usuario" onclick="window.location.href='Obras.html?id=${obra.id}'">
+              <img src="${obra.imagem_url}" alt="${obra.titulo}">
+              <div>
+                <h3>${obra.titulo}</h3>
+              </div>
+            </div>
+          `;
+        });
+      });
+    </script>
+</body>
+</html>
