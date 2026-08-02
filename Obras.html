@@ -460,8 +460,8 @@
           const { data: seguidorExistente } = await supabaseClient
             .from('seguidores')
             .select('id')
-            .eq('seguidor', user.id)
-            .eq('seguindo', obra.perfis.id)
+            .eq('seguidor_id', user.id)
+            .eq('seguindo_id', obra.perfis.id)
             .maybeSingle();
 
           if (seguidorExistente) {
@@ -473,7 +473,7 @@
             if (btnSeguir.textContent === 'Seguir') {
               const { error: errSeguir } = await supabaseClient
                 .from('seguidores')
-                .insert([{ seguidor: user.id, seguindo: obra.perfis.id }]);
+                .insert([{ seguidor_id: user.id, seguindo_id: obra.perfis.id }]);
 
               if (!errSeguir) {
                 btnSeguir.textContent = 'Seguindo';
@@ -485,8 +485,8 @@
               const { error: errDeixar } = await supabaseClient
                 .from('seguidores')
                 .delete()
-                .eq('seguidor', user.id)
-                .eq('seguindo', obra.perfis.id);
+                .eq('seguidor_id', user.id)
+                .eq('seguindo_id', obra.perfis.id);
 
               if (!errDeixar) {
                 btnSeguir.textContent = 'Seguir';
