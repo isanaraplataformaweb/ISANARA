@@ -96,8 +96,7 @@
             height: 100%;
             object-fit: cover;
         }
-
-       
+        
         .perfil {
             max-width: 1200px;
             margin: auto;
@@ -195,7 +194,6 @@
             color: #666;
             font-size: 18px;
         }
-
     
         .acoes {
             display: flex;
@@ -232,8 +230,7 @@
             color: #333;
             font-size: 30px;
         }
-
-       
+        
         .grid-obras {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -397,7 +394,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     let targetUserId = urlParams.get('id');
 
-    const { data: authData, error: authError } = await supabaseClient.auth.getUser();
+    const { data: authData } = await supabaseClient.auth.getUser();
     const user = authData?.user;
 
     if (!targetUserId) {
@@ -408,6 +405,7 @@
       targetUserId = user.id; 
     }
 
+    // 1. Buscar dados do perfil
     const { data: perfil, error: perfilError } = await supabaseClient
       .from('perfis')
       .select('*')
@@ -418,16 +416,13 @@
       console.error('Erro ao buscar perfil:', perfilError);
       document.getElementById('nomeUsuario').textContent = 'Usuário não encontrado';
       document.getElementById('biografia').textContent = '';
-   } else if (perfil) {
-
+    } else if (perfil) {
       document.getElementById('nomeUsuario').textContent = perfil.nome || 'Usuário Sem Nome';
       document.getElementById('biografia').textContent = perfil.biografia || 'Sem biografia cadastrada.';
       
-      // Inserindo os dados de localidade
       document.getElementById('cidade').textContent = perfil.cidade || 'Cidade não informada';
       document.getElementById('pais').textContent = perfil.pais || 'País não informado';
       
-      // Configurando o botão do Instagram
       const linkInsta = document.getElementById('instagram');
       if (perfil.instagram) {
           linkInsta.href = `https://instagram.com/${perfil.instagram.replace('@', '')}`;
@@ -436,7 +431,6 @@
           linkInsta.style.display = 'none';
       }
 
-      // Configurando o botão do Site
       const linkSite = document.getElementById('site');
       if (perfil.site) {
           linkSite.href = perfil.site;
@@ -445,7 +439,6 @@
           linkSite.style.display = 'none';
       }
 
-      // Inserindo as fotos
       if (perfil.foto_perfil) {
           document.getElementById('fotoPerfil').src = perfil.foto_perfil;
       }
@@ -453,7 +446,59 @@
           document.getElementById('fotoCapa').src = perfil.foto_capa;
       }
     }
-});
+
+    // 2. Buscar e renderizar as Obras Publicadas deste usuário
+    const { data: obras, error: obrasError } = await supabaseClient
+      .from('obras')
+      .select('*')
+      .eq('user_id', targetUserId);
+
+    const listaObrasDiv = document.getElementById('listaObras');
+    const quantidadeObrasH2 = document.getElementById('quantidadeObras');
+
+    if (!obrasError && obras) {
+      quantidadeObrasH2.textContent = obras.length;
+      
+      if (obras.length === 0) {
+        listaObrasDiv.innerHTML = '<p style="color: #777; grid-column: 1 / -1;">Nenhuma obra publicada ainda.</p>';
+      } else {
+        listaObrasDiv.innerHTML = '';
+        obras.forEach(obra => {
+          const titulo = obra.titulo || 'Obra sem título';
+          const descricao = obra.descricao || '';
+          const imagem = obra.imagem_url || 'https://via.placeholder.com/280x220';
+
+          const card = document.createElement('div');
+          card.className = 'obra-card';
+          card.innerHTML = `
+            <img src="${imagem}" alt="${titulo}">
+            <div class="conteudo">
+              <h3>${titulo}</h3>
+              <p>${descricao}</p>
+            </div>
+          `;
+          listaObrasDiv.appendChild(card);
+        });
+      }
+    } else {
+      quantidadeObrasH2.textContent = '0';
+      listaObrasDiv.innerHTML = '<p style="color: #777; grid-column: 1 / -1;">Erro ao carregar as obras.</p>';
+    }
+
+    // 3. Buscar contagem de Seguidores e Seguindo
+    const { count: totalSeguidores } = await supabaseClient
+      .from('seguidores')
+      .select('*', { count: 'exact', head: true })
+      .eq('seguindo_id', targetUserId);
+
+    const { count: totalSeguindo } = await supabaseClient
+      .from('seguidores')
+      .select('*', { count: 'exact', head: true })
+      .eq('seguidor_id', targetUserId);
+
+    document.getElementById('seguidores').textContent = totalSeguidores || 0;
+    document.getElementById('seguindo').textContent = totalSeguindo || 0;
+  });
 </script>
 
 </body>
