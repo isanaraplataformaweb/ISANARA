@@ -205,7 +205,7 @@
             </div>
             <div class="card-total">
                 <h2 id="totalCompartilhamentos">0</h2>
-                <p>Total de Compartilhar</p>
+                <p>Total de Compartilhamentos</p>
             </div>
         </div>
 
@@ -234,7 +234,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-
   const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Z3JqbXN5Y2JwbG9rbGlvdnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODM1OTEsImV4cCI6MjA5OTk1OTU5MX0.KIKQ9QjspCik0QY6TGoT_mHcsK3Y_IeXcmqUo0cVhw4'; 
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -276,15 +275,13 @@
     corpoTabela.innerHTML = ''; 
 
     minhasObras.forEach(obra => {
-
         const qtdCurtidas = listaCurtidas.filter(c => c.obra_id === obra.id).length;
         const qtdComentarios = listaComentarios.filter(c => c.obra_id === obra.id).length;
         const qtdCompartilhamentos = listaCompartilhamentos.filter(c => c.obra_id === obra.id).length;
 
-        // Verifica os nomes das colunas de título e imagem no seu banco de dados
-        // Pode ser necessário trocar 'obra.titulo' ou 'obra.imagem_url' pelo nome correto que está no seu Supabase
-        const tituloObra = obra.titulo || obra.nome || 'Obra sem título';
-        const urlImagem = obra.imagem_url || obra.foto || 'https://via.placeholder.com/50';
+        // Mapeamento correto baseado na estrutura do banco (colunas 'titulo' e 'imagem_url')
+        const tituloObra = obra.titulo || 'Obra sem título';
+        const urlImagem = obra.imagem_url || 'https://via.placeholder.com/50';
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
