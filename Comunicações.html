@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comunicaçoes - ISANARA</title>
+<title>Comunicações - ISANARA</title>
 <style>
     
 * {
@@ -143,7 +143,7 @@ nav a.ativo::after {
     font-weight: 900;
     letter-spacing: 3px;
     margin-bottom: 15px;
-    background:#ffffff9f;
+    background: #ffffff9f;
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -152,7 +152,7 @@ nav a.ativo::after {
 
 .hero-about p.subtitle {
     font-size: 1.25rem;
-    color: Gold;
+    color: gold;
     font-style: italic;
     line-height: 1.6;
 }
@@ -249,7 +249,8 @@ footer p {
     color: #ffffff;
 }
 
-@media (max-width: 480px) {
+/* RESPONSIVO MOBILE APRIMORADO */
+@media (max-width: 768px) {
     header {
         padding: 15px 20px;
         flex-direction: column;
@@ -257,12 +258,40 @@ footer p {
         gap: 15px;
     }
 
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    nav a {
+        font-size: 15px;
+    }
+
+    .container {
+        padding: 40px 15px 80px;
+        gap: 30px;
+    }
+
     .hero-about h1 {
         font-size: 2.8rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-about p.subtitle {
+        font-size: 1.1rem;
     }
 
     .glass-panel {
-        padding: 25px;
+        padding: 25px 20px;
+    }
+
+    .glass-panel h2 {
+        font-size: 1.6rem;
+    }
+
+    .glass-panel p {
+        font-size: 1rem;
     }
 }
 </style>
@@ -303,7 +332,6 @@ footer p {
                 capacidade criativa de nossas mentes, dedicamos esse trabalho aos 
                 mais expressivos e apoiadores dos movimentos artísticos independentes 
                 e pouco visibilizados em Mossoró".
-
             </p>
             <p>
                 Nosso propósito é conectar talentos locais, facilitar o aprendizado entre 
@@ -316,9 +344,9 @@ footer p {
         <section class="glass-panel">
             <h2>Nossa História</h2>
             <p>
-                A caminhada do ISANARA começou nos corredoresdo Abel, com pinturas inacabadas
+                A caminhada do ISANARA começou nos corredores do Abel, com pinturas inacabadas
                 e depois prosseguiu com observações mais profundas sobre a realidade da arte em
-                Mossoró e suas conjecturas socias.
+                Mossoró e suas conjecturas sociais.
             </p>
 
             <div class="history-timeline">
@@ -329,7 +357,7 @@ footer p {
                 </div>
                 <div class="timeline-card">
                     <h4>🎨 A Conexão</h4>
-                    <p>Compreenção do que fazer com a noção dessa ótica e agregar as artes 
+                    <p>Compreensão do que fazer com a noção dessa ótica e agregar as artes 
                         na evolução de espaços para uma comunidade integrada.</p>
                 </div>
                 <div class="timeline-card">
