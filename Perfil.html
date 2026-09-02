@@ -298,24 +298,43 @@
             }
         }
 
-        @media(max-width: 480px) {
-            .perfil {
-                padding: 20px;
-            }
-            .informacoes h1 {
-                font-size: 28px;
-            }
-            .capa {
-                height: 220px;
-            }
-            .card h2 {
-                font-size: 34px;
-            }
-            .btn-editar {
-                width: 100%;
-                text-align: center;
-            }
-        }
+       @media (max-width: 480px) {
+        .cabecalho-perfil {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        height: auto;
+        padding: 16px; 
+        width: 100%;
+        box-sizing: border-box; 
+    }
+
+  
+    nav {
+        flex-direction: column; 
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    nav a {
+        display: block;
+        width: 100%;          
+        text-align: center;
+        padding: 12px 0;       
+        font-size: 16px;      
+        box-sizing: border-box;
+    }
+}
+
     </style>
 </head>
 
