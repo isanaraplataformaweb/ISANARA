@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>perfil</title>
+    <title>Perfil</title>
 
     <style>
         * {
@@ -200,6 +200,7 @@
             justify-content: center;
             margin-bottom: 50px;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .btn-editar {
@@ -212,6 +213,7 @@
             font-weight: bold;
             transition: .3s;
             display: inline-block;
+            text-align: center;
         }
 
         .btn-editar:hover {
@@ -224,6 +226,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .obras h2 {
@@ -269,72 +273,91 @@
             line-height: 1.6;
         }
 
-        @media(max-width: 480px) {
+        /* RESPONSIVIDADE PARA SMARTPHONES (MELHORADA) */
+        @media (max-width: 768px) {
             header {
                 flex-direction: column;
-                gap: 20px;
                 height: auto;
-                padding: 15px 0;
+                padding: 15px;
+                gap: 15px;
             }
+
             nav {
-                margin-top: 10px;
+                flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 15px;
+                margin: 0;
             }
+
+            nav a {
+                font-size: 15px;
+            }
+
+            nav a.ativo::after {
+                bottom: -5px;
+            }
+
+            .capa {
+                height: 200px;
+            }
+
+            .perfil {
+                padding: 20px;
+            }
+
             .perfil-topo {
                 flex-direction: column;
                 text-align: center;
-                margin-top: -80px;
+                margin-top: -90px;
+                gap: 20px;
             }
+
             .foto-perfil {
-                width: 180px;
-                height: 180px;
+                width: 160px;
+                height: 160px;
+                border-width: 5px;
             }
-            .estatisticas {
-                grid-template-columns: 1fr;
+
+            .informacoes h1 {
+                font-size: 28px;
             }
+
             .redes {
                 justify-content: center;
             }
+
+            .estatisticas {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 30px 0;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .card h2 {
+                font-size: 32px;
+            }
+
+            .acoes {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-editar {
+                width: 100%;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+
+            .obras-cabecalho {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
         }
-
-       @media (max-width: 480px) {
-        .cabecalho-perfil {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 12px;
-        width: 100%;
-    }
-
-    header {
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        height: auto;
-        padding: 16px; 
-        width: 100%;
-        box-sizing: border-box; 
-    }
-
-  
-    nav {
-        flex-direction: column; 
-        align-items: center;
-        gap: 8px;
-        width: 100%;
-    }
-
-    nav a {
-        display: block;
-        width: 100%;          
-        text-align: center;
-        padding: 12px 0;       
-        font-size: 16px;      
-        box-sizing: border-box;
-    }
-}
-
     </style>
 </head>
 
@@ -479,7 +502,7 @@
       quantidadeObrasH2.textContent = obras.length;
       
       if (obras.length === 0) {
-        listaObrasDiv.innerHTML = '<p style="color: #777; grid-column: 1 / -1;">Nenhuma obra publicada ainda.</p>';
+        listaObrasDiv.innerHTML = '<p style="color: #777; grid-column: 1 / -1; text-align: center;">Nenhuma obra publicada ainda.</p>';
       } else {
         listaObrasDiv.innerHTML = '';
         obras.forEach(obra => {
@@ -501,7 +524,7 @@
       }
     } else {
       quantidadeObrasH2.textContent = '0';
-      listaObrasDiv.innerHTML = '<p style="color: #777; grid-column: 1 / -1;">Erro ao carregar as obras.</p>';
+      listaObrasDiv.innerHTML = '<p style="color: #777; grid-column: 1 / -1; text-align: center;">Erro ao carregar as obras.</p>';
     }
 
     // 3. Buscar contagem de Seguidores e Seguindo
