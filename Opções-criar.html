@@ -136,6 +136,31 @@
             background: #5148d7;
             transform: scale(1.05);
         }
+
+        @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin: 0;
+    }
+
+    nav a {
+        font-size: 15px;
+    }
+
+   .card {
+        width: 100%;
+        max-width: 100%;
+    }
     </style>
 </head>
 
