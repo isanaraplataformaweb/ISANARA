@@ -3,103 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar perfil</title>
+    <title>Editar Perfil - ISANARA</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
         body { 
-            font-family: 'Segoe UI', sans-serif; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
-            background-color: #f4f7f6; 
-            margin: 0; 
-            padding: 20px 0;
+            background: linear-gradient(135deg, #081c3d 0%, #691eff 45%, #71c6f1 100%);
+            background-size: cover;
+            background-attachment: fixed;
+            color: #333; 
+            padding: 20px;
         }
 
         .container-editar { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 15px; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 35px 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); 
             width: 100%;
-            max-width: 420px; 
+            max-width: 480px; 
         }
 
         h2 { 
             margin-top: 0;
-            margin-bottom: 20px; 
-            color: #333; 
+            margin-bottom: 25px; 
+            color: #081c3d; 
             text-align: center; 
+            font-size: 1.8rem;
+            font-weight: 800;
         }
 
         .grupo-campo { 
-            margin-bottom: 15px; 
+            margin-bottom: 18px; 
             display: flex; 
             flex-direction: column; 
         }
 
         label { 
             margin-bottom: 6px; 
-            font-weight: bold; 
-            color: #555; 
+            font-weight: 600; 
+            color: #444; 
             font-size: 14px; 
         }
 
         input[type="text"], textarea, input[type="file"] { 
-            padding: 10px; 
+            padding: 12px; 
             border: 1px solid #ccc; 
-            border-radius: 8px; 
+            border-radius: 10px; 
             font-size: 14px; 
             outline: none;
+            background: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            background: #f8f9fa;
+            cursor: pointer;
         }
 
         input[type="text"]:focus, textarea:focus {
-            border-color: #6c63ff;
+            border-color: #691eff;
+            box-shadow: 0 0 0 3px rgba(105, 30, 255, 0.15);
         }
 
         textarea { 
             resize: vertical; 
-            height: 80px; 
+            height: 90px; 
         }
 
         .btn-salvar { 
-            background-color: #6c63ff; 
+            background-color: #691eff; 
             color: white; 
             border: none; 
             padding: 14px; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             font-weight: bold; 
             cursor: pointer; 
             width: 100%; 
             font-size: 16px; 
             margin-top: 10px; 
-            transition: background 0.2s;
+            transition: background 0.3s, transform 0.2s;
         }
 
         .btn-salvar:hover { 
-            background-color: #5148d7; 
+            background-color: #5113d4; 
+            transform: translateY(-2px);
         }
 
         .btn-cancelar { 
             display: block; 
             text-align: center; 
-            margin-top: 16px; 
-            color: #777; 
+            margin-top: 18px; 
+            color: #666; 
             text-decoration: none; 
             font-size: 14px; 
+            font-weight: 600;
+            transition: color 0.2s;
         }
 
         .btn-cancelar:hover {
+            color: #081c3d;
             text-decoration: underline;
         }
 
         #statusText {
             text-align: center;
-            color: #6c63ff;
+            color: #691eff;
             font-weight: bold;
             font-size: 14px;
             margin-top: 15px;
             min-height: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container-editar {
+                padding: 25px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -131,7 +166,7 @@
 
             <div class="grupo-campo">
                 <label for="cidade">Cidade:</label>
-                <input type="text" id="cidade" placeholder="Ex: São Paulo">
+                <input type="text" id="cidade" placeholder="Ex: Mossoró">
             </div>
 
             <div class="grupo-campo">
@@ -158,7 +193,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  
 <script>
-
   const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Z3JqbXN5Y2JwbG9rbGlvdnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODM1OTEsImV4cCI6MjA5OTk1OTU5MX0.KIKQ9QjspCik0QY6TGoT_mHcsK3Y_IeXcmqUo0cVhw4'; 
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -191,7 +225,7 @@
       
       const statusText = document.getElementById('statusText');
       statusText.textContent = 'Salvando alterações...';
-      statusText.style.color = '#6c63ff';
+      statusText.style.color = '#691eff';
 
       let fotoPerfilUrl = perfil?.foto_perfil;
       let fotoCapaUrl = perfil?.foto_capa;
@@ -242,7 +276,7 @@
         statusText.textContent = 'Perfil atualizado com sucesso!';
         setTimeout(() => {
             window.location.href = 'Perfil.html';
-        }, 1500); // Aguarda 1.5s antes de redirecionar para o usuário ler a mensagem
+        }, 1500);
       }
     });
   });
