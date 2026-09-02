@@ -3,91 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicar matéria</title>
+    <title>Publicar Matéria - ISANARA</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #d1d4d3;
-            margin: 0;
+            background: linear-gradient(135deg, #081c3d 0%, #691eff 45%, #71c6f1 100%);
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.35;
+            z-index: -1;
+        }
+
+        body::before {
+            width: 350px;
+            height: 350px;
+            background: #060238;
+            top: -100px;
+            left: -100px;
+        }
+
+        body::after {
+            width: 400px;
+            height: 400px;
+            background: #7f02fb;
+            bottom: -150px;
+            right: -150px;
+        }
+
         .container-publicar {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.153);
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
             width: 100%;
-            max-width: 400px;
+            max-width: 440px;
         }
+
         h2 {
             margin-top: 0;
             margin-bottom: 24px;
-            color: #333;
+            color: #f2e8fd;
             text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
         }
+
         .grupo-campo {
             margin-bottom: 20px;
             display: flex;
             flex-direction: column;
         }
+
         label {
             margin-bottom: 6px;
-            font-weight: bold;
-            color: #555;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
         }
+
         input[type="text"], textarea, input[type="file"] {
             padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
             font-size: 14px;
             outline: none;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
         }
+
+        input[type="text"]::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        input[type="file"]::file-selector-button {
+            background: #691eff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: #5113d4;
+        }
+
         input[type="text"]:focus, textarea:focus {
-            border-color: #a600ff;
+            border-color: #b46cff;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(180, 108, 255, 0.25);
         }
+
         textarea {
-            resize: none;
+            resize: vertical;
             height: 100px;
         }
+
         .btn-publicar {
-            background-color: #6c63ff;
+            background-color: #691eff;
             color: white;
             border: none;
             padding: 14px;
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             font-size: 16px;
             margin-top: 10px;
-            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(105, 30, 255, 0.4);
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
         }
+
         .btn-publicar:hover {
-            background-color: #5148d7;
+            background-color: #5113d4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(105, 30, 255, 0.6);
         }
+
         .btn-publicar:disabled {
-            background-color: #a5a1ff;
+            background-color: rgba(105, 30, 255, 0.4);
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
+
         .btn-cancelar {
             display: block;
             text-align: center;
-            margin-top: 16px;
-            color: #777;
+            margin-top: 18px;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
         }
+
         .btn-cancelar:hover {
+            color: white;
             text-decoration: underline;
         }
+
         #statusText {
             text-align: center;
-            color: #6c63ff;
+            color: #ff6b6b;
             font-size: 14px;
             margin-bottom: 15px;
             min-height: 20px;
@@ -140,7 +234,7 @@
       
       const statusText = document.getElementById('statusText');
       statusText.textContent = 'Publicando matéria...';
-      statusText.style.color = '#6c63ff';
+      statusText.style.color = '#b46cff';
 
       const { data: { user } } = await supabaseClient.auth.getUser();
       if (!user) {
@@ -163,7 +257,7 @@
         const { error: uploadCapaError } = await supabaseClient.storage.from('materias').upload(fileNameCapa, fileCapa);
         
         if (uploadCapaError) {
-          statusText.style.color = '#d84545';
+          statusText.style.color = '#ff6b6b';
           statusText.textContent = 'Erro no upload da capa: ' + uploadCapaError.message;
           return;
         }
@@ -175,7 +269,7 @@
         const { error: uploadPdfError } = await supabaseClient.storage.from('materias').upload(fileNamePdf, filePdf);
         
         if (uploadPdfError) {
-          statusText.style.color = '#d84545';
+          statusText.style.color = '#ff6b6b';
           statusText.textContent = 'Erro no upload do PDF: ' + uploadPdfError.message;
           return;
         }
@@ -193,10 +287,10 @@
         }]);
 
       if (insertError) {
-        statusText.style.color = '#d84545';
+        statusText.style.color = '#ff6b6b';
         statusText.textContent = 'Erro ao salvar matéria: ' + insertError.message;
       } else {
-        statusText.style.color = '#28a745';
+        statusText.style.color = '#51cf66';
         statusText.textContent = 'Matéria publicada com sucesso!';
         alert('Matéria publicada com sucesso!');
         window.location.href = 'Materias.html';
