@@ -23,7 +23,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 0;
+            padding: 5px 20px;
             box-shadow: 0 3px 10px rgba(0,0,0,.08);
             position: sticky;
             top: 0;
@@ -33,7 +33,7 @@
             height: 40px;
             width: auto;
             mix-blend-mode: screen;
-            margin-left: 20px;
+            margin-left: 0;
         }
         nav {
             display: flex;
@@ -88,18 +88,20 @@
             display: flex;
             flex-direction: column;    
             gap: 20px;
+            align-items: center;
         }
     
         .galeria-topo h1 {
             font-size: 32px;
             color: #222;
+            align-self: flex-start;
         }
 
         /* Estilo da Barra de Pesquisa de Usuários */
         .barra-pesquisa-container {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 100%;
         }
         .barra-pesquisa-container input {
             width: 100%;
@@ -148,13 +150,12 @@
         .card {
             display: flex; 
             flex-direction: column; 
-            gap: 10px; 
-            width: 260px; 
+            gap: 12px; 
+            width: 100%; 
             background: white;
             border-radius: 16px;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
-            margin-left: auto; 
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             transition: .3s;
         }
@@ -176,8 +177,8 @@
 
         .grid-galeria {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
             width: 100%;
         }
         .obra-card {
@@ -239,22 +240,32 @@
             text-align: center;
             color: #777;
             font-size: 18px;
-            padding: 5px 0;
+            padding: 20px 0;
         }
 
-        @media(max-width: 600px){
+        /* RESPONSIVO MOBILE EXPANDIDO */
+        @media(max-width: 768px){
             header {
                 flex-direction: column;
-                gap: 20px;
                 height: auto;
-                padding: 15px 0;
+                padding: 15px;
+                gap: 15px;
             }
             nav {
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 15px;
+                margin: 0;
             }
-            .card {
-                width: 100%;
+            nav a {
+                font-size: 15px;
+            }
+            .container-galeria {
+                padding: 20px 15px;
+            }
+            .galeria-topo h1 {
+                font-size: 26px;
+                align-self: center;
             }
         }
     </style>
