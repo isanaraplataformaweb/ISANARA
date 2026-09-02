@@ -20,14 +20,43 @@
             background: linear-gradient(135deg, #081c3d 0%, #691eff 45%, #71c6f1 100%);
             background-size: cover;
             background-attachment: fixed;
-            color: #333; 
+            color: white; 
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.35;
+            z-index: -1;
+        }
+
+        body::before {
+            width: 350px;
+            height: 350px;
+            background: #060238;
+            top: -100px;
+            left: -100px;
+        }
+
+        body::after {
+            width: 400px;
+            height: 400px;
+            background: #7f02fb;
+            bottom: -150px;
+            right: -150px;
         }
 
         .container-editar { 
-            background: rgba(255, 255, 255, 0.95); 
+            background: rgba(255, 255, 255, 0.12); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 35px 30px; 
             border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); 
@@ -38,7 +67,7 @@
         h2 { 
             margin-top: 0;
             margin-bottom: 25px; 
-            color: #081c3d; 
+            color: #f2e8fd; 
             text-align: center; 
             font-size: 1.8rem;
             font-weight: 800;
@@ -53,29 +82,52 @@
         label { 
             margin-bottom: 6px; 
             font-weight: 600; 
-            color: #444; 
+            color: rgba(255, 255, 255, 0.9); 
             font-size: 14px; 
         }
 
         input[type="text"], textarea, input[type="file"] { 
             padding: 12px; 
-            border: 1px solid #ccc; 
-            border-radius: 10px; 
+            border: 1px solid rgba(255, 255, 255, 0.25); 
+            border-radius: 12px; 
             font-size: 14px; 
             outline: none;
-            background: #fff;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+        }
+
+        input[type="text"]::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
         }
 
         input[type="file"] {
-            padding: 8px;
-            background: #f8f9fa;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.08);
             cursor: pointer;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        input[type="file"]::file-selector-button {
+            background: #691eff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: #5113d4;
         }
 
         input[type="text"]:focus, textarea:focus {
-            border-color: #691eff;
-            box-shadow: 0 0 0 3px rgba(105, 30, 255, 0.15);
+            border-color: #b46cff;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(180, 108, 255, 0.25);
         }
 
         textarea { 
@@ -94,19 +146,21 @@
             width: 100%; 
             font-size: 16px; 
             margin-top: 10px; 
-            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(105, 30, 255, 0.4);
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
         }
 
         .btn-salvar:hover { 
             background-color: #5113d4; 
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(105, 30, 255, 0.6);
         }
 
         .btn-cancelar { 
             display: block; 
             text-align: center; 
             margin-top: 18px; 
-            color: #666; 
+            color: rgba(255, 255, 255, 0.8); 
             text-decoration: none; 
             font-size: 14px; 
             font-weight: 600;
@@ -114,13 +168,13 @@
         }
 
         .btn-cancelar:hover {
-            color: #081c3d;
+            color: white;
             text-decoration: underline;
         }
 
         #statusText {
             text-align: center;
-            color: #691eff;
+            color: #b46cff;
             font-weight: bold;
             font-size: 14px;
             margin-top: 15px;
@@ -225,7 +279,7 @@
       
       const statusText = document.getElementById('statusText');
       statusText.textContent = 'Salvando alterações...';
-      statusText.style.color = '#691eff';
+      statusText.style.color = '#b46cff';
 
       let fotoPerfilUrl = perfil?.foto_perfil;
       let fotoCapaUrl = perfil?.foto_capa;
@@ -269,10 +323,10 @@
         .eq('id', user.id);
 
       if (updateError) {
-        statusText.style.color = 'red';
+        statusText.style.color = '#ff6b6b';
         statusText.textContent = 'Erro ao atualizar perfil: ' + updateError.message;
       } else {
-        statusText.style.color = 'green';
+        statusText.style.color = '#51cf66';
         statusText.textContent = 'Perfil atualizado com sucesso!';
         setTimeout(() => {
             window.location.href = 'Perfil.html';
