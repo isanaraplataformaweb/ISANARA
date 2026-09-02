@@ -23,7 +23,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 0;
+            padding: 5px 20px;
             box-shadow: 0 3px 10px rgba(0,0,0,.08);
             position: sticky;
             top: 0;
@@ -33,12 +33,11 @@
             height: 40px;
             width: auto;
             mix-blend-mode: screen;
-            margin-left: 20px;
+            margin-left: 0;
         }
         nav {
             display: flex;
             gap: 35px;
-            margin: auto;
         }
         nav a {
             color: white;
@@ -84,6 +83,7 @@
             display: flex;
             align-items: center;
             gap: 25px;
+            flex-wrap: wrap;
         }
         .cabecalho-perfil img {
             width: 100px;
@@ -91,6 +91,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #6c63ff;
+            flex-shrink: 0;
         }
         .info-perfil h1 {
             font-size: 26px;
@@ -102,6 +103,7 @@
             font-size: 15px;
             margin-bottom: 12px;
             max-width: 500px;
+            word-break: break-word;
         }
         .estatisticas-seguidores {
             display: flex;
@@ -173,44 +175,70 @@
         }
         .escondido { display: none !important; }
 
- 
+        /* Media Queries Otimizadas e Responsivas */
+        @media (max-width: 768px) {
+            header {
+                height: auto;
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 12px;
+            }
+            header img {
+                margin-left: 0;
+            }
+            nav {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            nav a {
+                font-size: 16px;
+            }
+            .cabecalho-perfil {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .perfil-esquerda {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .estatisticas-seguidores {
+                justify-content: center;
+            }
+            .info-perfil p {
+                max-width: 100%;
+            }
+            .btn-seguir-perfil {
+                width: 100%;
+            }
+        }
+
         @media (max-width: 480px) {
-        .cabecalho-perfil {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 12px;
-        width: 100%;
-    }
-
-    header {
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        height: auto;
-        padding: 16px; 
-        width: 100%;
-        box-sizing: border-box; 
-    }
-
-  
-    nav {
-        flex-direction: column; 
-        align-items: center;
-        gap: 8px;
-        width: 100%;
-    }
-
-    nav a {
-        display: block;
-        width: 100%;          
-        text-align: center;
-        padding: 12px 0;       
-        font-size: 16px;      
-        box-sizing: border-box;
-    }
-}
-
+            header {
+                padding: 10px;
+            }
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+            nav a {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 8px 0;
+            }
+            .container-perfil {
+                padding: 0 10px;
+                margin: 20px auto;
+            }
+            .cabecalho-perfil {
+                padding: 20px 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -254,7 +282,6 @@
 
         const { data: { user } } = await supabaseClient.auth.getUser();
 
-        // 1. Buscar dados do perfil do artista na tabela 'perfis'
         const { data: perfil, error } = await supabaseClient
           .from('perfis')
           .select('*')
@@ -292,7 +319,6 @@
           <button id="btnSeguirPerfilPagina" class="btn-seguir-perfil escondido">Seguir</button>
         `;
 
-        // 3. Lógica do botão de Seguir (se o usuário estiver logado e não for o próprio dono do perfil)
         if (user && user.id !== perfilId) {
           const btnSeguirPerfil = document.getElementById('btnSeguirPerfilPagina');
           btnSeguirPerfil.classList.remove('escondido');
@@ -338,7 +364,6 @@
           });
         }
 
-        // 4. Buscar obras publicadas pelo artista
         const gridObras = document.getElementById('gridObrasUsuario');
         const { data: obras } = await supabaseClient
           .from('obras')
