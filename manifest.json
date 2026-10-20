@@ -1,10 +1,10 @@
 { 
   "name": "ISANARA",
-  "short_name": "ISA",
+  "short_name": "ISANARA",
   "start_url": "https://isanaraplataformaweb.github.io/ISANARA/index.html",
   "display": "standalone",
-  "background-color": "black",
-  "theme-color": "purple",
+  "background-color": "#2596be",
+  "theme-color": "#a570ff",
   "icons": [
     {
       "src":"I.jpg",
