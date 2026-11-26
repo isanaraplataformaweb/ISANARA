@@ -1,0 +1,164 @@
+/* NAV BAR LATERAL EM PÍLULA + BOTÃO DE CRIAÇÃO (+) */
+
+/* BOTÃO FLUTUANTE DE CRIAÇÃO (+) - APENAS USUÁRIO LOGADO */
+.btn-criar-fab {
+    position: fixed;
+    top: 22px;
+    left: 24px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #09090b;
+    color: #ffffff;
+    display: none; /* Controlado via JS conforme autenticação */
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    z-index: 1001;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.btn-criar-fab:hover {
+    transform: scale(1.07);
+    background: #18181b;
+}
+
+.btn-criar-fab svg {
+    width: 26px;
+    height: 26px;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+/* BARRA DE NAVEGAÇÃO LATERAL EM PÍLULA */
+.nav-pill {
+    position: fixed;
+    top: 90px;
+    left: 24px;
+    width: 54px;
+    margin: 0;
+    padding: 18px 0;
+    border-radius: 999px;
+    background: #070709;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+}
+
+.nav-pill a {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: #ff3b9a;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.nav-pill a:hover {
+    transform: scale(1.1);
+    background: rgba(255, 59, 154, 0.14);
+}
+
+.nav-pill a.ativo {
+    background: rgba(255, 59, 154, 0.2);
+    color: #ff5cae;
+}
+
+.nav-pill a svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Tooltip discreto ao passar o mouse no desktop */
+.nav-pill a::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 48px;
+    top: 50%;
+    width: auto;
+    height: auto;
+    bottom: auto;
+    transform: translateY(-50%) translateX(-4px);
+    background: #09090b;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-pill a:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Compatibilidade com regras antigas de nav a.ativo::after */
+.nav-pill a.ativo::after {
+    left: 48px;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    background: #09090b;
+}
+
+/* Espaço para a navegação fixa à esquerda */
+body {
+    overflow-x: hidden;
+    padding-left: 100px;
+}
+
+@media (max-width: 768px) {
+    .btn-criar-fab {
+        top: 14px;
+        left: 14px;
+        width: 46px;
+        height: 46px;
+    }
+
+    .nav-pill {
+        top: 70px;
+        left: 14px;
+        width: 46px;
+        padding: 14px 0;
+        gap: 18px;
+    }
+
+    .nav-pill a {
+        width: 34px;
+        height: 34px;
+    }
+
+    .nav-pill a svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    .nav-pill a::after,
+    .nav-pill a.ativo::after {
+        display: none;
+    }
+
+    body {
+        padding-left: 72px;
+    }
+}

@@ -51,78 +51,6 @@ body::after {
     bottom: -150px;
     right: -150px;
 }
-
-header {
-    width: 100%;
-    height: 80px;
-    background: linear-gradient(
-        135deg,
-        #081c3d 0%,
-        #1e5eff 45%,
-        #b46cff 100%
-    );
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 20px;
-    box-shadow: 0 3px 10px rgba(0,0,0,.08);
-    position: sticky;
-    top: 0;
-    z-index: 999;
-}
-
-header img {
-    height: 40px;
-    width: auto;
-    mix-blend-mode: screen;
-}
-
-nav {
-    display: flex;
-    gap: 35px;
-    margin: auto;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-    font-family: 'Segoe UI', sans-serif;
-    transition: .3s;
-    position: relative;
-}
-
-nav a::after {
-    content: "";
-    position: absolute;
-    width: 0%;
-    height: 3px;
-    left: 0;
-    bottom: -5px;
-    background: white;
-    transition: .3s;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
-
-nav a.ativo {
-    color: #ffffff;
-}
-
-nav a.ativo::after {
-    content: "";
-    width: 100%;
-    height: 2px;
-    background: #fbfbfb;
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    border-radius: 5px;
-}
-
 .hero {
     text-align: center;
     padding: 100px 20px;
@@ -227,25 +155,6 @@ footer p {
 
 /* RESPONSIVO MOBILE */
 @media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        height: auto;
-        padding: 15px;
-        gap: 15px;
-    }
-
-    nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        margin: 0;
-    }
-
-    nav a {
-        font-size: 15px;
-    }
-
     .hero {
         padding: 60px 15px;
     }
@@ -271,19 +180,66 @@ footer p {
 }
 </style>
 <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="nav.css">
 </head>
 <body>
-    <header>
-     <a href="index.html">
-        <img src="1.png" alt="Logo da sua empresa">
-     </a>
-     <nav>
-         <a href="index.html" class="ativo">Início</a>
-         <a href="Galeria.html">Galeria</a>
-         <a href="Perfil.html">Perfil</a>
-         <a href="Comunicações.html">Comunicações</a>
-     </nav>
-    </header>
+    <!-- BOTÃO DE CRIAÇÃO (+) - EXIBIDO APENAS SE ESTIVER LOGADO -->
+    <a href="Opções-criar.html" id="fabCriar" class="btn-criar-fab" aria-label="Criar novo conteúdo" title="Criar">
+        <svg viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+    </a>
+
+    <!-- BARRA DE NAVEGAÇÃO LATERAL (INÍCIO, PERFIL, GALERIA, EVENTOS, MATÉRIAS) -->
+    <nav class="nav-pill" aria-label="Navegação principal">
+
+        <!-- 1. Início -->
+        <a href="index.html" class="ativo" data-label="Início" aria-label="Início">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"></path>
+            </svg>
+        </a>
+
+        <!-- 2. Perfil -->
+        <a href="Perfil.html" data-label="Perfil" aria-label="Perfil">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9.5"></circle>
+                <circle cx="12" cy="9.5" r="3"></circle>
+                <path d="M6.8 18.2c1.3-2.1 3.1-3.2 5.2-3.2s3.9 1.1 5.2 3.2"></path>
+            </svg>
+        </a>
+
+        <!-- 3. Galeria -->
+        <a href="Galeria.html" data-label="Galeria" aria-label="Galeria">
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="2.5"></rect>
+                <circle cx="16.5" cy="9" r="1.5"></circle>
+                <path d="M5.5 17l4.5-4.5 3 3 2.5-2.5L18.5 17"></path>
+            </svg>
+        </a>
+
+        <!-- 4. Eventos -->
+        <a href="Eventos.html" data-label="Eventos" aria-label="Eventos">
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="5" width="16" height="15" rx="2.5"></rect>
+                <line x1="7" y1="3" x2="7" y2="7"></line>
+                <line x1="15" y1="3" x2="15" y2="7"></line>
+                <line x1="3" y1="10" x2="19" y2="10"></line>
+                <path d="M16 17l2 2 4-4"></path>
+            </svg>
+        </a>
+
+        <!-- 5. Matérias -->
+        <a href="Materias.html" data-label="Matérias" aria-label="Matérias">
+            <svg viewBox="0 0 24 24">
+                <polygon points="12 3 21 7.5 12 12 3 7.5 12 3"></polygon>
+                <polyline points="3 11.5 12 16 21 11.5"></polyline>
+                <polyline points="3 15.5 12 20 21 15.5"></polyline>
+            </svg>
+        </a>
+
+    </nav>
     
     <section class="hero">
      <h1>ISANARA</h1>
@@ -334,5 +290,7 @@ footer p {
   }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nav.js"></script>
 </body>
 </html>

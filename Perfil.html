@@ -7,7 +7,7 @@
     <title>Perfil</title>
 
     <style>
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -17,71 +17,114 @@
             font-family: "Segoe UI", sans-serif;
             background: #f5f7fa;
             color: #333;
-        }
-        
-        header {
-            width: 100%;
-            height: 80px;
-            background: linear-gradient(135deg, #081c3d 0%, #1e5eff 45%, #b46cff 100%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 5px 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,.08);
-            position: sticky;
-            top: 0;
-            z-index: 999;
+            overflow-x: hidden;
         }
 
-        header img {
-            height: 40px;
-            width: auto;
-            mix-blend-mode: screen;
-        }
-
-        nav {
-            display: flex;
-            gap: 35px;
-            margin: auto;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 18px;
-            transition: .3s;
-            position: relative;
-        }
-
-        nav a::after {
-            content: "";
-            position: absolute;
-            width: 0%;
-            height: 3px;
-            left: 0;
-            bottom: -5px;
-            background: white;
-            transition: .3s;
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        nav a.ativo {
+        /* BOTÃO FLUTUANTE DE CRIAÇÃO (+) - APENAS USUÁRIO LOGADO */
+        .btn-criar-fab {
+            position: fixed;
+            top: 22px;
+            left: 24px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #09090b;
             color: #ffffff;
+            display: none; /* Controlado via JS conforme autenticação */
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+            z-index: 1001;
+            transition: transform 0.25s ease, background 0.25s ease;
         }
 
-        nav a.ativo::after {
-            content: "";
-            width: 100%;
-            height: 2px;
-            background: #fbfbfb;
+        .btn-criar-fab:hover {
+            transform: scale(1.07);
+            background: #18181b;
+        }
+
+        .btn-criar-fab svg {
+            width: 26px;
+            height: 26px;
+            stroke: currentColor;
+            stroke-width: 3;
+            stroke-linecap: round;
+        }
+
+        /* BARRA DE NAVEGAÇÃO LATERAL EM PÍLULA */
+        .nav-pill {
+            position: fixed;
+            top: 90px;
+            left: 24px;
+            width: 54px;
+            padding: 18px 0;
+            border-radius: 999px;
+            background: #070709;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+        }
+
+        .nav-pill a {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            color: #ff3b9a;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-pill a:hover {
+            transform: scale(1.1);
+            background: rgba(255, 59, 154, 0.14);
+        }
+
+        .nav-pill a.ativo {
+            background: rgba(255, 59, 154, 0.2);
+            color: #ff5cae;
+        }
+
+        .nav-pill a svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.1;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Tooltip discreto ao passar o mouse no desktop */
+        .nav-pill a::after {
+            content: attr(data-label);
             position: absolute;
-            left: 0;
-            bottom: -10px;
-            border-radius: 5px;
+            left: 48px;
+            top: 50%;
+            transform: translateY(-50%) translateX(-4px);
+            background: #09090b;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav-pill a:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
         }
 
         .capa {
@@ -96,11 +139,11 @@
             height: 100%;
             object-fit: cover;
         }
-        
+
         .perfil {
             max-width: 1200px;
             margin: auto;
-            padding: 40px;
+            padding: 40px 40px 40px 105px;
         }
 
         .perfil-topo {
@@ -118,7 +161,7 @@
             object-fit: cover;
             border: 8px solid white;
             background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
         }
 
         .informacoes {
@@ -176,7 +219,7 @@
             border-radius: 18px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,.08);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
             transition: .3s;
         }
 
@@ -194,7 +237,7 @@
             color: #666;
             font-size: 18px;
         }
-    
+
         .acoes {
             display: flex;
             justify-content: center;
@@ -234,7 +277,7 @@
             color: #333;
             font-size: 30px;
         }
-        
+
         .grid-obras {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -245,7 +288,7 @@
             background: white;
             border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,.08);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
             transition: .3s;
         }
 
@@ -274,27 +317,33 @@
         }
 
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                height: auto;
-                padding: 15px;
-                gap: 15px;
+            .btn-criar-fab {
+                top: 14px;
+                left: 14px;
+                width: 46px;
+                height: 46px;
             }
 
-            nav {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-                margin: 0;
+            .nav-pill {
+                top: 70px;
+                left: 14px;
+                width: 46px;
+                padding: 14px 0;
+                gap: 18px;
             }
 
-            nav a {
-                font-size: 15px;
+            .nav-pill a {
+                width: 34px;
+                height: 34px;
             }
 
-            nav a.ativo::after {
-                bottom: -5px;
+            .nav-pill a svg {
+                width: 19px;
+                height: 19px;
+            }
+
+            .nav-pill a::after {
+                display: none;
             }
 
             .capa {
@@ -302,7 +351,7 @@
             }
 
             .perfil {
-                padding: 20px;
+                padding: 20px 16px 32px 72px;
             }
 
             .perfil-topo {
@@ -313,8 +362,8 @@
             }
 
             .foto-perfil {
-                width: 160px;
-                height: 160px;
+                width: 150px;
+                height: 150px;
                 border-width: 5px;
             }
 
@@ -361,17 +410,61 @@
 </head>
 
 <body>
-    <header>
-        <a href="index.html">
-            <img src="1.png" alt="Logo da sua empresa">
+    <!-- BOTÃO DE CRIAÇÃO (+) - EXIBIDO APENAS SE ESTIVER LOGADO -->
+    <a href="Opções-criar.html" id="fabCriar" class="btn-criar-fab" aria-label="Criar novo conteúdo" title="Criar">
+        <svg viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+    </a>
+
+    <!-- BARRA DE NAVEGAÇÃO LATERAL (INÍCIO, PERFIL, GALERIA, EVENTOS, MATÉRIAS) -->
+    <nav class="nav-pill" aria-label="Navegação principal">
+        <!-- 1. Início -->
+        <a href="index.html" data-label="Início" aria-label="Início">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"></path>
+            </svg>
         </a>
-        <nav>
-            <a href="index.html">Início</a>
-            <a href="Galeria.html">Galeria</a>
-            <a href="Perfil.html" class="ativo">Perfil</a>
-            <a href="Comunicações.html">Comunicações</a>
-        </nav>
-    </header>
+
+        <!-- 2. Perfil -->
+        <a href="Perfil.html" class="ativo" data-label="Perfil" aria-label="Perfil">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9.5"></circle>
+                <circle cx="12" cy="9.5" r="3"></circle>
+                <path d="M6.8 18.2c1.3-2.1 3.1-3.2 5.2-3.2s3.9 1.1 5.2 3.2"></path>
+            </svg>
+        </a>
+
+        <!-- 3. Galeria -->
+        <a href="Galeria.html" data-label="Galeria" aria-label="Galeria">
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="2.5"></rect>
+                <circle cx="16.5" cy="9" r="1.5"></circle>
+                <path d="M5.5 17l4.5-4.5 3 3 2.5-2.5L18.5 17"></path>
+            </svg>
+        </a>
+
+        <!-- 4. Eventos -->
+        <a href="Eventos.html" data-label="Eventos" aria-label="Eventos">
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="5" width="16" height="15" rx="2.5"></rect>
+                <line x1="7" y1="3" x2="7" y2="7"></line>
+                <line x1="15" y1="3" x2="15" y2="7"></line>
+                <line x1="3" y1="10" x2="19" y2="10"></line>
+                <path d="M16 17l2 2 4-4"></path>
+            </svg>
+        </a>
+
+        <!-- 5. Matérias -->
+        <a href="Materias.html" data-label="Matérias" aria-label="Matérias">
+            <svg viewBox="0 0 24 24">
+                <polygon points="12 3 21 7.5 12 12 3 7.5 12 3"></polygon>
+                <polyline points="3 11.5 12 16 21 11.5"></polyline>
+                <polyline points="3 15.5 12 20 21 15.5"></polyline>
+            </svg>
+        </a>
+    </nav>
 
     <section class="capa">
         <img id="fotoCapa" src="https://via.placeholder.com/1200x320" alt="Foto de capa">
@@ -381,7 +474,7 @@
     <main class="perfil">
         <section class="perfil-topo">
             <img id="fotoPerfil" class="foto-perfil" src="https://via.placeholder.com/220" alt="Foto do usuário">
-            
+
             <div class="informacoes">
                 <h1 id="nomeUsuario">Carregando...</h1>
                 <p id="biografia">Carregando informações...</p>
@@ -428,22 +521,55 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://zwgrjmsycbplokliovsg.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Z3JqbXN5Y2JwbG9rbGlvdnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODM1OTEsImV4cCI6MjA5OTk1OTU5MX0.KIKQ9QjspCik0QY6TGoT_mHcsK3Y_IeXcmqUo0cVhw4'; 
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Z3JqbXN5Y2JwbG9rbGlvdnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODM1OTEsImV4cCI6MjA5OTk1OTU5MX0.KIKQ9QjspCik0QY6TGoT_mHcsK3Y_IeXcmqUo0cVhw4';
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  function atualizarVisibilidadeBotaoCriar(user) {
+    const fabCriar = document.getElementById('fabCriar');
+    const btnCriarObra = document.getElementById('btnCriarObra');
+
+    if (user) {
+      fabCriar.style.display = 'flex';
+      if (btnCriarObra) btnCriarObra.style.display = 'inline-block';
+    } else {
+      fabCriar.style.display = 'none';
+      if (btnCriarObra) btnCriarObra.style.display = 'none';
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
+    const fabCriar = document.getElementById('fabCriar');
     const urlParams = new URLSearchParams(window.location.search);
     let targetUserId = urlParams.get('id');
 
     const { data: authData } = await supabaseClient.auth.getUser();
-    const user = authData?.user;
+    let currentUser = authData?.user || null;
 
-    if (!targetUserId) {
-      if (!user) {
+    atualizarVisibilidadeBotaoCriar(currentUser);
+
+    // Mantém a visibilidade sincronizada caso a sessão mude
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
+      currentUser = session?.user || null;
+      atualizarVisibilidadeBotaoCriar(currentUser);
+    });
+
+    // Bloqueia acesso direto via clique caso o usuário não esteja autenticado
+    fabCriar.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const { data: freshAuth } = await supabaseClient.auth.getUser();
+      if (!freshAuth?.user) {
         window.location.href = 'Login.html';
         return;
       }
-      targetUserId = user.id; 
+      window.location.href = fabCriar.href;
+    });
+
+    if (!targetUserId) {
+      if (!currentUser) {
+        window.location.href = 'Login.html';
+        return;
+      }
+      targetUserId = currentUser.id;
     }
 
     // 1. Buscar dados do perfil
@@ -460,31 +586,31 @@
     } else if (perfil) {
       document.getElementById('nomeUsuario').textContent = perfil.nome || 'Usuário Sem Nome';
       document.getElementById('biografia').textContent = perfil.biografia || 'Sem biografia cadastrada.';
-      
+
       document.getElementById('cidade').textContent = perfil.cidade || 'Cidade não informada';
       document.getElementById('pais').textContent = perfil.pais || 'País não informado';
-      
+
       const linkInsta = document.getElementById('instagram');
       if (perfil.instagram) {
-          linkInsta.href = `https://instagram.com/${perfil.instagram.replace('@', '')}`;
-          linkInsta.style.display = 'inline-block';
+        linkInsta.href = `https://instagram.com/${perfil.instagram.replace('@', '')}`;
+        linkInsta.style.display = 'inline-block';
       } else {
-          linkInsta.style.display = 'none';
+        linkInsta.style.display = 'none';
       }
 
       const linkSite = document.getElementById('site');
       if (perfil.site) {
-          linkSite.href = perfil.site;
-          linkSite.style.display = 'inline-block';
+        linkSite.href = perfil.site;
+        linkSite.style.display = 'inline-block';
       } else {
-          linkSite.style.display = 'none';
+        linkSite.style.display = 'none';
       }
 
       if (perfil.foto_perfil) {
-          document.getElementById('fotoPerfil').src = perfil.foto_perfil;
+        document.getElementById('fotoPerfil').src = perfil.foto_perfil;
       }
       if (perfil.foto_capa) {
-          document.getElementById('fotoCapa').src = perfil.foto_capa;
+        document.getElementById('fotoCapa').src = perfil.foto_capa;
       }
     }
 
@@ -499,7 +625,7 @@
 
     if (!obrasError && obras) {
       quantidadeObrasH2.textContent = obras.length;
-      
+
       if (obras.length === 0) {
         listaObrasDiv.innerHTML = '<p style="color: #777; grid-column: 1 / -1; text-align: center;">Nenhuma obra publicada ainda.</p>';
       } else {
