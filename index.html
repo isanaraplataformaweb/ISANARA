@@ -81,7 +81,7 @@
 
     <main class="design">
         <!-- ===================== 1. HERO ===================== -->
-        <section class="design-section design-section--hero" aria-labelledby="hero-titulo">
+        <section id="inicio" class="design-section design-section--hero" aria-labelledby="hero-titulo">
             <h1 id="hero-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
 
             <div class="floaters floaters--hero" aria-hidden="true">
@@ -166,6 +166,7 @@
                 <a class="hotspot hotspot--card hotspot--galeria" href="Galeria.html" aria-label="Abrir Galeria"><span class="visually-hidden">Galeria</span></a>
                 <a class="hotspot hotspot--card hotspot--perfil" href="Perfil.html" aria-label="Abrir Perfil"><span class="visually-hidden">Perfil</span></a>
                 <a class="hotspot hotspot--card hotspot--materias" href="Materias.html" aria-label="Abrir Matérias"><span class="visually-hidden">Matérias</span></a>
+                <a class="hotspot hotspot--mais" href="#inicio" aria-label="Voltar ao começo, onde está o botão Comece já"><span class="visually-hidden">E muito mais... — voltar ao início</span></a>
             </div>
 
             <div class="design-section__mobile">
@@ -194,7 +195,7 @@
                         </div>
                     </div>
 
-                    <p class="explorar-mobile__mais">E muito mais...</p>
+                    <a class="explorar-mobile__mais" href="#inicio">E muito mais...</a>
                 </div>
             </div>
         </section>
@@ -227,6 +228,22 @@
       });
     }, { threshold: 0.12 });
     secoes.forEach(function (s) { observer.observe(s); });
+  })();
+
+  /* "E muito mais..." volta ao início e leva o foco ao "Comece já" */
+  (function () {
+    var reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('a[href="#inicio"]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: reduzido ? 'auto' : 'smooth' });
+        var mobile = window.matchMedia('(max-width: 768px)').matches;
+        var cta = mobile
+          ? document.querySelector('.hero-mobile__cta')
+          : document.querySelector('.hotspot--cta');
+        if (cta) cta.focus({ preventScroll: true });
+      });
+    });
   })();
 </script>
 
