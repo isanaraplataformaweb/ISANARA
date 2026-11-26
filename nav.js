@@ -7,10 +7,12 @@
     ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
 
-  function atualizarVisibilidadeBotaoCriar(user) {
+  function atualizarVisibilidadeBotoes(user) {
     const fabCriar = document.getElementById('fabCriar');
-    if (!fabCriar) return;
-    fabCriar.style.display = user ? 'flex' : 'none';
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (fabCriar) fabCriar.style.display = user ? 'flex' : 'none';
+    if (logoutBtn) logoutBtn.style.display = user ? 'flex' : 'none';
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
@@ -18,17 +20,27 @@
     if (!fabCriar) return;
 
     if (!client) {
-      atualizarVisibilidadeBotaoCriar(null);
+      atualizarVisibilidadeBotoes(null);
       return;
     }
 
     const { data: authData } = await client.auth.getUser();
-    atualizarVisibilidadeBotaoCriar(authData?.user || null);
+    atualizarVisibilidadeBotoes(authData?.user || null);
 
     // Mantém a visibilidade sincronizada caso a sessão mude
     client.auth.onAuthStateChange((_event, session) => {
-      atualizarVisibilidadeBotaoCriar(session?.user || null);
+      atualizarVisibilidadeBotoes(session?.user || null);
     });
+
+    // Encerra a sessão e volta para a tela de login
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await client.auth.signOut();
+        window.location.href = 'Login.html';
+      });
+    }
 
     // Bloqueia o acesso direto via clique caso o usuário não esteja autenticado
     fabCriar.addEventListener('click', async (e) => {

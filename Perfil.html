@@ -92,6 +92,11 @@
             color: #ff5cae;
         }
 
+        /* Ícone de logout - exibido apenas para usuários autenticados */
+        .nav-pill .nav-logout {
+            display: none;
+        }
+
         .nav-pill a svg {
             width: 22px;
             height: 22px;
@@ -464,6 +469,15 @@
                 <polyline points="3 15.5 12 20 21 15.5"></polyline>
             </svg>
         </a>
+
+        <!-- 6. Sair (apenas usuários logados) -->
+        <a href="#" id="logoutBtn" class="nav-logout" data-label="Sair" aria-label="Sair">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5"></path>
+                <polyline points="15 8 19 12 15 16"></polyline>
+                <line x1="19" y1="12" x2="9" y2="12"></line>
+            </svg>
+        </a>
     </nav>
 
     <section class="capa">
@@ -527,13 +541,16 @@
   function atualizarVisibilidadeBotaoCriar(user) {
     const fabCriar = document.getElementById('fabCriar');
     const btnCriarObra = document.getElementById('btnCriarObra');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     if (user) {
       fabCriar.style.display = 'flex';
       if (btnCriarObra) btnCriarObra.style.display = 'inline-block';
+      if (logoutBtn) logoutBtn.style.display = 'flex';
     } else {
       fabCriar.style.display = 'none';
       if (btnCriarObra) btnCriarObra.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'none';
     }
   }
 
@@ -563,6 +580,16 @@
       }
       window.location.href = fabCriar.href;
     });
+
+    // Encerra a sessão e volta para a tela de login
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await supabaseClient.auth.signOut();
+        window.location.href = 'Login.html';
+      });
+    }
 
     if (!targetUserId) {
       if (!currentUser) {
