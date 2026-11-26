@@ -9,6 +9,139 @@
 <link rel="stylesheet" href="nav.css">
 <link rel="stylesheet" href="assets/design/design.css">
 <script>document.documentElement.classList.add('tem-js');</script>
+<style>
+  :root {
+    --rosa-vibrante: #ff44b8;
+  }
+
+  /* Garante que a navbar flutue sobre os slides sem faixa lateral roxa */
+  body,
+  main.design {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .nav-pill,
+  .btn-criar-fab {
+    position: fixed !important;
+    z-index: 9999 !important;
+  }
+
+  /* Botão principal "Comece já" no Slide 1 */
+  .hero-cta-wrap {
+    position: absolute;
+    left: 17.5%;
+    bottom: 18%;
+    z-index: 15;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3eff5;
+    color: #160421;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 16px 46px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .hero-cta:hover,
+  .hero-cta:focus-visible {
+    transform: translateY(-3px) scale(1.03);
+    background: #ffffff;
+    box-shadow: 0 16px 36px rgba(255, 68, 184, 0.45);
+    outline: 3px solid var(--rosa-vibrante);
+    outline-offset: 3px;
+  }
+
+  /* Faixa contínua de palavras no Slide 3 */
+  .marquee-wrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 12px 0;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 28px;
+    width: max-content;
+    animation: marqueeScroll 22s linear infinite;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.85rem;
+    letter-spacing: 0.04em;
+    color: #a21caf;
+  }
+
+  .marquee-track span:nth-child(even) {
+    color: #e11d8d;
+  }
+
+  @keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Botão "E muito mais..." no Slide 3 */
+  .btn-mais {
+    position: relative;
+    z-index: 15;
+    font-family: 'Shrikhand', cursive;
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    color: #0d0d0d;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  .btn-mais:hover,
+  .btn-mais:focus-visible {
+    transform: scale(1.04);
+    color: #8b1fa9;
+    outline: none;
+  }
+
+  @media (max-width: 768px) {
+    .hero-cta-wrap {
+      left: 50%;
+      bottom: 12%;
+      transform: translateX(-50%);
+    }
+
+    .hero-cta {
+      padding: 12px 32px;
+      font-size: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+    .hero-cta,
+    .btn-mais {
+      transition: none;
+    }
+  }
+</style>
 </head>
 <body>
     <!-- BOTÃO DE CRIAÇÃO (+) - EXIBIDO APENAS SE ESTIVER LOGADO -->
@@ -82,25 +215,18 @@
         <section id="inicio" class="slide slide--1" aria-labelledby="slide-1-titulo">
             <h1 id="slide-1-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
 
-            <img class="slide__imagem" src="assets/design/img/slide-1.webp" alt="" aria-hidden="true">
+            <img class="slide__imagem" src="assets/design/img/slide-1.webp" alt="ISANARA — onde a arte te alcança. Arte em Mossoró.">
 
-            <div class="formas" aria-hidden="true">
-                <span class="forma forma--circulo forma--grande"></span>
-                <span class="forma forma--anel forma--media"></span>
-                <span class="forma forma--circulo forma--menor"></span>
-                <span class="forma forma--quadrado forma--menor"></span>
+            <div class="hero-cta-wrap">
+                <button type="button" id="ctaHero" class="hero-cta" onclick="window.location.href='Login.html'">Comece já</button>
             </div>
-
-            <a class="area area--cta" href="Login.html" aria-label="Comece já — entrar no ISANARA">
-                <span class="visually-hidden">Comece já</span>
-            </a>
         </section>
 
         <!-- ===================== 2. COMUNIDADE ===================== -->
         <section class="slide slide--2" aria-labelledby="slide-2-titulo">
             <h2 id="slide-2-titulo" class="visually-hidden">Para a comunidade artística de Mossoró — vem pra inovar, vem pra te ajudar.</h2>
 
-            <img class="slide__imagem" src="assets/design/img/slide-2.webp" alt="" aria-hidden="true">
+            <img class="slide__imagem" src="assets/design/img/slide-2.webp" alt="Para a comunidade artística de Mossoró — ISANARA. Vem pra inovar, vem pra te ajudar.">
 
             <div class="formas" aria-hidden="true">
                 <span class="forma forma--circulo forma--grande"></span>
@@ -114,7 +240,7 @@
         <section class="slide slide--3" aria-labelledby="slide-3-titulo">
             <h2 id="slide-3-titulo" class="visually-hidden">Explore a Galeria, o Perfil e as Matérias — e muito mais.</h2>
 
-            <img class="slide__imagem" src="assets/design/img/slide-3.webp" alt="" aria-hidden="true">
+            <img class="slide__imagem" src="assets/design/img/slide-3.webp" alt="Cartões de Galeria, Perfil e Matérias">
 
             <div class="formas" aria-hidden="true">
                 <span class="forma forma--circulo forma--media"></span>
@@ -125,7 +251,17 @@
             <a class="area area--galeria" href="Galeria.html" aria-label="Abrir Galeria"><span class="visually-hidden">Galeria</span></a>
             <a class="area area--perfil" href="Perfil.html" aria-label="Abrir Perfil"><span class="visually-hidden">Perfil</span></a>
             <a class="area area--materias" href="Materias.html" aria-label="Abrir Matérias"><span class="visually-hidden">Matérias</span></a>
-            <a class="area area--mais" href="#inicio" aria-label="Voltar ao começo, onde está o botão Comece já"><span class="visually-hidden">E muito mais... — voltar ao início</span></a>
+
+            <div class="marquee-wrap" aria-hidden="true">
+                <div class="marquee-track">
+                    <span>ARTISTAS</span><span>NOVIDADES</span><span>SABERES</span><span>CULTURA</span><span>EVENTOS</span><span>COMPARTILHAR</span><span>INTERATIVIDADE</span><span>CONEXÃO</span>
+                    <span>ARTISTAS</span><span>NOVIDADES</span><span>SABERES</span><span>CULTURA</span><span>EVENTOS</span><span>COMPARTILHAR</span><span>INTERATIVIDADE</span><span>CONEXÃO</span>
+                </div>
+            </div>
+
+            <button type="button" id="btnMais" class="btn-mais">
+                E muito mais... 👆
+            </button>
         </section>
     </main>
 
@@ -146,16 +282,18 @@
   })();
 
   /* "E muito mais..." volta ao início e foca o "Comece já" */
-  (function () {
+  function voltarAoInicio() {
     var reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var mais = document.querySelector('.area--mais');
-    var cta = document.querySelector('.area--cta');
-    if (!mais) return;
-    mais.addEventListener('click', function (e) {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: reduzido ? 'auto' : 'smooth' });
-      if (cta) cta.focus({ preventScroll: true });
-    });
+    var cta = document.getElementById('ctaHero');
+    window.scrollTo({ top: 0, behavior: reduzido ? 'auto' : 'smooth' });
+    if (cta) cta.focus({ preventScroll: true });
+  }
+
+  (function () {
+    var mais = document.getElementById('btnMais');
+    if (mais) {
+      mais.addEventListener('click', voltarAoInicio);
+    }
   })();
 </script>
 
