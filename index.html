@@ -10,7 +10,7 @@
 <link rel="preload" href="assets/design/fonts/bebasneue-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="nav.css">
 <link rel="stylesheet" href="assets/design/design.css">
-<script>document.documentElement.classList.add('home-hero-visivel');</script>
+<script>document.documentElement.classList.add('home-hero-visivel', 'tem-js');</script>
 </head>
 <body>
     <!-- BOTÃO DE CRIAÇÃO (+) - EXIBIDO APENAS SE ESTIVER LOGADO -->
@@ -84,10 +84,22 @@
         <section class="design-section design-section--hero" aria-labelledby="hero-titulo">
             <h1 id="hero-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
 
-            <picture class="design-section__art" aria-hidden="true">
-                <source srcset="assets/design/img/hero-full.webp" type="image/webp">
-                <img src="assets/design/img/hero-full.webp" alt="">
-            </picture>
+            <div class="floaters floaters--hero" aria-hidden="true">
+                <span class="flutuante flutuante--1"><img src="assets/design/img/hero-foto-1.webp" alt=""></span>
+                <span class="flutuante flutuante--2"><img src="assets/design/img/hero-foto-2.webp" alt=""></span>
+                <span class="flutuante flutuante--3"><img src="assets/design/img/hero-recorte.webp" alt=""></span>
+            </div>
+
+            <div class="design-section__frame">
+                <picture class="design-section__art" aria-hidden="true">
+                    <source srcset="assets/design/img/hero-full.webp" type="image/webp">
+                    <img src="assets/design/img/hero-full.webp" alt="">
+                </picture>
+
+                <a class="hotspot hotspot--cta" href="Login.html" aria-label="Comece já — entrar no ISANARA">
+                    <span class="visually-hidden">Comece já</span>
+                </a>
+            </div>
 
             <div class="design-section__mobile">
                 <div class="hero-mobile">
@@ -102,20 +114,24 @@
                     </div>
                 </div>
             </div>
-
-            <a class="hotspot hotspot--cta" href="Login.html" aria-label="Comece já — entrar no ISANARA">
-                <span class="visually-hidden">Comece já</span>
-            </a>
         </section>
 
         <!-- ===================== 2. COMUNIDADE ===================== -->
         <section class="design-section design-section--comunidade" aria-labelledby="comunidade-titulo">
             <h2 id="comunidade-titulo" class="visually-hidden">Para a comunidade artística de Mossoró — vem pra inovar, vem pra te ajudar.</h2>
 
-            <picture class="design-section__art" aria-hidden="true">
-                <source srcset="assets/design/img/comunidade-full.webp" type="image/webp">
-                <img src="assets/design/img/comunidade-full.webp" alt="">
-            </picture>
+            <div class="floaters floaters--comunidade" aria-hidden="true">
+                <span class="flutuante flutuante--1"><img src="assets/design/img/comunidade-foto-1.webp" alt=""></span>
+                <span class="flutuante flutuante--2"><img src="assets/design/img/comunidade-foto-2.webp" alt=""></span>
+                <span class="flutuante flutuante--3"><img src="assets/design/img/comunidade-foto-3.webp" alt=""></span>
+            </div>
+
+            <div class="design-section__frame">
+                <picture class="design-section__art" aria-hidden="true">
+                    <source srcset="assets/design/img/comunidade-full.webp" type="image/webp">
+                    <img src="assets/design/img/comunidade-full.webp" alt="">
+                </picture>
+            </div>
 
             <div class="design-section__mobile">
                 <div class="comunidade-mobile">
@@ -136,10 +152,21 @@
         <section class="design-section design-section--explorar" aria-labelledby="explorar-titulo">
             <h2 id="explorar-titulo" class="visually-hidden">Explore a Galeria, o Perfil e as Matérias — e muito mais.</h2>
 
-            <picture class="design-section__art" aria-hidden="true">
-                <source srcset="assets/design/img/explorar-full.webp" type="image/webp">
-                <img src="assets/design/img/explorar-full.webp" alt="">
-            </picture>
+            <div class="floaters floaters--explorar" aria-hidden="true">
+                <span class="flutuante flutuante--1"><img src="assets/design/img/card-1.webp" alt=""></span>
+                <span class="flutuante flutuante--2"><img src="assets/design/img/card-2.webp" alt=""></span>
+            </div>
+
+            <div class="design-section__frame">
+                <picture class="design-section__art" aria-hidden="true">
+                    <source srcset="assets/design/img/explorar-full.webp" type="image/webp">
+                    <img src="assets/design/img/explorar-full.webp" alt="">
+                </picture>
+
+                <a class="hotspot hotspot--card hotspot--galeria" href="Galeria.html" aria-label="Abrir Galeria"><span class="visually-hidden">Galeria</span></a>
+                <a class="hotspot hotspot--card hotspot--perfil" href="Perfil.html" aria-label="Abrir Perfil"><span class="visually-hidden">Perfil</span></a>
+                <a class="hotspot hotspot--card hotspot--materias" href="Materias.html" aria-label="Abrir Matérias"><span class="visually-hidden">Matérias</span></a>
+            </div>
 
             <div class="design-section__mobile">
                 <div class="explorar-mobile">
@@ -170,10 +197,6 @@
                     <p class="explorar-mobile__mais">E muito mais...</p>
                 </div>
             </div>
-
-            <a class="hotspot hotspot--card hotspot--galeria" href="Galeria.html" aria-label="Abrir Galeria"><span class="visually-hidden">Galeria</span></a>
-            <a class="hotspot hotspot--card hotspot--perfil" href="Perfil.html" aria-label="Abrir Perfil"><span class="visually-hidden">Perfil</span></a>
-            <a class="hotspot hotspot--card hotspot--materias" href="Materias.html" aria-label="Abrir Matérias"><span class="visually-hidden">Matérias</span></a>
         </section>
     </main>
 
@@ -189,6 +212,21 @@
       document.documentElement.classList.toggle('home-hero-visivel', entries[0].isIntersecting);
     }, { threshold: 0.05 });
     observer.observe(hero);
+  })();
+
+  /* Revela cada slide como em um portfólio */
+  (function () {
+    var secoes = document.querySelectorAll('.design-section');
+    if (!('IntersectionObserver' in window)) {
+      secoes.forEach(function (s) { s.classList.add('em-tela'); });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.classList.toggle('em-tela', entry.isIntersecting);
+      });
+    }, { threshold: 0.12 });
+    secoes.forEach(function (s) { observer.observe(s); });
   })();
 </script>
 
