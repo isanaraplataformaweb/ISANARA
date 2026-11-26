@@ -3,184 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ISANARA — onde a arte te alcança. Arte em Mossoró: galeria, perfil, matérias e conexão para a comunidade artística.">
 <title>ISANARA</title>
-<style>
-    
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Merriweather', 'Georgia', 'Times New Roman', serif;
-}
-
-body {
-    width: 100%;
-    min-height: 100vh;
-    background: 
-        linear-gradient(135deg, rgba(8, 28, 61, 1) 0%, rgba(30, 94, 255, 1) 45%, rgba(180, 108, 255, 1) 100%), 
-        url('casoqueira') no-repeat center center;
-    background-size: cover;
-    color: white;
-    overflow-x: hidden;
-    position: relative;
-    margin: 0;
-}
-
-body::before,
-body::after {
-    content: "";
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.4;
-    z-index: -1;
-}
-
-body::before {
-    width: 350px;
-    height: 350px;
-    background: #66d9ff;
-    top: -100px;
-    left: -100px;
-}
-
-body::after {
-    width: 400px;
-    height: 400px;
-    background: #c084fc;
-    bottom: -150px;
-    right: -150px;
-}
-.hero {
-    text-align: center;
-    padding: 100px 20px;
-    max-width: 900px;
-    margin: auto;
-}
-
-.hero h1 {
-    font-size: 5rem;
-    font-weight: 900;
-    letter-spacing: 5px;
-    margin-bottom: 20px;
-    background: linear-gradient(90deg, #ffffff, #9be7ff, #d7a6ff);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-    font-size: 1.3rem;
-    line-height: 1.8;
-    color: gold;
-    margin-bottom: 40px;
-}
-
-.cta-btn {
-    display: inline-block;
-    padding: 15px 40px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    color: white;
-    margin-top: 30px;
-    margin-bottom: -30px;
-    background: linear-gradient(
-        135deg,
-        #4cc9ff,
-        #7b68ee,
-        #c77dff
-    );
-    box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    transition: .4s;
-}
-
-.cta-btn:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(0,0,0,.35);
-}
-
-.features {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
-    padding: 50px 10%;
-    margin-top: -20px;
-    margin-bottom: 50px;
-}
-
-.card {
-    width: 320px;
-    padding: 30px;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 25px;
-    transition: .4s;
-    box-shadow: 0 10px 25px rgba(0,0,0,.15);
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    background: rgba(255,255,255,0.18);
-    box-shadow: 0 20px 40px rgba(0,0,0,.25);
-}
-
-.card h3 {
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-    color: #f2e8fd;
-}
-
-.card p {
-    line-height: 1.7;
-    color: rgba(255,255,255,.9);
-}
-
-footer {
-    text-align: center;
-    width: 100%;
-    padding: 30px 20px;
-    background: rgba(0, 0, 0, 0.2);
-    margin-top: 20px;
-}
-
-footer p {
-    font-family: 'Merriweather', 'Georgia', 'Times New Roman', serif;
-    font-size: 0.9rem;
-    color: #ffffff;
-}
-
-/* RESPONSIVO MOBILE */
-@media (max-width: 768px) {
-    .hero {
-        padding: 60px 15px;
-    }
-
-    .hero h1 {
-        font-size: 3rem;
-        letter-spacing: 2px;
-    }
-
-    .hero p {
-        font-size: 1.1rem;
-    }
-
-    .features {
-        padding: 20px 15px;
-        gap: 20px;
-    }
-
-    .card {
-        width: 100%;
-        max-width: 100%;
-    }
-}
-</style>
 <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="nav.css">
+<link rel="preload" href="assets/design/fonts/shrikhand-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/design/fonts/bebasneue-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="nav.css">
+<link rel="stylesheet" href="assets/design/design.css">
 </head>
 <body>
     <!-- BOTÃO DE CRIAÇÃO (+) - EXIBIDO APENAS SE ESTIVER LOGADO -->
@@ -248,49 +77,104 @@ footer p {
             </svg>
         </a>
     </nav>
-    
-    <section class="hero">
-     <h1>ISANARA</h1>
 
-     <p><em>
-       Onde a arte te alcança! <br>
-       Experiências de conforto, praticidade
-       e criatividade para conectar os artistas mossoroenses.
-     </em></p>
+    <main class="design">
+        <!-- ===================== 1. HERO ===================== -->
+        <section class="design-section design-section--hero" aria-labelledby="hero-titulo">
+            <h1 id="hero-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
 
-     <a class="cta-btn" href="Login.html">
-       Comece Hoje!
-     </a>
-    </section>
+            <picture class="design-section__art" aria-hidden="true">
+                <source srcset="assets/design/img/hero-full.webp" type="image/webp">
+                <img src="assets/design/img/hero-full.webp" alt="">
+            </picture>
 
-    <section class="features">
-     <div class="card">
-     <h3>🎨 Galeria</h3>
-     <p> Visite nossa exposição! <br>
-       Explore imagens, projetos e inspirações
-       em um ambiente moderno e visualmente impactante.
-     </p>
-     </div>
+            <div class="design-section__mobile">
+                <div class="hero-mobile">
+                    <div class="hero-mobile__fotos" aria-hidden="true">
+                        <img src="assets/design/img/hero-foto-1.webp" alt="">
+                        <img src="assets/design/img/hero-foto-2.webp" alt="">
+                    </div>
+                    <div class="hero-mobile__conteudo">
+                        <p class="hero-mobile__marca">ISANARA</p>
+                        <p class="hero-mobile__tagline">onde a arte te alcança<br>Arte em Mossoró</p>
+                        <a class="hero-mobile__cta" href="Login.html">Comece já</a>
+                    </div>
+                </div>
+            </div>
 
-      <div class="card">
-        <h3>👤 Perfil</h3>
-        <p> Construa sua identidade! <br>
-          Customize seu espaço, acompanhe atividades
-          e destaque a sua personalidade da sua maneira.
-        </p>
-      </div>
+            <a class="hotspot hotspot--cta" href="Login.html" aria-label="Comece já — entrar no ISANARA">
+                <span class="visually-hidden">Comece já</span>
+            </a>
+        </section>
 
-      <div class="card">
-        <h3>🎭 Matérias</h3>
-        <p>Conheça novos ofícios artísticos! <br>
-        Aprenda novos conhecimentos e experiências em
-        áreas artísticas diversificadas.</p>
-      </div>
-    </section>
+        <!-- ===================== 2. COMUNIDADE ===================== -->
+        <section class="design-section design-section--comunidade" aria-labelledby="comunidade-titulo">
+            <h2 id="comunidade-titulo" class="visually-hidden">Para a comunidade artística de Mossoró — vem pra inovar, vem pra te ajudar.</h2>
 
-    <footer>
-        <p>&copy; 2026 ISANARA. Todos os direitos reservados.</p>
-    </footer>
+            <picture class="design-section__art" aria-hidden="true">
+                <source srcset="assets/design/img/comunidade-full.webp" type="image/webp">
+                <img src="assets/design/img/comunidade-full.webp" alt="">
+            </picture>
+
+            <div class="design-section__mobile">
+                <div class="comunidade-mobile">
+                    <p class="comunidade-mobile__titulo">Para a<br>comunidade<br>artística de<br>Mossoró</p>
+                    <p class="comunidade-mobile__marca">ISANARA</p>
+                    <p class="comunidade-mobile__chamada">Vem pra inovar<br>Vem pra te ajudar</p>
+                    <div class="comunidade-mobile__fotos" aria-hidden="true">
+                        <figure class="foto-com-frame"><img src="assets/design/img/comunidade-foto-1.webp" alt=""></figure>
+                        <figure class="foto-com-frame"><img src="assets/design/img/comunidade-foto-2.webp" alt=""></figure>
+                        <figure class="foto-com-frame"><img src="assets/design/img/comunidade-foto-3.webp" alt=""></figure>
+                    </div>
+                    <span class="comunidade-mobile__quadrado" aria-hidden="true"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== 3. EXPLORAR ===================== -->
+        <section class="design-section design-section--explorar" aria-labelledby="explorar-titulo">
+            <h2 id="explorar-titulo" class="visually-hidden">Explore a Galeria, o Perfil e as Matérias — e muito mais.</h2>
+
+            <picture class="design-section__art" aria-hidden="true">
+                <source srcset="assets/design/img/explorar-full.webp" type="image/webp">
+                <img src="assets/design/img/explorar-full.webp" alt="">
+            </picture>
+
+            <div class="design-section__mobile">
+                <div class="explorar-mobile">
+                    <div class="explorar-mobile__cards">
+                        <a class="card-mobile" href="Galeria.html" aria-label="Abrir Galeria">
+                            <img src="assets/design/img/card-1.webp" alt="">
+                            <span>Galeria</span>
+                        </a>
+                        <a class="card-mobile" href="Perfil.html" aria-label="Abrir Perfil">
+                            <img src="assets/design/img/card-2.webp" alt="">
+                            <span>Perfil</span>
+                        </a>
+                        <a class="card-mobile" href="Materias.html" aria-label="Abrir Matérias">
+                            <img src="assets/design/img/card-3.webp" alt="">
+                            <span>Matérias</span>
+                        </a>
+                    </div>
+
+                    <div class="tags-mobile" aria-hidden="true">
+                        <div class="tags-mobile__track">
+                            <span>Artistas</span><span>Novidades</span><span>Saberes</span><span>Cultura</span><span>Eventos</span><span>Compartilhar</span>
+                            <span>Interatividade</span><span>Conexão</span><span>Artistas</span><span>Novidades</span><span>Saberes</span>
+                            <span>Artistas</span><span>Novidades</span><span>Saberes</span><span>Cultura</span><span>Eventos</span><span>Compartilhar</span>
+                            <span>Interatividade</span><span>Conexão</span><span>Artistas</span><span>Novidades</span><span>Saberes</span>
+                        </div>
+                    </div>
+
+                    <p class="explorar-mobile__mais">E muito mais...</p>
+                </div>
+            </div>
+
+            <a class="hotspot hotspot--card hotspot--galeria" href="Galeria.html" aria-label="Abrir Galeria"><span class="visually-hidden">Galeria</span></a>
+            <a class="hotspot hotspot--card hotspot--perfil" href="Perfil.html" aria-label="Abrir Perfil"><span class="visually-hidden">Perfil</span></a>
+            <a class="hotspot hotspot--card hotspot--materias" href="Materias.html" aria-label="Abrir Matérias"><span class="visually-hidden">Matérias</span></a>
+        </section>
+    </main>
 
     <script>
   if ('serviceWorker' in navigator) {
