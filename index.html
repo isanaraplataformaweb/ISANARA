@@ -6,11 +6,9 @@
 <meta name="description" content="ISANARA — onde a arte te alcança. Arte em Mossoró: galeria, perfil, matérias e conexão para a comunidade artística.">
 <title>ISANARA</title>
 <link rel="manifest" href="manifest.json">
-<link rel="preload" href="assets/design/fonts/shrikhand-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/design/fonts/bebasneue-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="nav.css">
 <link rel="stylesheet" href="assets/design/design.css">
-<script>document.documentElement.classList.add('home-hero-visivel', 'tem-js');</script>
+<script>document.documentElement.classList.add('tem-js');</script>
 </head>
 <body>
     <!-- BOTÃO DE CRIAÇÃO (+) - EXIBIDO APENAS SE ESTIVER LOGADO -->
@@ -80,144 +78,61 @@
     </nav>
 
     <main class="design">
-        <!-- ===================== 1. HERO ===================== -->
-        <section id="inicio" class="design-section design-section--hero" aria-labelledby="hero-titulo">
-            <h1 id="hero-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
+        <!-- ===================== 1. ISANARA ===================== -->
+        <section id="inicio" class="slide slide--1" aria-labelledby="slide-1-titulo">
+            <h1 id="slide-1-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
 
-            <div class="floaters floaters--hero" aria-hidden="true">
-                <span class="flutuante flutuante--1"><img src="assets/design/img/hero-foto-1.webp" alt=""></span>
-                <span class="flutuante flutuante--2"><img src="assets/design/img/hero-foto-2.webp" alt=""></span>
-                <span class="flutuante flutuante--3"><img src="assets/design/img/hero-recorte.webp" alt=""></span>
+            <img class="slide__imagem" src="assets/design/img/slide-1.webp" alt="" aria-hidden="true">
+
+            <div class="formas" aria-hidden="true">
+                <span class="forma forma--circulo forma--grande"></span>
+                <span class="forma forma--anel forma--media"></span>
+                <span class="forma forma--circulo forma--menor"></span>
+                <span class="forma forma--quadrado forma--menor"></span>
             </div>
 
-            <div class="design-section__frame">
-                <picture class="design-section__art" aria-hidden="true">
-                    <source srcset="assets/design/img/hero-referencia.webp" type="image/webp">
-                    <img src="assets/design/img/hero-referencia.webp" alt="">
-                </picture>
-
-                <a class="hotspot hotspot--cta" href="Login.html" aria-label="Comece já — entrar no ISANARA">
-                    <span class="visually-hidden">Comece já</span>
-                </a>
-            </div>
-
-            <div class="design-section__mobile">
-                <div class="hero-mobile">
-                    <div class="hero-mobile__fotos" aria-hidden="true">
-                        <img src="assets/design/img/hero-foto-1.webp" alt="">
-                        <img src="assets/design/img/hero-foto-2.webp" alt="">
-                    </div>
-                    <div class="hero-mobile__conteudo">
-                        <p class="hero-mobile__marca">ISANARA</p>
-                        <p class="hero-mobile__tagline">onde a arte te alcança<br>Arte em Mossoró</p>
-                        <a class="hero-mobile__cta" href="Login.html">Comece já</a>
-                    </div>
-                </div>
-            </div>
+            <a class="area area--cta" href="Login.html" aria-label="Comece já — entrar no ISANARA">
+                <span class="visually-hidden">Comece já</span>
+            </a>
         </section>
 
         <!-- ===================== 2. COMUNIDADE ===================== -->
-        <section class="design-section design-section--comunidade" aria-labelledby="comunidade-titulo">
-            <h2 id="comunidade-titulo" class="visually-hidden">Para a comunidade artística de Mossoró — vem pra inovar, vem pra te ajudar.</h2>
+        <section class="slide slide--2" aria-labelledby="slide-2-titulo">
+            <h2 id="slide-2-titulo" class="visually-hidden">Para a comunidade artística de Mossoró — vem pra inovar, vem pra te ajudar.</h2>
 
-            <div class="floaters floaters--comunidade" aria-hidden="true">
-                <span class="flutuante flutuante--1"><img src="assets/design/img/comunidade-foto-1.webp" alt=""></span>
-                <span class="flutuante flutuante--2"><img src="assets/design/img/comunidade-foto-2.webp" alt=""></span>
-                <span class="flutuante flutuante--3"><img src="assets/design/img/comunidade-foto-3.webp" alt=""></span>
-            </div>
+            <img class="slide__imagem" src="assets/design/img/slide-2.webp" alt="" aria-hidden="true">
 
-            <div class="design-section__frame">
-                <picture class="design-section__art" aria-hidden="true">
-                    <source srcset="assets/design/img/comunidade-full.webp" type="image/webp">
-                    <img src="assets/design/img/comunidade-full.webp" alt="">
-                </picture>
-            </div>
-
-            <div class="design-section__mobile">
-                <div class="comunidade-mobile">
-                    <p class="comunidade-mobile__titulo">Para a<br>comunidade<br>artística de<br>Mossoró</p>
-                    <p class="comunidade-mobile__marca">ISANARA</p>
-                    <p class="comunidade-mobile__chamada">Vem pra inovar<br>Vem pra te ajudar</p>
-                    <div class="comunidade-mobile__fotos" aria-hidden="true">
-                        <figure class="foto-com-frame"><img src="assets/design/img/comunidade-foto-1.webp" alt=""></figure>
-                        <figure class="foto-com-frame"><img src="assets/design/img/comunidade-foto-2.webp" alt=""></figure>
-                        <figure class="foto-com-frame"><img src="assets/design/img/comunidade-foto-3.webp" alt=""></figure>
-                    </div>
-                    <span class="comunidade-mobile__quadrado" aria-hidden="true"></span>
-                </div>
+            <div class="formas" aria-hidden="true">
+                <span class="forma forma--circulo forma--grande"></span>
+                <span class="forma forma--circulo forma--media"></span>
+                <span class="forma forma--quadrado forma--menor"></span>
+                <span class="forma forma--quadrado forma--media"></span>
             </div>
         </section>
 
-        <!-- ===================== 3. EXPLORAR ===================== -->
-        <section class="design-section design-section--explorar" aria-labelledby="explorar-titulo">
-            <h2 id="explorar-titulo" class="visually-hidden">Explore a Galeria, o Perfil e as Matérias — e muito mais.</h2>
+        <!-- ===================== 3. GALERIA / PERFIL / MATÉRIAS ===================== -->
+        <section class="slide slide--3" aria-labelledby="slide-3-titulo">
+            <h2 id="slide-3-titulo" class="visually-hidden">Explore a Galeria, o Perfil e as Matérias — e muito mais.</h2>
 
-            <div class="floaters floaters--explorar" aria-hidden="true">
-                <span class="flutuante flutuante--1"><img src="assets/design/img/card-1.webp" alt=""></span>
-                <span class="flutuante flutuante--2"><img src="assets/design/img/card-2.webp" alt=""></span>
+            <img class="slide__imagem" src="assets/design/img/slide-3.webp" alt="" aria-hidden="true">
+
+            <div class="formas" aria-hidden="true">
+                <span class="forma forma--circulo forma--media"></span>
+                <span class="forma forma--circulo forma--menor"></span>
+                <span class="forma forma--quadrado forma--menor"></span>
             </div>
 
-            <div class="design-section__frame">
-                <picture class="design-section__art" aria-hidden="true">
-                    <source srcset="assets/design/img/explorar-full.webp" type="image/webp">
-                    <img src="assets/design/img/explorar-full.webp" alt="">
-                </picture>
-
-                <a class="hotspot hotspot--card hotspot--galeria" href="Galeria.html" aria-label="Abrir Galeria"><span class="visually-hidden">Galeria</span></a>
-                <a class="hotspot hotspot--card hotspot--perfil" href="Perfil.html" aria-label="Abrir Perfil"><span class="visually-hidden">Perfil</span></a>
-                <a class="hotspot hotspot--card hotspot--materias" href="Materias.html" aria-label="Abrir Matérias"><span class="visually-hidden">Matérias</span></a>
-                <a class="hotspot hotspot--mais" href="#inicio" aria-label="Voltar ao começo, onde está o botão Comece já"><span class="visually-hidden">E muito mais... — voltar ao início</span></a>
-            </div>
-
-            <div class="design-section__mobile">
-                <div class="explorar-mobile">
-                    <div class="explorar-mobile__cards">
-                        <a class="card-mobile" href="Galeria.html" aria-label="Abrir Galeria">
-                            <img src="assets/design/img/card-1.webp" alt="">
-                            <span>Galeria</span>
-                        </a>
-                        <a class="card-mobile" href="Perfil.html" aria-label="Abrir Perfil">
-                            <img src="assets/design/img/card-2.webp" alt="">
-                            <span>Perfil</span>
-                        </a>
-                        <a class="card-mobile" href="Materias.html" aria-label="Abrir Matérias">
-                            <img src="assets/design/img/card-3.webp" alt="">
-                            <span>Matérias</span>
-                        </a>
-                    </div>
-
-                    <div class="tags-mobile" aria-hidden="true">
-                        <div class="tags-mobile__track">
-                            <span>Artistas</span><span>Novidades</span><span>Saberes</span><span>Cultura</span><span>Eventos</span><span>Compartilhar</span>
-                            <span>Interatividade</span><span>Conexão</span><span>Artistas</span><span>Novidades</span><span>Saberes</span>
-                            <span>Artistas</span><span>Novidades</span><span>Saberes</span><span>Cultura</span><span>Eventos</span><span>Compartilhar</span>
-                            <span>Interatividade</span><span>Conexão</span><span>Artistas</span><span>Novidades</span><span>Saberes</span>
-                        </div>
-                    </div>
-
-                    <a class="explorar-mobile__mais" href="#inicio">E muito mais...</a>
-                </div>
-            </div>
+            <a class="area area--galeria" href="Galeria.html" aria-label="Abrir Galeria"><span class="visually-hidden">Galeria</span></a>
+            <a class="area area--perfil" href="Perfil.html" aria-label="Abrir Perfil"><span class="visually-hidden">Perfil</span></a>
+            <a class="area area--materias" href="Materias.html" aria-label="Abrir Matérias"><span class="visually-hidden">Matérias</span></a>
+            <a class="area area--mais" href="#inicio" aria-label="Voltar ao começo, onde está o botão Comece já"><span class="visually-hidden">E muito mais... — voltar ao início</span></a>
         </section>
     </main>
 
     <script>
-  /* A nav lateral fica oculta enquanto o primeiro slide estiver em tela. */
+  /* Entrada suave dos slides */
   (function () {
-    var hero = document.querySelector('.design-section--hero');
-    if (!hero || !('IntersectionObserver' in window)) {
-      document.documentElement.classList.remove('home-hero-visivel');
-      return;
-    }
-    var observer = new IntersectionObserver(function (entries) {
-      document.documentElement.classList.toggle('home-hero-visivel', entries[0].isIntersecting);
-    }, { threshold: 0.05 });
-    observer.observe(hero);
-  })();
-
-  /* Revela cada slide como em um portfólio */
-  (function () {
-    var secoes = document.querySelectorAll('.design-section');
+    var secoes = document.querySelectorAll('.slide');
     if (!('IntersectionObserver' in window)) {
       secoes.forEach(function (s) { s.classList.add('em-tela'); });
       return;
@@ -226,23 +141,20 @@
       entries.forEach(function (entry) {
         entry.target.classList.toggle('em-tela', entry.isIntersecting);
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
     secoes.forEach(function (s) { observer.observe(s); });
   })();
 
-  /* "E muito mais..." volta ao início e leva o foco ao "Comece já" */
+  /* "E muito mais..." volta ao início e foca o "Comece já" */
   (function () {
     var reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('a[href="#inicio"]').forEach(function (link) {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: reduzido ? 'auto' : 'smooth' });
-        var mobile = window.matchMedia('(max-width: 768px)').matches;
-        var cta = mobile
-          ? document.querySelector('.hero-mobile__cta')
-          : document.querySelector('.hotspot--cta');
-        if (cta) cta.focus({ preventScroll: true });
-      });
+    var mais = document.querySelector('.area--mais');
+    var cta = document.querySelector('.area--cta');
+    if (!mais) return;
+    mais.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: reduzido ? 'auto' : 'smooth' });
+      if (cta) cta.focus({ preventScroll: true });
     });
   })();
 </script>
