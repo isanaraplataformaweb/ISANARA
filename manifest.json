@@ -3,8 +3,8 @@
   "short_name": "ISANARA",
   "start_url": "https://isanaraplataformaweb.github.io/ISANARA/index.html",
   "display": "standalone",
-  "background-color": "#2596be",
-  "theme-color": "#a570ff",
+  "background-color": "#2596BE",
+  "theme-color": "#A570FF",
   "icons": [
     {
       "src":"I.jpg",
