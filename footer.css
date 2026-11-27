@@ -213,23 +213,78 @@
 }
 
 .rodape__instalar {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-top: 28px;
-  padding: 14px 32px;
-  border: none;
+  gap: 12px;
+  margin-top: 32px;
+  padding: 7px 12px 7px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 999px;
-  background: var(--amarelo);
+  background: linear-gradient(105deg, #ff66c4 0%, #ff9ed7 42%, var(--amarelo) 100%);
   color: var(--roxo);
   font-family: 'Shrikhand', cursive;
-  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
   line-height: 1;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.34),
+    0 0 0 6px rgba(255, 102, 196, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+/* Brilho que atravessa o botão no hover */
+.rodape__instalar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 25%, rgba(255, 255, 255, 0.65) 50%, transparent 75%);
+  transform: translateX(-120%);
+  transition: transform 0.65s ease;
+  pointer-events: none;
+}
+
+.rodape__instalar:hover::before,
+.rodape__instalar:focus-visible::before {
+  transform: translateX(120%);
+}
+
+.rodape__instalar:hover,
+.rodape__instalar:focus-visible {
+  transform: translateY(-4px) scale(1.02);
+  filter: saturate(1.15);
+  box-shadow:
+    0 18px 38px rgba(255, 102, 196, 0.42),
+    0 0 0 9px rgba(251, 240, 88, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  outline: none;
+}
+
+.rodape__instalar:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.rodape__instalar:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 5px;
+}
+
+.rodape__instalar-icone {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--roxo);
+  color: var(--amarelo);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3), 0 4px 10px rgba(64, 0, 80, 0.3);
 }
 
 .rodape__instalar svg {
@@ -240,19 +295,31 @@
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  animation: rodape-download 2.4s ease-in-out infinite;
 }
 
-.rodape__instalar:hover,
-.rodape__instalar:focus-visible {
-  transform: translateY(-3px);
-  background: #ffffff;
-  box-shadow: 0 16px 34px rgba(255, 102, 196, 0.45);
-  outline: none;
+@keyframes rodape-download {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(2px); }
 }
 
-.rodape__instalar:focus-visible {
-  outline: 3px solid var(--rosa);
-  outline-offset: 4px;
+.rodape__instalar-texto {
+  position: relative;
+  z-index: 1;
+  padding: 0 2px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.rodape__instalar-selo {
+  position: relative;
+  z-index: 1;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(64, 0, 80, 0.16);
+  color: var(--roxo);
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
 }
 
 .rodape__instalar[hidden] {
@@ -342,9 +409,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rodape__forma { animation: none; }
+  .rodape__forma,
+  .rodape__instalar svg { animation: none; }
   .rodape__marca,
   .rodape__topo,
   .rodape__instalar,
+  .rodape__instalar::before,
   .rodape__links a { transition: none; }
 }
