@@ -154,19 +154,18 @@
   }
 
   @media (max-width: 768px) {
-    /* Slides verticais: usam os arquivos "-mobile.png" do <picture> */
+    /* Slides verticais: usam 4.png, 5.png e 6.png do <picture> */
     .slide {
       height: auto;
       min-height: 0;
       aspect-ratio: 9 / 16;
     }
 
-    /* Ao trocar pelas imagens finais, ajuste também os hotspots .area--galeria,
-       .area--perfil e .area--materias para os novos lugares dos cards. */
-
+    /* Slide 1 — "Comece já" abaixo da tagline do 4.png */
     .hero-cta-wrap {
+      top: 63%;
+      bottom: auto;
       left: 50%;
-      bottom: 12%;
       transform: translateX(-50%);
     }
 
@@ -175,8 +174,23 @@
       font-size: 1rem;
     }
 
+    /* Slide 3 — cards empilhados no 6.png: Galeria, Matérias e Perfil */
+    .area--galeria,
+    .area--perfil,
+    .area--materias {
+      top: auto;
+      left: 35%;
+      width: 30%;
+      height: 20.5%;
+    }
+
+    .area--galeria { top: 3.6%; }
+    .area--materias { top: 26.9%; }
+    .area--perfil { top: 50.2%; }
+
+    /* Faixa e "E muito mais..." no espaço livre abaixo dos cards */
     .marquee-wrap {
-      top: 63%;
+      top: 76%;
       width: 94%;
       padding: 4px 0;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -190,7 +204,7 @@
     }
 
     .btn-mais {
-      top: 78%;
+      top: 87%;
       font-size: clamp(1.3rem, 6vw, 2rem);
       gap: 6px;
     }
@@ -288,9 +302,8 @@
         <section id="inicio" class="slide slide--1" aria-labelledby="slide-1-titulo">
             <h1 id="slide-1-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
 
-            <!-- Troque os "-mobile.png" pelos layouts verticais definitivos quando estiverem prontos -->
             <picture>
-                <source media="(max-width: 768px)" srcset="assets/design/1-mobile.png">
+                <source media="(max-width: 768px)" srcset="assets/design/img/4.png">
                 <img class="slide__imagem" src="assets/design/1.png" alt="ISANARA — onde a arte te alcança. Arte em Mossoró.">
             </picture>
 
@@ -304,7 +317,7 @@
             <h2 id="slide-2-titulo" class="visually-hidden">Para a comunidade artística de Mossoró — vem pra inovar, vem pra te ajudar.</h2>
 
             <picture>
-                <source media="(max-width: 768px)" srcset="assets/design/2-mobile.png">
+                <source media="(max-width: 768px)" srcset="assets/design/img/5.png">
                 <img class="slide__imagem" src="assets/design/2.png" alt="Para a comunidade artística de Mossoró — ISANARA. Vem pra inovar, vem pra te ajudar.">
             </picture>
 
@@ -321,7 +334,7 @@
             <h2 id="slide-3-titulo" class="visually-hidden">Explore a Galeria, o Perfil e as Matérias — e muito mais.</h2>
 
             <picture>
-                <source media="(max-width: 768px)" srcset="assets/design/3-mobile.png">
+                <source media="(max-width: 768px)" srcset="assets/design/img/6.png">
                 <img class="slide__imagem" src="assets/design/3.png" alt="Cartões de Galeria, Perfil e Matérias">
             </picture>
 
