@@ -6,12 +6,27 @@
 <meta name="description" content="ISANARA — onde a arte te alcança. Arte em Mossoró: galeria, perfil, matérias e conexão para a comunidade artística.">
 <title>ISANARA</title>
 <link rel="manifest" href="manifest.json">
+<link rel="preload" href="assets/design/fonts/shrikhand-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/design/fonts/bebasneue-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="nav.css">
 <link rel="stylesheet" href="assets/design/design.css">
 <script>document.documentElement.classList.add('tem-js');</script>
 <style>
   :root {
     --rosa-vibrante: #ff44b8;
+  }
+
+  /* Mesmas fontes do nome ISANARA do primeiro slide (Shrikhand) e da faixa (Bebas Neue) */
+  @font-face {
+    font-family: 'Shrikhand';
+    src: url('assets/design/fonts/shrikhand-latin.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Bebas Neue';
+    src: url('assets/design/fonts/bebasneue-latin.woff2') format('woff2');
+    font-display: swap;
   }
 
   /* Garante que a navbar flutue sobre os slides sem faixa lateral roxa */
@@ -64,26 +79,32 @@
     outline-offset: 3px;
   }
 
-  /* Faixa contínua de palavras no Slide 3 */
+  /* Faixa contínua de palavras — logo abaixo dos cards do Slide 3 */
   .marquee-wrap {
-    position: relative;
+    position: absolute;
     z-index: 10;
-    width: 100%;
-    max-width: 1120px;
-    margin: 0 auto;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(92%, 1120px);
     overflow: hidden;
-    padding: 12px 0;
+    padding: 10px 0;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
 
   .marquee-track {
     display: flex;
     gap: 28px;
+    padding-right: 28px;
     width: max-content;
     animation: marqueeScroll 22s linear infinite;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.85rem;
+    font-family: 'Bebas Neue', Impact, sans-serif;
+    font-size: clamp(1.75rem, 2.6vw, 2.4rem);
     letter-spacing: 0.04em;
     color: #a21caf;
+    line-height: 1;
   }
 
   .marquee-track span:nth-child(even) {
@@ -95,18 +116,25 @@
     100% { transform: translateX(-50%); }
   }
 
-  /* Botão "E muito mais..." no Slide 3 */
+  /* "E muito mais..." — centralizado abaixo da faixa, na fonte do nome ISANARA */
   .btn-mais {
-    position: relative;
+    position: absolute;
     z-index: 15;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: 'Shrikhand', cursive;
     font-size: clamp(2rem, 3.6vw, 3rem);
-    color: #0d0d0d;
+    line-height: 1.1;
+    white-space: nowrap;
+    color: #400050;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    transition: transform 0.2s ease, color 0.2s ease;
+    text-shadow: 0 2px 0 rgba(255, 102, 196, 0.45), 0 10px 24px rgba(64, 0, 80, 0.22);
+    transition: transform 0.2s ease, color 0.2s ease, text-shadow 0.2s ease;
     cursor: pointer;
     background: none;
     border: none;
@@ -114,9 +142,15 @@
 
   .btn-mais:hover,
   .btn-mais:focus-visible {
-    transform: scale(1.04);
-    color: #8b1fa9;
-    outline: none;
+    transform: translateX(-50%) scale(1.04);
+    color: var(--rosa-vibrante);
+    text-shadow: 0 2px 0 rgba(64, 0, 80, 0.35), 0 12px 26px rgba(64, 0, 80, 0.28);
+  }
+
+  .btn-mais:focus-visible {
+    border-radius: 12px;
+    outline: 3px solid var(--rosa-vibrante);
+    outline-offset: 6px;
   }
 
   @media (max-width: 768px) {
@@ -129,6 +163,26 @@
     .hero-cta {
       padding: 12px 32px;
       font-size: 1rem;
+    }
+
+    .marquee-wrap {
+      top: 63%;
+      width: 94%;
+      padding: 4px 0;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+
+    .marquee-track {
+      gap: 18px;
+      padding-right: 18px;
+      font-size: clamp(1rem, 4.4vw, 1.5rem);
+    }
+
+    .btn-mais {
+      top: 78%;
+      font-size: clamp(1.3rem, 6vw, 2rem);
+      gap: 6px;
     }
   }
 
@@ -152,7 +206,7 @@
         </svg>
     </a>
 
-    <!-- BARRA DE NAVEGAÇÃO LATERAL (INÍCIO, PERFIL, GALERIA, EVENTOS, MATÉRIAS) -->
+    <!-- BARRA DE NAVEGAÇÃO LATERAL (INÍCIO, PERFIL, GALERIA, EVENTOS, MATÉRIAS, COMUNICAÇÕES) -->
     <nav class="nav-pill" aria-label="Navegação principal">
 
         <!-- 1. Início -->
@@ -200,7 +254,16 @@
             </svg>
         </a>
 
-        <!-- 6. Sair (apenas usuários logados) -->
+        <!-- 6. Comunicações -->
+        <a href="Comunicações.html" data-label="Comunicações" aria-label="Comunicações">
+            <svg viewBox="0 0 24 24">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                <line x1="8" y1="9" x2="16" y2="9"></line>
+                <line x1="8" y1="13" x2="13" y2="13"></line>
+            </svg>
+        </a>
+
+        <!-- 7. Sair (apenas usuários logados) -->
         <a href="#" id="logoutBtn" class="nav-logout" data-label="Sair" aria-label="Sair">
             <svg viewBox="0 0 24 24">
                 <path d="M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5"></path>
@@ -215,7 +278,7 @@
         <section id="inicio" class="slide slide--1" aria-labelledby="slide-1-titulo">
             <h1 id="slide-1-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
 
-            <img class="slide__imagem" src="assets/design/img/slide-1.webp" alt="ISANARA — onde a arte te alcança. Arte em Mossoró.">
+            <img class="slide__imagem" src="assets/design/1.png" alt="ISANARA — onde a arte te alcança. Arte em Mossoró.">
 
             <div class="hero-cta-wrap">
                 <button type="button" id="ctaHero" class="hero-cta" onclick="window.location.href='Login.html'">Comece já</button>
@@ -226,7 +289,7 @@
         <section class="slide slide--2" aria-labelledby="slide-2-titulo">
             <h2 id="slide-2-titulo" class="visually-hidden">Para a comunidade artística de Mossoró — vem pra inovar, vem pra te ajudar.</h2>
 
-            <img class="slide__imagem" src="assets/design/img/slide-2.webp" alt="Para a comunidade artística de Mossoró — ISANARA. Vem pra inovar, vem pra te ajudar.">
+            <img class="slide__imagem" src="assets/design/2.png" alt="Para a comunidade artística de Mossoró — ISANARA. Vem pra inovar, vem pra te ajudar.">
 
             <div class="formas" aria-hidden="true">
                 <span class="forma forma--circulo forma--grande"></span>
@@ -240,7 +303,7 @@
         <section class="slide slide--3" aria-labelledby="slide-3-titulo">
             <h2 id="slide-3-titulo" class="visually-hidden">Explore a Galeria, o Perfil e as Matérias — e muito mais.</h2>
 
-            <img class="slide__imagem" src="assets/design/img/slide-3.webp" alt="Cartões de Galeria, Perfil e Matérias">
+            <img class="slide__imagem" src="assets/design/3.png" alt="Cartões de Galeria, Perfil e Matérias">
 
             <div class="formas" aria-hidden="true">
                 <span class="forma forma--circulo forma--media"></span>

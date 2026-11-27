@@ -163,18 +163,19 @@ body {
   height: 4%;
 }
 
+/* Cards do novo 3.png: mais estreitos e mais altos na parte superior */
 .area--galeria,
 .area--perfil,
 .area--materias {
-  top: 5%;
-  width: 30.48%;
-  height: 66.3%;
+  top: 5.6%;
+  width: 23.2%;
+  height: 51%;
   border-radius: 10px;
 }
 
-.area--galeria { left: 0; }
-.area--perfil { left: 34.76%; }
-.area--materias { left: 69.52%; }
+.area--galeria { left: 12%; }
+.area--perfil { left: 38.4%; }
+.area--materias { left: 64.8%; }
 
 .area--mais {
   left: 28.5%;
