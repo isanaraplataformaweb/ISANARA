@@ -1,0 +1,288 @@
+/* ============================================================
+   ISANARA — rodapé compartilhado (home + comunicações)
+   Mesma identidade visual: roxo, rosa, amarelo e fontes da marca.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Shrikhand';
+  src: url('assets/design/fonts/shrikhand-latin.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('assets/design/fonts/bebasneue-latin.woff2') format('woff2');
+  font-display: swap;
+}
+
+.rodape {
+  --rosa: #ff66c4;
+  --amarelo: #fbf058;
+  --lilas: #a060d0;
+  --roxo: #400050;
+  --claro: #f0f0f0;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(56px, 7vw, 96px) clamp(20px, 5vw, 64px) 32px;
+  text-align: center;
+  color: var(--claro);
+  background:
+    radial-gradient(circle at 12% 24%, rgba(255, 102, 196, 0.24), transparent 38%),
+    radial-gradient(circle at 88% 72%, rgba(251, 240, 88, 0.16), transparent 34%),
+    var(--roxo);
+}
+
+.rodape::before {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--rosa), var(--amarelo), var(--lilas));
+}
+
+.rodape__formas {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rodape__forma {
+  position: absolute;
+  display: block;
+  opacity: 0.55;
+  animation: rodape-flutuar 8s ease-in-out infinite;
+}
+
+.rodape__forma--circulo {
+  width: clamp(72px, 10vw, 150px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--rosa);
+  left: 5%;
+  top: 28%;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.3);
+}
+
+.rodape__forma--quadrado {
+  width: clamp(52px, 7vw, 108px);
+  aspect-ratio: 1;
+  border-radius: 22%;
+  background: var(--amarelo);
+  right: 7%;
+  top: 16%;
+  animation-delay: -2.4s;
+}
+
+.rodape__forma--anel {
+  width: clamp(60px, 9vw, 128px);
+  aspect-ratio: 1;
+  border: 10px solid var(--lilas);
+  border-radius: 50%;
+  background: transparent;
+  right: 11%;
+  bottom: 10%;
+  animation-delay: -4.8s;
+}
+
+@keyframes rodape-flutuar {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-16px) rotate(6deg); }
+}
+
+.rodape__conteudo {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.rodape__marca {
+  display: inline-block;
+  font-family: 'Shrikhand', cursive;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  background: linear-gradient(100deg, #ffffff 0%, #ff9ed7 48%, var(--amarelo) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.35));
+  transition: transform 0.25s ease;
+}
+
+.rodape__marca:hover,
+.rodape__marca:focus-visible {
+  transform: translateY(-3px) scale(1.03);
+  outline: none;
+}
+
+.rodape__slogan {
+  margin: 14px 0 0;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amarelo);
+}
+
+.rodape__linha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  max-width: 420px;
+  margin: 26px auto 20px;
+}
+
+.rodape__linha span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+}
+
+.rodape__linha i {
+  font-style: normal;
+  font-size: 1rem;
+  color: var(--rosa);
+}
+
+.rodape__creditos {
+  margin: 0 0 8px;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+.rodape__label {
+  margin-right: 8px;
+  color: var(--rosa);
+  font-size: 0.82em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.rodape__nomes {
+  font-family: 'Shrikhand', cursive;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.rodape__legal {
+  margin: 0;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  letter-spacing: 0.1em;
+  color: rgba(240, 240, 240, 0.72);
+}
+
+.rodape__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+  margin-top: 24px;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+}
+
+.rodape__links a {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.rodape__links a:hover,
+.rodape__links a:focus-visible {
+  color: var(--amarelo);
+  outline: none;
+}
+
+.rodape__links span {
+  color: var(--rosa);
+}
+
+.rodape__topo {
+  position: absolute;
+  z-index: 4;
+  top: clamp(18px, 4vw, 36px);
+  right: clamp(18px, 4vw, 42px);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: 1.35rem;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--roxo);
+  background: var(--amarelo);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.rodape__topo:hover,
+.rodape__topo:focus-visible {
+  transform: translateY(-3px);
+  background: #ffffff;
+  outline: 3px solid var(--rosa);
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .rodape {
+    padding: 60px 20px 30px;
+  }
+
+  .rodape__marca {
+    font-size: clamp(2.4rem, 12vw, 3.4rem);
+  }
+
+  .rodape__slogan {
+    letter-spacing: 0.18em;
+  }
+
+  .rodape__linha {
+    margin: 20px auto 16px;
+  }
+
+  .rodape__label {
+    display: block;
+    margin: 0 0 2px;
+  }
+
+  .rodape__links {
+    gap: 8px 14px;
+    font-size: 0.9rem;
+  }
+
+  .rodape__topo {
+    width: 38px;
+    height: 38px;
+    top: 16px;
+    right: 16px;
+    font-size: 1.15rem;
+  }
+
+  .rodape__forma--circulo { left: -30px; top: 38%; }
+  .rodape__forma--quadrado { right: -24px; top: 12%; }
+  .rodape__forma--anel { right: -30px; bottom: 6%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rodape__forma { animation: none; }
+  .rodape__marca,
+  .rodape__topo,
+  .rodape__links a { transition: none; }
+}

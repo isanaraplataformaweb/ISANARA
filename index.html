@@ -10,6 +10,7 @@
 <link rel="preload" href="assets/design/fonts/bebasneue-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="nav.css">
 <link rel="stylesheet" href="assets/design/design.css">
+<link rel="stylesheet" href="footer.css">
 <script>document.documentElement.classList.add('tem-js');</script>
 <style>
   :root {
@@ -221,7 +222,7 @@
   }
 </style>
 </head>
-<body>
+<body id="top">
     <!-- BOTÃO DE CRIAÇÃO (+) - EXIBIDO APENAS SE ESTIVER LOGADO -->
     <a href="Opções-criar.html" id="fabCriar" class="btn-criar-fab" aria-label="Criar novo conteúdo" title="Criar">
         <svg viewBox="0 0 24 24">
@@ -360,6 +361,37 @@
             </button>
         </section>
     </main>
+
+    <footer class="rodape">
+        <div class="rodape__formas" aria-hidden="true">
+            <span class="rodape__forma rodape__forma--circulo"></span>
+            <span class="rodape__forma rodape__forma--quadrado"></span>
+            <span class="rodape__forma rodape__forma--anel"></span>
+        </div>
+
+        <a class="rodape__topo" href="#top" aria-label="Voltar ao topo">↑</a>
+
+        <div class="rodape__conteudo">
+            <a class="rodape__marca" href="index.html" aria-label="ISANARA — início">ISANARA</a>
+            <p class="rodape__slogan">onde a arte te alcança</p>
+
+            <div class="rodape__linha" aria-hidden="true"><span></span><i>✦</i><span></span></div>
+
+            <p class="rodape__creditos">
+                <span class="rodape__label">Design by</span>
+                <span class="rodape__nomes">Ana Laura, Andressa Sabrina, Isa Mariany.</span>
+            </p>
+            <p class="rodape__legal">© 2026 ISANARA. Todos os direitos reservados.</p>
+
+            <nav class="rodape__links" aria-label="Navegação do rodapé">
+                <a href="index.html">Início</a><span>•</span>
+                <a href="Galeria.html">Galeria</a><span>•</span>
+                <a href="Eventos.html">Eventos</a><span>•</span>
+                <a href="Materias.html">Matérias</a><span>•</span>
+                <a href="Comunicações.html">Comunicações</a>
+            </nav>
+        </div>
+    </footer>
 
     <script>
   /* Entrada suave dos slides */

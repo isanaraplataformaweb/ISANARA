@@ -166,20 +166,19 @@ body::after {
     box-shadow: 0 8px 20px rgba(236, 209, 72, 0.35);
 }
 
-footer {
-    text-align: center;
-    margin-bottom: 50px;
-    margin-top: -50px;
-}
-
-footer p {
-    font-family: 'Merriweather', 'Georgia', 'Times New Roman', serif;
-    font-size: 0.9rem;
-    color: #ffffff;
+/* O rodapé rompe o padding reservado à nav lateral e fica em sangria total */
+footer.rodape {
+    margin-left: -100px;
+    width: calc(100% + 100px);
 }
 
 /* RESPONSIVO MOBILE APRIMORADO */
 @media (max-width: 768px) {
+    footer.rodape {
+        margin-left: -72px;
+        width: calc(100% + 72px);
+    }
+
     .container {
         padding: 40px 15px 80px;
         gap: 30px;
@@ -208,8 +207,9 @@ footer p {
 }
 </style>
     <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="footer.css">
 </head>
-<body>
+<body id="top">
 
     <!-- BOTÃO DE CRIAÇÃO (+) - EXIBIDO APENAS SE ESTIVER LOGADO -->
     <a href="Opções-criar.html" id="fabCriar" class="btn-criar-fab" aria-label="Criar novo conteúdo" title="Criar">
@@ -355,8 +355,35 @@ footer p {
 
     </main>
 
-    <footer>
-        <p>&copy; 2026 ISANARA. Todos os direitos reservados.</p>
+    <footer class="rodape">
+        <div class="rodape__formas" aria-hidden="true">
+            <span class="rodape__forma rodape__forma--circulo"></span>
+            <span class="rodape__forma rodape__forma--quadrado"></span>
+            <span class="rodape__forma rodape__forma--anel"></span>
+        </div>
+
+        <a class="rodape__topo" href="#top" aria-label="Voltar ao topo">↑</a>
+
+        <div class="rodape__conteudo">
+            <a class="rodape__marca" href="index.html" aria-label="ISANARA — início">ISANARA</a>
+            <p class="rodape__slogan">onde a arte te alcança</p>
+
+            <div class="rodape__linha" aria-hidden="true"><span></span><i>✦</i><span></span></div>
+
+            <p class="rodape__creditos">
+                <span class="rodape__label">Design by</span>
+                <span class="rodape__nomes">Ana Laura, Andressa Sabrina, Isa Mariany.</span>
+            </p>
+            <p class="rodape__legal">© 2026 ISANARA. Todos os direitos reservados.</p>
+
+            <nav class="rodape__links" aria-label="Navegação do rodapé">
+                <a href="index.html">Início</a><span>•</span>
+                <a href="Galeria.html">Galeria</a><span>•</span>
+                <a href="Eventos.html">Eventos</a><span>•</span>
+                <a href="Materias.html">Matérias</a><span>•</span>
+                <a href="Comunicações.html">Comunicações</a>
+            </nav>
+        </div>
     </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
