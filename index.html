@@ -154,6 +154,16 @@
   }
 
   @media (max-width: 768px) {
+    /* Slides verticais: usam os arquivos "-mobile.png" do <picture> */
+    .slide {
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 9 / 16;
+    }
+
+    /* Ao trocar pelas imagens finais, ajuste também os hotspots .area--galeria,
+       .area--perfil e .area--materias para os novos lugares dos cards. */
+
     .hero-cta-wrap {
       left: 50%;
       bottom: 12%;
@@ -278,7 +288,11 @@
         <section id="inicio" class="slide slide--1" aria-labelledby="slide-1-titulo">
             <h1 id="slide-1-titulo" class="visually-hidden">ISANARA — onde a arte te alcança. Arte em Mossoró.</h1>
 
-            <img class="slide__imagem" src="assets/design/1.png" alt="ISANARA — onde a arte te alcança. Arte em Mossoró.">
+            <!-- Troque os "-mobile.png" pelos layouts verticais definitivos quando estiverem prontos -->
+            <picture>
+                <source media="(max-width: 768px)" srcset="assets/design/1-mobile.png">
+                <img class="slide__imagem" src="assets/design/1.png" alt="ISANARA — onde a arte te alcança. Arte em Mossoró.">
+            </picture>
 
             <div class="hero-cta-wrap">
                 <button type="button" id="ctaHero" class="hero-cta" onclick="window.location.href='Login.html'">Comece já</button>
@@ -289,7 +303,10 @@
         <section class="slide slide--2" aria-labelledby="slide-2-titulo">
             <h2 id="slide-2-titulo" class="visually-hidden">Para a comunidade artística de Mossoró — vem pra inovar, vem pra te ajudar.</h2>
 
-            <img class="slide__imagem" src="assets/design/2.png" alt="Para a comunidade artística de Mossoró — ISANARA. Vem pra inovar, vem pra te ajudar.">
+            <picture>
+                <source media="(max-width: 768px)" srcset="assets/design/2-mobile.png">
+                <img class="slide__imagem" src="assets/design/2.png" alt="Para a comunidade artística de Mossoró — ISANARA. Vem pra inovar, vem pra te ajudar.">
+            </picture>
 
             <div class="formas" aria-hidden="true">
                 <span class="forma forma--circulo forma--grande"></span>
@@ -303,7 +320,10 @@
         <section class="slide slide--3" aria-labelledby="slide-3-titulo">
             <h2 id="slide-3-titulo" class="visually-hidden">Explore a Galeria, o Perfil e as Matérias — e muito mais.</h2>
 
-            <img class="slide__imagem" src="assets/design/3.png" alt="Cartões de Galeria, Perfil e Matérias">
+            <picture>
+                <source media="(max-width: 768px)" srcset="assets/design/3-mobile.png">
+                <img class="slide__imagem" src="assets/design/3.png" alt="Cartões de Galeria, Perfil e Matérias">
+            </picture>
 
             <div class="formas" aria-hidden="true">
                 <span class="forma forma--circulo forma--media"></span>
