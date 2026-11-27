@@ -6,6 +6,7 @@
 <meta name="description" content="ISANARA — onde a arte te alcança. Arte em Mossoró: galeria, perfil, matérias e conexão para a comunidade artística.">
 <title>ISANARA</title>
 <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#400050">
 <link rel="preload" href="assets/design/fonts/shrikhand-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/design/fonts/bebasneue-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="nav.css">
@@ -390,6 +391,16 @@
                 <a href="Materias.html">Matérias</a><span>•</span>
                 <a href="Comunicações.html">Comunicações</a>
             </nav>
+
+            <button type="button" id="btnInstalar" class="rodape__instalar">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3v12"></path>
+                    <polyline points="7 11 12 16 17 11"></polyline>
+                    <path d="M4 17v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path>
+                </svg>
+                Baixar site
+            </button>
+            <p class="rodape__dica" id="dicaInstalar" role="status" hidden></p>
         </div>
     </footer>
 
@@ -425,11 +436,7 @@
   })();
 </script>
 
-    <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-</script>
+    <script src="pwa.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="nav.js"></script>
